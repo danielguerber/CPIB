@@ -68,7 +68,7 @@ public class Scanner {
 						} 
 					} else {
 						state=0;
-						tokens.add(new Literal((int) numAccu,Types.INT));
+						tokens.add(new Literal((int) numAccu,Types.INT32));
 						i--;
 					}
 					break;

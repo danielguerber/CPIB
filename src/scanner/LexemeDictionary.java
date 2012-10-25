@@ -56,7 +56,7 @@ public class LexemeDictionary extends TreeMap<String, Base> {
 		this.put("in", new Mode.FlowMode(Modes.IN));
 		this.put("init", new Base(Terminals.INIT));
 		this.put("inout", new Mode.FlowMode(Modes.INOUT));
-		this.put("int", new Type(Types.INT));
+		this.put("int32", new Type(Types.INT32));
 		this.put("local", new Base(Terminals.LOCAL));
 		this.put("mod", new Operator.MultOpr(Operators.MOD));
 		this.put("not", new Base(Terminals.NOT));

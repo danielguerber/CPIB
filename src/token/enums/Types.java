@@ -1,5 +1,5 @@
 package token.enums;
 public enum Types {
-	INT,
+	INT32,
 	BOOL;
 }

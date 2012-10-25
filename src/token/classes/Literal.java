@@ -20,7 +20,7 @@ public class Literal extends Base {
 	@Override
 	public String toString() {
 		switch (type) {
-		case INT:
+		case INT32:
 			return "(" + super.toString() + ", IntValue " + literal + ")";
 		case BOOL:
 			return "(" + super.toString() + ", BoolValue " + ((literal==0) ? "false" : "true") + ")";
