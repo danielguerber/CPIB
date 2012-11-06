@@ -12,63 +12,68 @@ import token.enums.Terminals;
 import token.enums.Types;
 
 
-@SuppressWarnings("serial")
-public class LexemeDictionary extends TreeMap<String, Base> {
+public final class LexemeDictionary {
 	
-	public LexemeDictionary() {
-		
+	private static TreeMap<String, Base> dictionary;
+	
+	public static TreeMap<String, Base> getDictionary() {
+		return dictionary;
+	}
+	
+	static {
+		dictionary = new TreeMap<String, Base>();
 		//Symbols
-		this.put("(", new Base(Terminals.LPAREN));
-		this.put(")", new Base(Terminals.RPAREN));
-		this.put(",", new Base(Terminals.COMMA));
-		this.put(";", new Base(Terminals.SEMICOLON));
-		this.put(":", new Base(Terminals.COLON));
-		this.put("?", new Base(Terminals.QUESTMARK));
-		this.put("!", new Base(Terminals.EXCLMARK));
-		this.put(":=", new Base(Terminals.BECOMES));
-		this.put("{", new Base(Terminals.LBRACE));
-		this.put("}", new Base(Terminals.RBRACE));
+		dictionary.put("(", new Base(Terminals.LPAREN));
+		dictionary.put(")", new Base(Terminals.RPAREN));
+		dictionary.put(",", new Base(Terminals.COMMA));
+		dictionary.put(";", new Base(Terminals.SEMICOLON));
+		dictionary.put(":", new Base(Terminals.COLON));
+		dictionary.put("?", new Base(Terminals.QUESTMARK));
+		dictionary.put("!", new Base(Terminals.EXCLMARK));
+		dictionary.put(":=", new Base(Terminals.BECOMES));
+		dictionary.put("{", new Base(Terminals.LBRACE));
+		dictionary.put("}", new Base(Terminals.RBRACE));
 		
 		//Operator Symbols
-		this.put("*", new Operator.MultOpr(Operators.TIMES));
-		this.put("+", new Operator.AddOpr(Operators.PLUS));
-		this.put("-", new Operator.AddOpr(Operators.MINUS));
-		this.put("=", new Operator.RelOpr(Operators.EQ));
-		this.put("/=", new Operator.RelOpr(Operators.NE));
-		this.put("<", new Operator.RelOpr(Operators.LT));
-		this.put(">", new Operator.RelOpr(Operators.GT));
-		this.put("<=", new Operator.RelOpr(Operators.LE));
-		this.put(">=", new Operator.RelOpr(Operators.GE));
+		dictionary.put("*", new Operator.MultOpr(Operators.TIMES));
+		dictionary.put("+", new Operator.AddOpr(Operators.PLUS));
+		dictionary.put("-", new Operator.AddOpr(Operators.MINUS));
+		dictionary.put("=", new Operator.RelOpr(Operators.EQ));
+		dictionary.put("/=", new Operator.RelOpr(Operators.NE));
+		dictionary.put("<", new Operator.RelOpr(Operators.LT));
+		dictionary.put(">", new Operator.RelOpr(Operators.GT));
+		dictionary.put("<=", new Operator.RelOpr(Operators.LE));
+		dictionary.put(">=", new Operator.RelOpr(Operators.GE));
 		
 		//Keywords
-		this.put("bool", new Type(Types.BOOL));
-		this.put("call", new Base(Terminals.CALL));
-		this.put("cand", new Operator.BoolOpr(Operators.CAND));
-		this.put("const", new Mode.ChangeMode(Modes.CONST));
-		this.put("copy", new Mode.MechMode(Modes.COPY));
-		this.put("cor", new Operator.BoolOpr(Operators.COR));
-		this.put("div", new Operator.MultOpr(Operators.DIV));
-		this.put("else", new Base(Terminals.ELSE));
-		this.put("false", new Literal(0,Types.BOOL));
-		this.put("fun", new Base(Terminals.FUN));
-		this.put("global", new Base(Terminals.GLOBAL));
-		this.put("if", new Base(Terminals.IF));
-		this.put("in", new Mode.FlowMode(Modes.IN));
-		this.put("init", new Base(Terminals.INIT));
-		this.put("inout", new Mode.FlowMode(Modes.INOUT));
-		this.put("int32", new Type(Types.INT32));
-		this.put("local", new Base(Terminals.LOCAL));
-		this.put("mod", new Operator.MultOpr(Operators.MOD));
-		this.put("not", new Base(Terminals.NOT));
-		this.put("out", new Mode.FlowMode(Modes.OUT));
-		this.put("proc", new Base(Terminals.PROC));
-		this.put("program", new Base(Terminals.PROGRAM));
-		this.put("ref", new Mode.MechMode(Modes.REF));
-		this.put("returns", new Base(Terminals.RETURNS));
-		this.put("skip", new Base(Terminals.SKIP));
-		this.put("true", new Literal(1,Types.BOOL));
-		this.put("var", new Mode.ChangeMode(Modes.VAR));
-		this.put("while", new Base(Terminals.WHILE));
+		dictionary.put("bool", new Type(Types.BOOL));
+		dictionary.put("call", new Base(Terminals.CALL));
+		dictionary.put("cand", new Operator.BoolOpr(Operators.CAND));
+		dictionary.put("const", new Mode.ChangeMode(Modes.CONST));
+		dictionary.put("copy", new Mode.MechMode(Modes.COPY));
+		dictionary.put("cor", new Operator.BoolOpr(Operators.COR));
+		dictionary.put("div", new Operator.MultOpr(Operators.DIV));
+		dictionary.put("else", new Base(Terminals.ELSE));
+		dictionary.put("false", new Literal(0,Types.BOOL));
+		dictionary.put("fun", new Base(Terminals.FUN));
+		dictionary.put("global", new Base(Terminals.GLOBAL));
+		dictionary.put("if", new Base(Terminals.IF));
+		dictionary.put("in", new Mode.FlowMode(Modes.IN));
+		dictionary.put("init", new Base(Terminals.INIT));
+		dictionary.put("inout", new Mode.FlowMode(Modes.INOUT));
+		dictionary.put("int32", new Type(Types.INT32));
+		dictionary.put("local", new Base(Terminals.LOCAL));
+		dictionary.put("mod", new Operator.MultOpr(Operators.MOD));
+		dictionary.put("not", new Base(Terminals.NOT));
+		dictionary.put("out", new Mode.FlowMode(Modes.OUT));
+		dictionary.put("proc", new Base(Terminals.PROC));
+		dictionary.put("program", new Base(Terminals.PROGRAM));
+		dictionary.put("ref", new Mode.MechMode(Modes.REF));
+		dictionary.put("returns", new Base(Terminals.RETURNS));
+		dictionary.put("skip", new Base(Terminals.SKIP));
+		dictionary.put("true", new Literal(1,Types.BOOL));
+		dictionary.put("var", new Mode.ChangeMode(Modes.VAR));
+		dictionary.put("while", new Base(Terminals.WHILE));
 	}
 	
 }
