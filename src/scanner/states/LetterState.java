@@ -4,6 +4,7 @@ import scanner.IState;
 import scanner.LexemeDictionary;
 import scanner.LexicalError;
 import scanner.Scanner;
+import token.classes.Base;
 import token.classes.Ident;
 
 public class LetterState implements IState {
@@ -35,9 +36,11 @@ public class LetterState implements IState {
 	
 	private int addToken(Scanner context) {
 		if (LexemeDictionary.getDictionary().containsKey(context.getLexAccu().toString())) {
-			context.addToken(LexemeDictionary.getDictionary().get(context.getLexAccu().toString()));
+			Base token = (Base)LexemeDictionary.getDictionary().get(context.getLexAccu().toString()).clone();
+			token.setLine(context.getLine());
+			context.addToken(token);
 		} else {
-			context.addToken(new Ident(context.getLexAccu()));
+			context.addToken(new Ident(context.getLexAccu(),context.getLine()));
 		}
 		context.setState(new StartState());
 		return 0;

@@ -8,9 +8,19 @@ public class Literal extends Base {
 	private final Types type;
 	
 	public Literal(int literal, Types type) {
-		super(Terminals.LITERAL);
+		this(literal,type,-1);
+	}
+	
+	public Literal(int literal, Types type, int line) {
+		super(Terminals.LITERAL, line);
 		this.literal = literal;
 		this.type = type;
+	}
+	
+	public Literal(Literal literal) {
+		super(literal);
+		this.literal = literal.literal;
+		this.type = literal.type;
 	}
 	
 	public int getLiteral() {
@@ -27,6 +37,10 @@ public class Literal extends Base {
 		default:
 			return "(" + super.toString() + ", " + type.toString() + " " + literal + ")";
 		}
+	}
+	
+	public Object clone() {
+		return new Literal(this);
 	}
 	
 }

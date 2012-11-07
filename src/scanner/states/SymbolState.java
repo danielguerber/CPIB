@@ -4,6 +4,7 @@ import scanner.IState;
 import scanner.LexemeDictionary;
 import scanner.LexicalError;
 import scanner.Scanner;
+import token.classes.Base;
 
 public class SymbolState implements IState {
 
@@ -29,15 +30,19 @@ public class SymbolState implements IState {
 
 	private int handleChar(char c, Scanner context) throws LexicalError {
 		if (LexemeDictionary.getDictionary().containsKey(context.getLexAccu().toString() + c)) {
-			context.addToken(LexemeDictionary.getDictionary().get(context.getLexAccu().toString() + c));
+			Base token = (Base)LexemeDictionary.getDictionary().get(context.getLexAccu().toString() + c).clone();
+			token.setLine(context.getLine());
+			context.addToken(token);
 			context.setState(new StartState());
 			return 1;
 		} else if (LexemeDictionary.getDictionary().containsKey(context.getLexAccu().toString())) {
-			context.addToken(LexemeDictionary.getDictionary().get(context.getLexAccu().toString()));
+			Base token = (Base)LexemeDictionary.getDictionary().get(context.getLexAccu().toString()).clone();
+			token.setLine(context.getLine());
+			context.addToken(token);
 			context.setState(new StartState());
 			return 0;
 		} else {
-			throw new LexicalError("Invalid Symbol: " + context.getLexAccu().toString());
+			throw new LexicalError("Invalid Symbol: " + context.getLexAccu().toString(), context.getLine());
 		}
 	}
 }

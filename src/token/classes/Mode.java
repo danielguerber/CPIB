@@ -11,6 +11,11 @@ public abstract class Mode extends Base {
 		this.mode = mode;
 	}
 	
+	public Mode(Mode mode) {
+		super(mode);
+		this.mode = mode.mode;
+	}
+	
 	public Modes getMode() {
 		return mode;
 	}
@@ -24,17 +29,44 @@ public abstract class Mode extends Base {
 		public ChangeMode(Modes mode) {
 			super(Terminals.CHANGEMODE,mode);
 		}
+		
+		public ChangeMode(Mode mode) {
+			super(mode);
+		}
+		
+		@Override
+		public Object clone() {
+			return new ChangeMode(this);
+		}
 	}
 	
 	public static class MechMode extends Mode {
 		public MechMode(Modes mode) {
 			super(Terminals.MECHMODE, mode);
 		}
+		
+		public MechMode(Mode mode) {
+			super(mode);
+		}
+		
+		@Override
+		public Object clone() {
+			return new MechMode(this);
+		}
 	}
 	
 	public static class FlowMode extends Mode {
 		public FlowMode(Modes mode) {
 			super(Terminals.FLOWMODE, mode);
+		}
+		
+		public FlowMode(Mode mode) {
+			super(mode);
+		}
+		
+		@Override
+		public Object clone() {
+			return new FlowMode(this);
 		}
 	}
 }

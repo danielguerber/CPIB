@@ -18,13 +18,13 @@ public class NumberState implements IState {
 		context.setNumAccu(context.getNumAccu()*10 + Character.digit(c,10));
 		if (context.getNumAccu() > Integer.MAX_VALUE) {
 			throw new LexicalError
-			("Integer literal too large!");
+			("Integer literal too large!", context.getLine());
 		} 
 		return 1;
 	}
 	
 	private int addLiteral(Scanner context) {
-		context.addToken(new Literal((int) context.getNumAccu(),Types.INT32));
+		context.addToken(new Literal((int) context.getNumAccu(),Types.INT32, context.getLine()));
 		context.setState(new StartState());
 		return 0;
 	}

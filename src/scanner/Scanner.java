@@ -12,6 +12,7 @@ public class Scanner {
 	private long numAccu=0L;
 	private IState currentState;
 	private ITokenList tokens= new TokenList();
+	private int line=1;
 	
 	public StringBuffer getLexAccu() {
 		return lexAccu;
@@ -45,9 +46,14 @@ public class Scanner {
 		tokens.add(token);
 	}
 	
+	public int getLine() {
+		return line;
+	}
 	
+	public void nextLine() {
+		line++;
+	}
 	
-
 	public static ITokenList scan(CharSequence cs) throws LexicalError {
 		assert cs.length() == 0 || cs.charAt(cs.length() - 1) == '\n';
 		Scanner scanner = new Scanner();
@@ -62,9 +68,11 @@ public class Scanner {
 			} else if (LexemeDictionary.getDictionary().containsKey(Character.toString(c)) || c == '/') {
 				i+=scanner.getState().handleSymbol(c, scanner);
 			} else if (Character.isWhitespace(c)) {
+				if (c=='\n')
+					scanner.nextLine();
 				i+=scanner.getState().handleWhitespace(scanner);
 			} else {
-				throw new LexicalError("Illegar character: " + c);
+				throw new LexicalError("Illegar character: " + c, scanner.getLine());
 			}
 					
 		} 
