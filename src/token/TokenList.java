@@ -20,11 +20,11 @@ public class TokenList implements ITokenList {
 	@Override
 	public token.classes.Base nextToken() {
 		if (tokens.size() > currentToken) 
-			return tokens.get(currentToken);
+			return tokens.get(currentToken++);
 		else
 			return null;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuffer out = new StringBuffer("[");
