@@ -6,12 +6,12 @@ import token.enums.Terminals;
 public abstract class Operator extends Base {
 	private final Operators operator;
 	
-	public Operator(Terminals terminal, Operators operator) {
+	private Operator(Terminals terminal, Operators operator) {
 		super(terminal);
 		this.operator = operator;
 	}
 	
-	public Operator(Operator operator) {
+	private Operator(Operator operator) {
 		super(operator);
 		this.operator = operator.operator;
 	}
@@ -30,7 +30,7 @@ public abstract class Operator extends Base {
 			super(Terminals.RELOPR, operator);
 		}
 		
-		public RelOpr(Operator operator) {
+		private RelOpr(Operator operator) {
 			super(operator);
 		}
 		
@@ -45,7 +45,7 @@ public abstract class Operator extends Base {
 			super(Terminals.ADDOPR, operator);
 		}
 		
-		public AddOpr(Operator operator) {
+		private AddOpr(Operator operator) {
 			super(operator);
 		}
 		
@@ -60,7 +60,7 @@ public abstract class Operator extends Base {
 			super(Terminals.MULTOPR, operator);
 		}
 		
-		public MultOpr(Operator operator) {
+		private MultOpr(Operator operator) {
 			super(operator);
 		}
 		
@@ -75,7 +75,7 @@ public abstract class Operator extends Base {
 			super(Terminals.BOOLOPR, operator);
 		}
 		
-		public BoolOpr(Operator operator) {
+		private BoolOpr(Operator operator) {
 			super(operator);
 		}
 		

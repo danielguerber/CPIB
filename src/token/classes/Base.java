@@ -18,12 +18,12 @@ public class Base {
 		this.terminal = terminal;
 	}
 	
-	public Base(Terminals terminal,int line) {
+	Base(Terminals terminal,int line) {
 		this(terminal);
 		this.line=line;
 	}
 	
-	public Base(Base base) {
+	Base(Base base) {
 		this(base.terminal, base.line);
 	}
 

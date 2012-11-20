@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Abstract}{3}
+\contentsline {section}{\numberline {2}Erweiterung}{3}
+\contentsline {subsection}{\numberline {2.1}Verkettete Vergleichsoperatoren}{3}
+\contentsline {subsubsection}{\numberline {2.1.1}Ziel}{3}
+\contentsline {subsection}{\numberline {2.2}Beispiele}{3}
+\contentsline {subsection}{\numberline {2.3}Grammatik\"anderungen}{3}
+\contentsline {subsection}{\numberline {2.4}Aufrufe ohne call}{3}
+\contentsline {subsubsection}{\numberline {2.4.1}Ziel}{3}
+\contentsline {subsection}{\numberline {2.5}Beispiele}{3}
+\contentsline {subsection}{\numberline {2.6}Grammatik\"anderungen}{4}
+\contentsline {section}{\numberline {3}Lexikalische Syntax}{5}
+\contentsline {section}{\numberline {4}Grammatikalische Syntax}{5}
+\contentsline {section}{\numberline {5}Kontext- und Typeinschr\"ankungen}{5}
+\contentsline {section}{\numberline {6}andere Programmiersprachen}{5}
+\contentsline {section}{\numberline {7}Begr\"undungen Entwurf}{5}

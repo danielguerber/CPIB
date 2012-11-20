@@ -50,7 +50,7 @@ public class Scanner {
 		return line;
 	}
 	
-	public void nextLine() {
+	private void nextLine() {
 		line++;
 	}
 	

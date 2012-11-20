@@ -17,7 +17,7 @@ public class Literal extends Base {
 		this.type = type;
 	}
 	
-	public Literal(Literal literal) {
+	private Literal(Literal literal) {
 		super(literal);
 		this.literal = literal.literal;
 		this.type = literal.type;

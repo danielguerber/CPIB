@@ -1,15 +1,15 @@
 package parser.concsyn.implementation;
 
+import parser.concsyn.IConcSyn.IAuxIdent;
 import parser.concsyn.IConcSyn.IFactor;
-import parser.concsyn.IConcSyn.IIdentSpec;
 import token.classes.Ident;
 
 public class FactorIdent implements IFactor {
 	private Ident ident;
-	private IIdentSpec identSpec;
+	private IAuxIdent auxIdent;
 	
-	public FactorIdent(Ident ident, IIdentSpec identSpec) {
+	public FactorIdent(Ident ident, IAuxIdent auxIdent) {
 		this.ident = ident;
-		this.identSpec = identSpec;
+		this.auxIdent = auxIdent;
 	}
 }

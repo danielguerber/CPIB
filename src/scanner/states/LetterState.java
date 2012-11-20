@@ -7,7 +7,7 @@ import scanner.Scanner;
 import token.classes.Base;
 import token.classes.Ident;
 
-public class LetterState implements IState {
+class LetterState implements IState {
 
 	@Override
 	public int handeLetter(char c, Scanner context) throws LexicalError {

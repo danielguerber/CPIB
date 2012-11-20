@@ -1,7 +1,6 @@
 package parser;
 
 import parser.concsyn.IConcSyn;
-import parser.concsyn.IConcSyn.IRepIdent;
 import parser.concsyn.IConcSyn.*;
 import parser.concsyn.implementation.*;
 import token.ITokenList;
@@ -12,7 +11,6 @@ import token.classes.Mode;
 import token.classes.Operator;
 import token.classes.Operator.AddOpr;
 import token.classes.Type;
-import token.enums.Modes;
 import token.enums.Terminals;
 
 public class Parser {
@@ -20,7 +18,7 @@ public class Parser {
 	@SuppressWarnings("serial")
 	public static class GrammarError extends Exception
 	{
-		GrammarError(String errorMessage, int line)
+		private GrammarError(String errorMessage, int line)
 		{
 			super(errorMessage + "\n\tat line:" + line);
 			
@@ -71,23 +69,86 @@ public class Parser {
 	}
 	
 	private IProgram program() throws GrammarError {
-		System.out.println("program ::= PROGRAM Ident [GLOBAL cpsDecl] blockCmd");
+		System.out.println("program ::= PROGRAM Ident auxGlobCpsDecl blockCmd");
 		consume(Terminals.PROGRAM);
 		Ident ident = (Ident)consume(Terminals.IDENT);
-		ICpsDecl cpsDecl;
-		if(terminal==Terminals.GLOBAL) {
-			consume(Terminals.GLOBAL);
-			cpsDecl=cpsDecl();
-		} else {
-			cpsDecl=cpsDeclEps();
-		}
+		IAuxGlobCpsDecl auxGlobCpsDecl = auxGlobCpsDecl();
 		IBlockCmd blockCmd = blockCmd();
-		return new Program(ident,cpsDecl,blockCmd);
+		return new Program(ident,auxGlobCpsDecl,blockCmd);
 	}
 	
-	private ICpsDecl cpsDeclEps() {
-		System.out.println("cpsDecl := epsilon");
-		return new CpsDeclEps();
+	private IDecl decl() throws GrammarError {
+		switch(terminal) {
+			case FUN:
+				System.out.println("decl ::= funDecl");
+				return funDecl();
+			case PROC:
+				System.out.println("decl ::= procDecl");
+				return procDecl();
+			case CHANGEMODE:
+			case IDENT:
+				System.out.println("decl ::= storeDecl");
+				return storeDecl();
+			default:
+				throw new GrammarError("decl got " + terminal, token.getLine());
+		}
+	}
+	
+	private IStoreDecl storeDecl() throws GrammarError {
+		System.out.println("storeDecl ::= auxChangeMode IDENT COLON TYPE");
+		IAuxChangeMode auxChangeMode = auxChangeMode();
+		Ident ident = (Ident)consume(Terminals.IDENT);
+		consume(Terminals.COLON);
+		Type type = (Type)consume(Terminals.TYPE);
+		return new StoreDecl(auxChangeMode, ident, type);
+	}
+	
+	private IFunDecl funDecl() throws GrammarError {
+		System.out.println("funDecl ::= FUN IDENT paramList RETURNS storeDecl" + 
+						" auxGlobImpList auxLocCpsDecl blockCmd");
+		consume(Terminals.FUN);
+		Ident ident = (Ident)consume(Terminals.IDENT);
+		IParamList paramList = paramList();
+		consume(Terminals.RETURNS);
+		IStoreDecl storeDecl = storeDecl();
+		IAuxGlobImpList auxGlobImpList = auxGlobImpList();
+		IAuxLocCpsDecl auxLocCpsDecl = auxLocCpsDecl();
+		IBlockCmd blockCmd = blockCmd();
+		return new FunDecl(ident, paramList, storeDecl, auxGlobImpList, auxLocCpsDecl, blockCmd);
+	}
+	
+	private IProcDecl procDecl() throws GrammarError {
+		System.out.println("procDecl ::= PROC IDENT paramList auxGlobImpList " +
+						"auxLocCpsDecl blockCmd");
+		consume(Terminals.PROC);
+		Ident ident = (Ident)consume(Terminals.IDENT);
+		IParamList paramList = paramList();
+		IAuxGlobImpList auxGlobImpList = auxGlobImpList();
+		IAuxLocCpsDecl auxLocCpsDecl = auxLocCpsDecl();
+		IBlockCmd blockCmd = blockCmd();
+		return new ProcDecl(ident, paramList, auxGlobImpList, auxLocCpsDecl, blockCmd);
+	}
+	
+	private IAuxGlobCpsDecl auxGlobCpsDecl() throws GrammarError {
+		if(terminal==Terminals.GLOBAL) {
+			System.out.println("auxGlobCpsDecl ::= GLOBAL cpsDecl");
+			consume(Terminals.GLOBAL);
+			return new AuxGlobCpsDecl(cpsDecl());
+		} else {
+			System.out.println("auxGlobCpsDecl ::= epsilon");
+			return new AuxGlobCpsDeclEps();
+		}
+	}
+	
+	private IAuxLocCpsDecl auxLocCpsDecl() throws GrammarError {
+		if (terminal==Terminals.LOCAL) {
+			System.out.println("auxLocCpsDecl ::= LOCAL cpsDecl");
+			consume(Terminals.LOCAL);
+			return new AuxLocCpsDecl(cpsDecl());
+		} else {
+			System.out.println("auxLocCpsDecl ::= epsilon");
+			return new AuxLocCpsDeclEps();
+		}
 	}
 	
 	private ICpsDecl cpsDecl() throws GrammarError {
@@ -110,117 +171,24 @@ public class Parser {
 		}
 	}
 	
-	private IDecl decl() throws GrammarError {
-		switch(terminal) {
-			case FUN:
-				System.out.println("decl ::= funDecl");
-				return funDecl();
-			case PROC:
-				System.out.println("decl ::= procDecl");
-				return procDecl();
-			case CHANGEMODE:
-			case IDENT:
-				System.out.println("decl ::= storeDecl");
-				return storeDecl();
-			default:
-				throw new GrammarError("decl got " + terminal, token.getLine());
-		}
-	}
-	
-	private IFunDecl funDecl() throws GrammarError {
-		System.out.println("funDecl ::= FUN IDENT paramList RETURNS storeDecl" + 
-						" [GLOBAL globImpList] [LOCAL cpsDecl] blockCmd");
-		consume(Terminals.FUN);
-		Ident ident = (Ident)consume(Terminals.IDENT);
-		IParamList paramList = paramList();
-		consume(Terminals.RETURNS);
-		IStoreDecl storeDecl = storeDecl();
-		IGlobImpList globImpList;
-		if (terminal==Terminals.GLOBAL) {
-			consume(Terminals.GLOBAL);
-			globImpList = globImpList();
-		} else {
-			globImpList = globImpListEps();
-		}
-		ICpsDecl cpsDecl;
-		if (terminal==Terminals.LOCAL) {
-			consume(Terminals.LOCAL);
-			cpsDecl = cpsDecl();
-		} else {
-			cpsDecl = cpsDeclEps();
-		}
-		IBlockCmd blockCmd = blockCmd();
-		return new FunDecl(ident, paramList, storeDecl, globImpList, cpsDecl, blockCmd);
-	}
-	
-	private IProcDecl procDecl() throws GrammarError {
-		System.out.println("procDecl ::= PROC IDENT paramList [GLOBAL globImpList] " +
-						"[LOCAL cpsDecl] blockCmd");
-		consume(Terminals.PROC);
-		
-		Ident ident = (Ident)consume(Terminals.IDENT);
-		IParamList paramList = paramList();
-		IGlobImpList globImpList;
-		if (terminal==Terminals.GLOBAL) {
-			consume(Terminals.GLOBAL);
-			globImpList = globImpList();
-		} else {
-			globImpList = globImpListEps();
-		}
-		ICpsDecl cpsDecl;
-		if (terminal==Terminals.LOCAL) {
-			consume(Terminals.LOCAL);
-			cpsDecl = cpsDecl();
-		} else {
-			cpsDecl = cpsDeclEps();
-		}
-		IBlockCmd blockCmd = blockCmd();
-		return new ProcDecl(ident, paramList, globImpList, cpsDecl, blockCmd);
-	}
-	
-	private IStoreDecl storeDecl() throws GrammarError {
-		System.out.println("storeDecl ::= [CHANGEMODE] IDENT COLON TYPE");
-		Mode.ChangeMode changeMode;
-		if (terminal==Terminals.CHANGEMODE)
-			changeMode=(Mode.ChangeMode)consume(Terminals.CHANGEMODE);
-		else
-			changeMode = new Mode.ChangeMode(Modes.VAR);//TODO:Check default ChangeMode
-		Ident ident = (Ident)consume(Terminals.IDENT);
-		consume(Terminals.COLON);
-		Type type = (Type)consume(Terminals.TYPE);
-		return new StoreDecl(changeMode, ident, type);
-	}
-	
 	private IParamList paramList() throws GrammarError {
-		System.out.println("paramList ::= LPAREN [param repParam] RPAREN");
+		System.out.println("paramList ::= LPAREN auxParamList RPAREN");
 		consume(Terminals.LPAREN);
-		IParam param;
-		IRepParam repParam;
-		if(terminal!=Terminals.RPAREN) {
-			param = param();
-			repParam = repParam();
-		} else {
-			param = new ParamEps();
-			repParam = new RepParamEps();
-		}
+		IAuxParamList auxParamList = auxParamList();
 		consume(Terminals.RPAREN);
-		return new ParamList(param, repParam);
+		return new ParamList(auxParamList);
 	}
 	
-	private IParam param() throws GrammarError {
-		System.out.println("param ::= [FLOWMODE] [MECHMODE] storeDecl");
-		Mode.FlowMode flowMode;
-		if (terminal==Terminals.FLOWMODE) 
-			flowMode=(Mode.FlowMode)consume(Terminals.FLOWMODE);
-		else 
-			flowMode=new Mode.FlowMode(Modes.INOUT);//TODO:Check for default FlowMode
-		Mode.MechMode mechMode;
-		if (terminal==Terminals.MECHMODE) 
-			mechMode = (Mode.MechMode)consume(Terminals.MECHMODE);
-		else 
-			mechMode = new Mode.MechMode(Modes.COPY);//TODO:Check for default MechMode
-		IStoreDecl storeDecl = storeDecl();
-		return new Param(flowMode, mechMode, storeDecl);
+	private IAuxParamList auxParamList() throws GrammarError {
+		if(terminal!=Terminals.RPAREN) {
+			System.out.println("auxParamList ::= param repParam");
+			IParam param = param();
+			IRepParam repParam = repParam();
+			return new AuxParamList(param, repParam);
+		} else {
+			System.out.println("auxParamList ::= epsilon");
+			return new AuxParamListEps();
+		}
 	}
 	
 	private IRepParam repParam() throws GrammarError {
@@ -236,9 +204,23 @@ public class Parser {
 		}
 	}
 	
-	private IGlobImpList globImpListEps() {
-		System.out.println("globImpList ::= epsilon");
-		return new GlobImpListEps();
+	private IParam param() throws GrammarError {
+		System.out.println("param ::= auxFlowMode auxMechMode storeDecl");
+		IAuxFlowMode auxFlowMode = auxFlowMode();
+		IAuxMechMode auxMechMode = auxMechMode();
+		IStoreDecl storeDecl = storeDecl();
+		return new Param(auxFlowMode, auxMechMode, storeDecl);
+	}
+	
+	private IAuxGlobImpList auxGlobImpList() throws GrammarError {
+		if (terminal==Terminals.GLOBAL) {
+			System.out.println("auxGlobImpList ::= GLOBAL globImpList");
+			consume(Terminals.GLOBAL);
+			return new AuxGlobImpList(globImpList());
+		} else {
+			System.out.println("auxGlobImpList ::= epsilon");
+			return new AuxGlobImpListEps();
+		}
 	}
 	
 	private IGlobImpList globImpList() throws GrammarError {
@@ -246,24 +228,6 @@ public class Parser {
 		IGlobImp globImp=globImp();
 		IRepGlobImp repGlobImp=repGlobImp();
 		return new GlobImpList(globImp, repGlobImp);
-	}
-	
-	private IGlobImp globImp() throws GrammarError {
-		System.out.println("globImp ::= [FLOWMODE] [CHANGEMODE] IDENT");
-		Mode.FlowMode flowMode;
-		if (terminal==Terminals.FLOWMODE) 
-			flowMode=(Mode.FlowMode)consume(Terminals.FLOWMODE);
-		else 
-			flowMode=new Mode.FlowMode(Modes.INOUT);//TODO:Check for default FlowMode
-		
-		Mode.ChangeMode changeMode;
-		if (terminal==Terminals.CHANGEMODE) 
-			changeMode = (Mode.ChangeMode)consume(Terminals.CHANGEMODE);
-		else 
-			changeMode = new Mode.ChangeMode(Modes.VAR);//TODO:Check for default ChangeMode
-		
-		Ident ident = (Ident)consume(Terminals.IDENT);
-		return new GlobImp(flowMode, changeMode, ident);
 	}
 	
 	private IRepGlobImp repGlobImp() throws GrammarError {
@@ -279,13 +243,12 @@ public class Parser {
 		}
 	}
 	
-	private IBlockCmd blockCmd() throws GrammarError {
-		System.out.println("blockCmd ::= LBRACE cmd repCmd RBRACE");
-		consume(Terminals.LBRACE);
-		ICmd cmd = cmd();
-		IRepCmd repCmd = repCmd();
-		consume(Terminals.RBRACE);
-		return new BlockCmd(cmd, repCmd);
+	private IGlobImp globImp() throws GrammarError {
+		System.out.println("globImp ::= auxFlowMode auxChangeMode IDENT");
+		IAuxFlowMode auxFlowMode = auxFlowMode();
+		IAuxChangeMode auxChangeMode = auxChangeMode();
+		Ident ident = (Ident)consume(Terminals.IDENT);
+		return new GlobImp(auxFlowMode, auxChangeMode, ident);
 	}
 	
 	private ICmd cmd() throws GrammarError {
@@ -323,17 +286,20 @@ public class Parser {
 				IExpr exclExpr=expr();
 				return new CmdExcl(exclExpr);
 			default:
-				System.out.println("cmd ::= expr [BECOMES expr]");
-				IExpr targetExpr = expr();
-				IExpr sourceExpr;
-				if(terminal==Terminals.BECOMES) {
-					consume(Terminals.BECOMES);
-					sourceExpr = expr();
-				} else {
-					sourceExpr = new ExprEps();
-				}
-				return new CmdExpr(targetExpr, sourceExpr);
+				System.out.println("cmd ::= expr auxExprCmd");
+				IExpr expr = expr();
+				IAuxExprCmd auxExprCmd = auxExprCmd();
+				return new CmdExpr(expr, auxExprCmd);
 		}
+	}
+	
+	private IBlockCmd blockCmd() throws GrammarError {
+		System.out.println("blockCmd ::= LBRACE cmd repCmd RBRACE");
+		consume(Terminals.LBRACE);
+		ICmd cmd = cmd();
+		IRepCmd repCmd = repCmd();
+		consume(Terminals.RBRACE);
+		return new BlockCmd(cmd, repCmd);
 	}
 	
 	private IRepCmd repCmd() throws GrammarError {
@@ -349,168 +315,15 @@ public class Parser {
 		}
 	}
 	
-	private IExpr expr() throws GrammarError {
-		System.out.println("expr ::= term1 repTerm1");
-		ITerm1 term1 = term1();
-		IRepTerm1 repTerm1 = repTerm1();
-		return new Expr(term1, repTerm1);
-	}
-	
-	private ITerm1 term1() throws GrammarError {
-		System.out.println("term1 ::= term2 repTerm2");
-		ITerm2 term2 = term2();
-		IRepTerm2 repTerm2 = repTerm2();
-		return new Term1(term2, repTerm2);
-	}
-	
-	private IRepTerm1 repTerm1() throws GrammarError {
-		if (terminal==Terminals.BOOLOPR) {
-			System.out.println("repTerm1 ::= BOOLOPR term1 repTerm1");
-			Operator.BoolOpr boolOpr = (Operator.BoolOpr)consume(Terminals.BOOLOPR);
-			ITerm1 term1 = term1();
-			IRepTerm1 repTerm1 = repTerm1();
-			return new RepTerm1(boolOpr, term1, repTerm1);
+	//TODO: Conflict with {}
+	private IAuxGlobInitList auxGlobInitList() throws GrammarError {
+		if(terminal==Terminals.INIT) {
+			System.out.println("auxGlobInitList ::= INIT globInitList");
+			consume(Terminals.INIT);
+			return new AuxGlobInitList(globInitList());
 		} else {
-			System.out.println("repTerm1 ::= epsilon");
-			return new RepTerm1Eps();
-		}
-	}
-	
-	private ITerm2 term2() throws GrammarError {
-		System.out.println("term2 ::= term3 repTerm3");
-		ITerm3 term3 = term3();
-		IRepTerm3 repTerm3 = repTerm3();
-		return new Term2(term3, repTerm3);
-	}
-
-	private IRepTerm2 repTerm2() throws GrammarError {
-		if (terminal==Terminals.RELOPR) {
-			System.out.println("repTerm2 ::= RELOPR term2 repTerm2");
-			Operator.RelOpr relOpr = (Operator.RelOpr)consume(Terminals.RELOPR);
-			ITerm2 term2 = term2();
-			IRepTerm2 repTerm2= repTerm2();
-			return new RepTerm2(relOpr, term2, repTerm2);
-		} else {
-			System.out.println("repTerm2 ::= epsilon");
-			return new RepTerm2Eps();
-		}
-	}
-	
-	private ITerm3 term3() throws GrammarError {
-		System.out.println("term3 ::= factor repFactor");
-		IFactor factor = factor();
-		IRepFactor repFactor = repFactor();
-		return new Term3(factor, repFactor);
-	}
-
-	private IRepTerm3 repTerm3() throws GrammarError {
-		if (terminal==Terminals.ADDOPR) {
-			System.out.println("repTerm3 ::= RELOPR term3 repTerm3");
-			Operator.AddOpr addOpr = (Operator.AddOpr)consume(Terminals.ADDOPR);
-			ITerm3 term3 = term3();
-			IRepTerm3 repTerm3= repTerm3();
-			return new RepTerm3(addOpr, term3, repTerm3);
-		} else {
-			System.out.println("repTerm3 ::= epsilon");
-			return new RepTerm3Eps();
-		}
-	}
-	
-	private IRepFactor repFactor() throws GrammarError {
-		if (terminal==Terminals.MULTOPR) {
-			System.out.println("repFactor ::= MULTOPR factor repFactor");
-			Operator.MultOpr multOpr = (Operator.MultOpr)consume(Terminals.MULTOPR);
-			IFactor factor = factor();
-			IRepFactor repFactor= repFactor();
-			return new RepFactor(multOpr, factor, repFactor);
-		} else {
-			System.out.println("repTerm3 ::= epsilon");
-			return new RepFactorEps();
-		}
-	}
-
-	private IFactor factor() throws GrammarError {
-		switch (terminal) {
-			case LITERAL:
-				System.out.println("factor ::= LITERAL");
-				return new FactorLiteral((Literal)consume(Terminals.LITERAL));
-			case IDENT:
-				System.out.println("factor ::= IDENT identSpec");
-				Ident ident = (Ident)consume(Terminals.IDENT);
-				IIdentSpec identSpec = identSpec();
-				return new FactorIdent(ident, identSpec);
-			case LPAREN:
-				System.out.println("factor ::= LPAREN expr RPAREN");
-				consume(Terminals.LPAREN);
-				IExpr expr = expr();
-				consume(Terminals.RPAREN);
-				return new FactorExpr(expr);
-			default:
-				System.out.println("factor ::= monadicOpr factor");
-				IMonadicOpr monadicOpr = monadicOpr();
-				IFactor factor = factor();
-				return new FactorMonadicOpr(monadicOpr, factor);
-		}
-	}
-	
-	private IIdentSpec identSpec() throws GrammarError {
-		switch (terminal) {
-			case INIT:
-				System.out.println("identSpec ::= INIT");
-				consume(Terminals.INIT);
-				return new IdentSpecInit();
-			case LPAREN:
-				System.out.println("identSpec ::= exprList");
-				IExprList exprList=exprList();
-				return new IdentSpecExprList(exprList);
-			default:
-				System.out.println("identSpec ::= epsilon");
-				return new IdentSpecEps();
-		}
-	}
-		
-	private IMonadicOpr monadicOpr() throws GrammarError {
-		switch (terminal) {
-		case NOT:
-			System.out.println("monadicOpr ::= NOT");
-			consume(Terminals.NOT);
-			return new MonadicOprNot();
-		case ADDOPR:
-			System.out.println("monadicOpr ::= ADDOPR");
-			AddOpr addOpr = (AddOpr)consume(Terminals.ADDOPR);
-			return new MonadicOprAddOpr(addOpr);
-		default:
-			throw new GrammarError("terminal expected: NOT | ADDOPR "+
-					", terminal found: " + terminal, token.getLine());
-		}
-	}
-	
-	private IExprList exprList() throws GrammarError {
-		System.out.println("LPAREN [expr repExpr] RPAREN");
-		consume(Terminals.LPAREN);
-		IExpr expr;
-		IRepExpr repExpr;
-		if (terminal==Terminals.RPAREN) {
-			expr=new ExprEps();
-			repExpr=new RepExprEps();
-		} else {
-			expr=expr();
-			repExpr=repExpr();
-		}
-		consume(Terminals.RPAREN);
-		return new ExprList(expr, repExpr);
-	}
-	
-	private IRepExpr repExpr() throws GrammarError {
-		if (terminal!=Terminals.COMMA) {
-			System.out.println("repExpr ::= epsilon");
-			return new RepExprEps();
-		} else {
-			System.out.println("repExpr ::= COMMA expr repExpr");
-			consume(Terminals.COMMA);
-			IExpr expr = expr();
-			IRepExpr repExpr = repExpr();
-			return new RepExpr(expr, repExpr);
+			System.out.println("auxGlobInitList ::= epsilon");
+			return new AuxGlobInitListEps();
 		}
 	}
 	
@@ -533,5 +346,218 @@ public class Parser {
 		}
 	}
 	
+	private IExpr expr() throws GrammarError {
+		System.out.println("expr ::= term1 repTerm1");
+		ITerm1 term1 = term1();
+		IRepTerm1 repTerm1 = repTerm1();
+		return new Expr(term1, repTerm1);
+	}
+	
+	private IRepTerm1 repTerm1() throws GrammarError {
+		if (terminal==Terminals.BOOLOPR) {
+			System.out.println("repTerm1 ::= BOOLOPR term1 repTerm1");
+			Operator.BoolOpr boolOpr = (Operator.BoolOpr)consume(Terminals.BOOLOPR);
+			ITerm1 term1 = term1();
+			IRepTerm1 repTerm1 = repTerm1();
+			return new RepTerm1(boolOpr, term1, repTerm1);
+		} else {
+			System.out.println("repTerm1 ::= epsilon");
+			return new RepTerm1Eps();
+		}
+	}
+	
+	private ITerm1 term1() throws GrammarError {
+		System.out.println("term1 ::= term2 repTerm2");
+		ITerm2 term2 = term2();
+		IRepTerm2 repTerm2 = repTerm2();
+		return new Term1(term2, repTerm2);
+	}
+	
+	private IRepTerm2 repTerm2() throws GrammarError {
+		if (terminal==Terminals.RELOPR) {
+			System.out.println("repTerm2 ::= RELOPR term2 repTerm2");
+			Operator.RelOpr relOpr = (Operator.RelOpr)consume(Terminals.RELOPR);
+			ITerm2 term2 = term2();
+			IRepTerm2 repTerm2= repTerm2();
+			return new RepTerm2(relOpr, term2, repTerm2);
+		} else {
+			System.out.println("repTerm2 ::= epsilon");
+			return new RepTerm2Eps();
+		}
+	}
+	
+	private ITerm2 term2() throws GrammarError {
+		System.out.println("term2 ::= term3 repTerm3");
+		ITerm3 term3 = term3();
+		IRepTerm3 repTerm3 = repTerm3();
+		return new Term2(term3, repTerm3);
+	}
+
+	private IRepTerm3 repTerm3() throws GrammarError {
+		if (terminal==Terminals.ADDOPR) {
+			System.out.println("repTerm3 ::= RELOPR term3 repTerm3");
+			Operator.AddOpr addOpr = (Operator.AddOpr)consume(Terminals.ADDOPR);
+			ITerm3 term3 = term3();
+			IRepTerm3 repTerm3= repTerm3();
+			return new RepTerm3(addOpr, term3, repTerm3);
+		} else {
+			System.out.println("repTerm3 ::= epsilon");
+			return new RepTerm3Eps();
+		}
+	}
+	
+	private ITerm3 term3() throws GrammarError {
+		System.out.println("term3 ::= factor repFactor");
+		IFactor factor = factor();
+		IRepFactor repFactor = repFactor();
+		return new Term3(factor, repFactor);
+	}
+
+	private IRepFactor repFactor() throws GrammarError {
+		if (terminal==Terminals.MULTOPR) {
+			System.out.println("repFactor ::= MULTOPR factor repFactor");
+			Operator.MultOpr multOpr = (Operator.MultOpr)consume(Terminals.MULTOPR);
+			IFactor factor = factor();
+			IRepFactor repFactor= repFactor();
+			return new RepFactor(multOpr, factor, repFactor);
+		} else {
+			System.out.println("repTerm3 ::= epsilon");
+			return new RepFactorEps();
+		}
+	}
+
+	private IFactor factor() throws GrammarError {
+		switch (terminal) {
+			case LITERAL:
+				System.out.println("factor ::= LITERAL");
+				return new FactorLiteral((Literal)consume(Terminals.LITERAL));
+			case IDENT:
+				System.out.println("factor ::= IDENT auxIdent");
+				Ident ident = (Ident)consume(Terminals.IDENT);
+				IAuxIdent auxIdent = auxIdent();
+				return new FactorIdent(ident, auxIdent);
+			case LPAREN:
+				System.out.println("factor ::= LPAREN expr RPAREN");
+				consume(Terminals.LPAREN);
+				IExpr expr = expr();
+				consume(Terminals.RPAREN);
+				return new FactorExpr(expr);
+			default:
+				System.out.println("factor ::= monadicOpr factor");
+				IMonadicOpr monadicOpr = monadicOpr();
+				IFactor factor = factor();
+				return new FactorMonadicOpr(monadicOpr, factor);
+		}
+	}
+	
+	private IAuxIdent auxIdent() throws GrammarError {
+		switch (terminal) {
+			case INIT:
+				System.out.println("auxIdent ::= INIT");
+				consume(Terminals.INIT);
+				return new AuxIdentInit();
+			case LPAREN:
+				System.out.println("auxIdent ::= exprList");
+				IExprList exprList=exprList();
+				return new AuxIdentExprList(exprList);
+			default:
+				System.out.println("auxIdent ::= epsilon");
+				return new AuxIdentEps();
+		}
+	}
+	
+	private IExprList exprList() throws GrammarError {
+		System.out.println("exprList ::= LPAREN auxExprList RPAREN");
+		consume(Terminals.LPAREN);
+		IAuxExprList auxExprList = auxExprList();
+		consume(Terminals.RPAREN);
+		return new ExprList(auxExprList);
+	}
+	
+	private IAuxExprList auxExprList() throws GrammarError {
+		if (terminal==Terminals.RPAREN) {
+			System.out.println("auxExprList ::= epsilon");
+			return new AuxExprListEps();
+		} else {
+			System.out.println("auxExprList ::= expr repExpr");
+			IExpr expr=expr();
+			IRepExpr repExpr=repExpr();
+			return new AuxExprList(expr, repExpr);
+		}
+	}
+	
+	private IRepExpr repExpr() throws GrammarError {
+		if (terminal!=Terminals.COMMA) {
+			System.out.println("repExpr ::= epsilon");
+			return new RepExprEps();
+		} else {
+			System.out.println("repExpr ::= COMMA expr repExpr");
+			consume(Terminals.COMMA);
+			IExpr expr = expr();
+			IRepExpr repExpr = repExpr();
+			return new RepExpr(expr, repExpr);
+		}
+	}
+		
+	private IMonadicOpr monadicOpr() throws GrammarError {
+		switch (terminal) {
+		case NOT:
+			System.out.println("monadicOpr ::= NOT");
+			consume(Terminals.NOT);
+			return new MonadicOprNot();
+		case ADDOPR:
+			System.out.println("monadicOpr ::= ADDOPR");
+			AddOpr addOpr = (AddOpr)consume(Terminals.ADDOPR);
+			return new MonadicOprAddOpr(addOpr);
+		default:
+			throw new GrammarError("terminal expected: NOT | ADDOPR "+
+					", terminal found: " + terminal, token.getLine());
+		}
+	}
+	
+	
+	
+	
+	
+	private IAuxMechMode auxMechMode() throws GrammarError {
+		if (terminal==Terminals.MECHMODE) {
+			System.out.println("auxMechMode ::= MECHMODE");
+			return new AuxMechMode((Mode.MechMode)consume(Terminals.MECHMODE));
+		} else {
+			System.out.println("auxMechMode ::= epsilon");
+			return new AuxMechModeEps();
+		}
+	}
+	
+	private IAuxChangeMode auxChangeMode() throws GrammarError {
+		if (terminal==Terminals.CHANGEMODE) {
+			System.out.println("auxChangeMode ::= CHANGEMODE");
+			return new AuxChangeMode((Mode.ChangeMode)consume(Terminals.CHANGEMODE));
+		} else {
+			System.out.println("auxChangeMode ::= epsilon");
+			return new AuxChangeModeEps();
+		}
+	}
+	
+	private IAuxFlowMode auxFlowMode() throws GrammarError {
+		if (terminal==Terminals.FLOWMODE) {
+			System.out.println("auxFlowMode ::= FLOWMODE");
+			return new AuxFlowMode((Mode.FlowMode)consume(Terminals.FLOWMODE));
+		} else {
+			System.out.println("auxFlowMode ::= epsilon");
+			return new AuxFlowModeEps();
+		}
+	}
+	
+	private IAuxExprCmd auxExprCmd() throws GrammarError {
+		if (terminal==Terminals.BECOMES) {
+			System.out.println("auxExprCmd ::= BECOMES expr");
+			consume(Terminals.BECOMES);
+			return new AuxExprCmdBecomes(expr());
+		} else{
+			System.out.println("auxExprCmd ::= auxGlobInitList");
+			return new AuxExprCmdInitList(auxGlobInitList());
+		}
+	}
 	
 }

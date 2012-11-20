@@ -6,12 +6,12 @@ import token.enums.Terminals;
 public abstract class Mode extends Base {
 	private final Modes mode;
 	
-	public Mode(Terminals terminal,Modes mode) {
+	private Mode(Terminals terminal,Modes mode) {
 		super(terminal);
 		this.mode = mode;
 	}
 	
-	public Mode(Mode mode) {
+	private Mode(Mode mode) {
 		super(mode);
 		this.mode = mode.mode;
 	}
@@ -30,7 +30,7 @@ public abstract class Mode extends Base {
 			super(Terminals.CHANGEMODE,mode);
 		}
 		
-		public ChangeMode(Mode mode) {
+		private ChangeMode(Mode mode) {
 			super(mode);
 		}
 		
@@ -45,7 +45,7 @@ public abstract class Mode extends Base {
 			super(Terminals.MECHMODE, mode);
 		}
 		
-		public MechMode(Mode mode) {
+		private MechMode(Mode mode) {
 			super(mode);
 		}
 		
@@ -60,7 +60,7 @@ public abstract class Mode extends Base {
 			super(Terminals.FLOWMODE, mode);
 		}
 		
-		public FlowMode(Mode mode) {
+		private FlowMode(Mode mode) {
 			super(mode);
 		}
 		

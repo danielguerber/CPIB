@@ -5,16 +5,12 @@ import token.enums.Terminals;
 public class Ident extends Base {
 	private final CharSequence ident;
 	
-	public Ident(CharSequence ident) {
-		this(ident,-1);
-	}
-	
 	public Ident(CharSequence ident, int line) {
 		super(Terminals.IDENT,line);
 		this.ident=ident;
 	}
 	
-	public Ident(Ident ident) {
+	private Ident(Ident ident) {
 		super(ident);
 		this.ident=ident.ident;
 	}

@@ -1,0 +1,94 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{graphicx} 
+
+\usepackage[T1]{fontenc}
+
+%Metadata
+\title{CPIB Zwischenbericht}
+\author{Daniel G\"urber}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Abstract}
+\section{Erweiterung}
+\subsection{Verkettete Vergleichsoperatoren}
+\subsubsection{Ziel}
+Das Ziel ist es, IML so zu erweitern, dass Vergleichsoperatoren verkettet verwendet werden k\"onnen. Ausdr\"ucke sollen nicht mehrmals
+geschrieben werden m\"ussen, um sie mit mehreren Werten zu vergleichen. Es soll nicht m\"oglich sein, die Richtung zu wechseln; wenn ein < oder <= Operator verwendet wurde, darf also kein > oder >=
+Operator verwendet werden und umgekehrt.
+\subsection{Beispiele}
+\begin{itemize}
+\item x < y < z anstatt x < y cand y < z
+\item x = y = z anstatt x = y cand y = z
+\item x > y = z anstatt x > y cand y = z
+\item a > b > c >= d anstatt a > b cand b > c cand c >= d
+\end{itemize}
+\subsection{Grammatik\"anderungen}
+Um dies umzusetzen wird die Grammatik von IML angepasst:\\
+Die Definition von term1 wird von
+\begin{tabbing}
+term1 ::= term2 [RELOPR term2]
+\end{tabbing}
+zu
+\begin{tabbing}
+term1 ::= term2 \{RELOPR term2\}
+\end{tabbing}
+ge\"andert.
+\subsection{Aufrufe ohne call}
+\subsubsection{Ziel}
+Das Ziel ist es, IML so zu erweitern, dass Prozeduraufrufe ohne das
+Schlüsselwort call möglich sind.
+\subsection{Beispiele}
+\begin{itemize}
+\item doSomething(); anstatt call doSomething;
+\item calculateIt(x init); anstatt call calculateIt(x init);
+\end{itemize}
+\subsection{Grammatik\"anderungen}
+Um dies umzusetzen wird die Grammatik von IML angepasst:\\\\
+Die Definition von cmd wird von
+\begin{tabbing}
+cmd ::\= = \= SKIP\\
+\> |\> expr BECOMES expr\\
+\> |\> IF LPAREN expr RPAREN blockCmd ELSE blockCmd\\
+\> |\> WHILE LPAREN expr RPAREN blockCmd\\
+\> |\> CALL IDENT exprList [INIT globInitList]\\
+\> |\> QUESTMARK expr\\
+\> |\> EXCLAMARK expr\\
+\end{tabbing}
+zu
+\begin{tabbing}
+cmd ::\= = \= SKIP\\
+\> |\> expr [BECOMES expr]\\
+\> |\> IF LPAREN expr RPAREN blockCmd ELSE blockCmd\\
+\> |\> WHILE LPAREN expr RPAREN blockCmd\\
+\> |\> QUESTMARK expr\\
+\> |\> EXCLAMARK expr\\
+\end{tabbing}
+ge\"andert.\\\\
+Die Definition von factor wird von
+\begin{tabbing}
+factor ::\= = \= LITERAL\\
+\> |\> IDENT [INIT | exprList]\\
+\> |\> monadicOpr factor\\
+\> |\> LPAREN expr RPAREN\\
+\end{tabbing}
+zu
+\begin{tabbing}
+factor ::\= = \= LITERAL\\
+\> |\> IDENT [INIT | exprList [INIT LPAREN globInitList RPAREN]\\
+\> |\> monadicOpr factor\\
+\> |\> LPAREN expr RPAREN\\
+\end{tabbing}
+ge\"andert.
+\section{Lexikalische Syntax}
+\section{Grammatikalische Syntax}
+\section{Kontext- und Typeinschr\"ankungen}
+\section{andere Programmiersprachen}
+\section{Begr\"undungen Entwurf}
+
+\end{document}

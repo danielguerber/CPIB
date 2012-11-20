@@ -1,5 +1,7 @@
 package parser.concsyn.implementation;
 
+import parser.concsyn.IConcSyn.IAuxGlobImpList;
+import parser.concsyn.IConcSyn.IAuxLocCpsDecl;
 import parser.concsyn.IConcSyn.IBlockCmd;
 import parser.concsyn.IConcSyn.ICpsDecl;
 import parser.concsyn.IConcSyn.IFunDecl;
@@ -12,18 +14,18 @@ public class FunDecl implements IFunDecl {
 	private Ident ident;
 	private IParamList paramList;
 	private IStoreDecl storeDecl;
-	private IGlobImpList globImpList;
-	private ICpsDecl cpsDecl;
+	private IAuxGlobImpList auxGlobImpList;
+	private IAuxLocCpsDecl auxLocCpsDecl;
 	private IBlockCmd blockCmd;
 	
 	
 	public FunDecl(Ident ident, IParamList paramList, IStoreDecl storeDecl,
-			IGlobImpList globImpList, ICpsDecl cpsDecl, IBlockCmd blockCmd) {
+			IAuxGlobImpList auxGlobImpList, IAuxLocCpsDecl auxLocCpsDecl, IBlockCmd blockCmd) {
 		this.ident = ident;
 		this.paramList = paramList;
 		this.storeDecl = storeDecl;
-		this.globImpList = globImpList;
-		this.cpsDecl = cpsDecl;
+		this.auxGlobImpList = auxGlobImpList;
+		this.auxLocCpsDecl = auxLocCpsDecl;
 		this.blockCmd = blockCmd;
 	}
 }

@@ -11,12 +11,12 @@ public class Type extends Base{
 		this(type, -1);
 	}
 	
-	public Type(Types type, int line) {
+	private Type(Types type, int line) {
 		super(Terminals.TYPE, line);
 		this.type = type;
 	}
 	
-	public Type(Type type) {
+	private Type(Type type) {
 		super(type);
 		this.type=type.type;
 	}
