@@ -4,91 +4,79 @@
 
 \usepackage[T1]{fontenc}
 
+\usepackage{fancyhdr}
+
 %Metadata
 \title{CPIB Zwischenbericht}
 \author{Daniel G\"urber}
 
 \begin{document}
-\maketitle
-\newpage
-\tableofcontents
-\newpage
 
+\part*{Zwischenbericht Daniel G\"urber)}
 \section{Abstract}
+Dieses Dokument zeigt auf wie die geplanten Erweiterungen aussehen und
+wie sie in der Syntax umgesetzt werden. Die geplanten Erweiterungen
+sind verkettete Vergleichsoperatoren und Prozeduraufrufe ohne call.
 \section{Erweiterung}
 \subsection{Verkettete Vergleichsoperatoren}
 \subsubsection{Ziel}
 Das Ziel ist es, IML so zu erweitern, dass Vergleichsoperatoren verkettet verwendet werden k\"onnen. Ausdr\"ucke sollen nicht mehrmals
-geschrieben werden m\"ussen, um sie mit mehreren Werten zu vergleichen. Es soll nicht m\"oglich sein, die Richtung zu wechseln; wenn ein < oder <= Operator verwendet wurde, darf also kein > oder >=
-Operator verwendet werden und umgekehrt.
+geschrieben werden m\"ussen, um sie mit mehreren Werten zu vergleichen.
 \subsection{Beispiele}
 \begin{itemize}
 \item x < y < z anstatt x < y cand y < z
 \item x = y = z anstatt x = y cand y = z
-\item x > y = z anstatt x > y cand y = z
 \item a > b > c >= d anstatt a > b cand b > c cand c >= d
 \end{itemize}
-\subsection{Grammatik\"anderungen}
-Um dies umzusetzen wird die Grammatik von IML angepasst:\\
-Die Definition von term1 wird von
-\begin{tabbing}
-term1 ::= term2 [RELOPR term2]
-\end{tabbing}
-zu
-\begin{tabbing}
-term1 ::= term2 \{RELOPR term2\}
-\end{tabbing}
-ge\"andert.
 \subsection{Aufrufe ohne call}
 \subsubsection{Ziel}
 Das Ziel ist es, IML so zu erweitern, dass Prozeduraufrufe ohne das
-Schlüsselwort call möglich sind.
+Schlüsselwort call m\"oglich sind.
 \subsection{Beispiele}
 \begin{itemize}
 \item doSomething(); anstatt call doSomething;
 \item calculateIt(x init); anstatt call calculateIt(x init);
 \end{itemize}
-\subsection{Grammatik\"anderungen}
-Um dies umzusetzen wird die Grammatik von IML angepasst:\\\\
-Die Definition von cmd wird von
-\begin{tabbing}
-cmd ::\= = \= SKIP\\
-\> |\> expr BECOMES expr\\
-\> |\> IF LPAREN expr RPAREN blockCmd ELSE blockCmd\\
-\> |\> WHILE LPAREN expr RPAREN blockCmd\\
-\> |\> CALL IDENT exprList [INIT globInitList]\\
-\> |\> QUESTMARK expr\\
-\> |\> EXCLAMARK expr\\
-\end{tabbing}
-zu
-\begin{tabbing}
-cmd ::\= = \= SKIP\\
-\> |\> expr [BECOMES expr]\\
-\> |\> IF LPAREN expr RPAREN blockCmd ELSE blockCmd\\
-\> |\> WHILE LPAREN expr RPAREN blockCmd\\
-\> |\> QUESTMARK expr\\
-\> |\> EXCLAMARK expr\\
-\end{tabbing}
-ge\"andert.\\\\
-Die Definition von factor wird von
-\begin{tabbing}
-factor ::\= = \= LITERAL\\
-\> |\> IDENT [INIT | exprList]\\
-\> |\> monadicOpr factor\\
-\> |\> LPAREN expr RPAREN\\
-\end{tabbing}
-zu
-\begin{tabbing}
-factor ::\= = \= LITERAL\\
-\> |\> IDENT [INIT | exprList [INIT LPAREN globInitList RPAREN]\\
-\> |\> monadicOpr factor\\
-\> |\> LPAREN expr RPAREN\\
-\end{tabbing}
-ge\"andert.
 \section{Lexikalische Syntax}
+Die lexikalische Syntax \"andert sich im Vergleich zu der von IML v3
+nur dahingehend, dass das Schl\"usselwort call gestrichen wird.
 \section{Grammatikalische Syntax}
-\section{Kontext- und Typeinschr\"ankungen}
-\section{andere Programmiersprachen}
-\section{Begr\"undungen Entwurf}
+Die grammatikalische Syntax entspricht gr\"osstenteils dervon IML v3 mit eingebauten Hilfskonstrukten, die folgenden Definitionen werden durch die Erweiterungen ge\"andert:
 
+\begin{tabbing}
+term1 ::= term2 repTerm2
+\end{tabbing}
+\begin{tabbing}
+repTerm2 ::\= = \= RELOPR term2 repTerm2\\
+\> |\> epsilon
+\end{tabbing}
+\begin{tabbing}
+cmd ::\= = \= SKIP\\
+\> |\> expr auxExprCmd\\
+\> |\> IF LPAREN expr RPAREN blockCmd ELSE blockCmd\\
+\> |\> WHILE LPAREN expr RPAREN blockCmd\\
+\> |\> QUESTMARK expr\\
+\> |\> EXCLAMARK expr\\
+\end{tabbing}
+\begin{tabbing}
+auxExprCmd ::\= = \= BECOMES expr\\
+\> |\> auxGlobInitList\\
+\end{tabbing}
+\begin{tabbing}
+auxGlobInitList ::\= = \= INIT LPAREN globInitList RPAREN\\
+\> |\> epsilon\\
+\end{tabbing}
+Weitere Details k\"onnen dem angeh\"angten File Grammar\_IML.sml entnommen werden. 
+\section{Kontext- und Typeinschr\"ankungen}
+Bei den Vergleichsoperatoren dürfen weiterhin nur Typen verglichen werden, welche auch Vergleichbar miteinander sind. Der Kontext wird so
+eingeschränkt, dass verkettete Vergleichsoperatoren die Richtung nicht \"andern d\"urfen, das heisst wenn ein < oder <= Operator verwendet wurde, darf also kein > oder >= Operator verwendet werden und umgekehrt.\\
+Das Weglassen des call Schl\"usselwortes führt zu keinen zus\"atzlichen Kontext- oder Typeinschr\"ankungen.
+\section{Andere Programmiersprachen}
+Vergleichsoperatoren lassen sich in den meisten anderen Programmiersprachen grunds\"atzlich nicht verketten; Grund daf\"ur ist, dass, wenn Expressions und Commands nicht sauber getrennt sind, der Command zwischen zwei Vergleichs-operatoren zweimal ausgef\"uhrt wird.\\
+Prozeduraufrufe ohne call sind in vielen anderen Programmiersprachen
+m\"oglich zum Beispiel in den von C abgeleiteten Sprachen.
+\section{Begr\"undungen Entwurf}
+Die Einschr\"ankung auf eine Richtung bei den Vergleichsoperatoren
+f\"uhrt zu verbesserter Leserlichkeit, da die Werte von links nach 
+rechts immer gr\"osser beziehungsweise kleiner werden.
 \end{document}

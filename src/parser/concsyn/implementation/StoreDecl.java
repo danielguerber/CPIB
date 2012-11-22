@@ -3,8 +3,6 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxChangeMode;
 import parser.concsyn.IConcSyn.IStoreDecl;
 import token.classes.Ident;
-import token.classes.Mode;
-import token.classes.Mode.ChangeMode;
 import token.classes.Type;
 
 public class StoreDecl implements IStoreDecl {

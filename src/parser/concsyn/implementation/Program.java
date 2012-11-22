@@ -2,7 +2,6 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxGlobCpsDecl;
 import parser.concsyn.IConcSyn.IBlockCmd;
-import parser.concsyn.IConcSyn.ICpsDecl;
 import parser.concsyn.IConcSyn.IProgram;
 import token.classes.Ident;
 

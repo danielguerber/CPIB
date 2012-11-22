@@ -315,12 +315,14 @@ public class Parser {
 		}
 	}
 	
-	//TODO: Conflict with {}
 	private IAuxGlobInitList auxGlobInitList() throws GrammarError {
 		if(terminal==Terminals.INIT) {
-			System.out.println("auxGlobInitList ::= INIT globInitList");
+			System.out.println("auxGlobInitList ::= INIT LPAREN globInitList RPAREN");
 			consume(Terminals.INIT);
-			return new AuxGlobInitList(globInitList());
+			consume(Terminals.LPAREN);
+			IGlobInitList globInitList = globInitList();
+			consume(Terminals.RPAREN);
+			return new AuxGlobInitList(globInitList);
 		} else {
 			System.out.println("auxGlobInitList ::= epsilon");
 			return new AuxGlobInitListEps();
@@ -421,7 +423,7 @@ public class Parser {
 			IRepFactor repFactor= repFactor();
 			return new RepFactor(multOpr, factor, repFactor);
 		} else {
-			System.out.println("repTerm3 ::= epsilon");
+			System.out.println("repFactor ::= epsilon");
 			return new RepFactorEps();
 		}
 	}
@@ -457,9 +459,10 @@ public class Parser {
 				consume(Terminals.INIT);
 				return new AuxIdentInit();
 			case LPAREN:
-				System.out.println("auxIdent ::= exprList");
+				System.out.println("auxIdent ::= exprList auxGlobInitList");
 				IExprList exprList=exprList();
-				return new AuxIdentExprList(exprList);
+				IAuxGlobInitList auxGlobInitList = auxGlobInitList();
+				return new AuxIdentExprList(exprList, auxGlobInitList);
 			default:
 				System.out.println("auxIdent ::= epsilon");
 				return new AuxIdentEps();
@@ -555,8 +558,8 @@ public class Parser {
 			consume(Terminals.BECOMES);
 			return new AuxExprCmdBecomes(expr());
 		} else{
-			System.out.println("auxExprCmd ::= auxGlobInitList");
-			return new AuxExprCmdInitList(auxGlobInitList());
+			System.out.println("auxExprCmd ::= epsilon");
+			return new AuxExprCmdEps();
 		}
 	}
 	

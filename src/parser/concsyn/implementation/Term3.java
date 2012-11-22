@@ -2,7 +2,6 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IFactor;
 import parser.concsyn.IConcSyn.IRepFactor;
-import parser.concsyn.IConcSyn.IRepTerm3;
 import parser.concsyn.IConcSyn.ITerm3;
 
 public class Term3 implements ITerm3 {

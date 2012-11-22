@@ -3,8 +3,6 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxGlobImpList;
 import parser.concsyn.IConcSyn.IAuxLocCpsDecl;
 import parser.concsyn.IConcSyn.IBlockCmd;
-import parser.concsyn.IConcSyn.ICpsDecl;
-import parser.concsyn.IConcSyn.IGlobImpList;
 import parser.concsyn.IConcSyn.IParamList;
 import parser.concsyn.IConcSyn.IProcDecl;
 import token.classes.Ident;

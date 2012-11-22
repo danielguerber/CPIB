@@ -3,7 +3,6 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IRepTerm2;
 import parser.concsyn.IConcSyn.ITerm2;
 import token.classes.Operator;
-import token.classes.Operator.BoolOpr;
 import token.classes.Operator.RelOpr;
 
 public class RepTerm2 implements IRepTerm2 {
