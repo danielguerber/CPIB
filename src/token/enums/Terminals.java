@@ -20,7 +20,6 @@ public enum Terminals {
 	LBRACE,
 	RBRACE,
 	TYPE,
-	CALL,
 	ELSE,
 	FUN,
 	GLOBAL,

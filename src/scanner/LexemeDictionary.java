@@ -47,7 +47,6 @@ public final class LexemeDictionary {
 		
 		//Keywords
 		dictionary.put("bool", new Type(Types.BOOL));
-		dictionary.put("call", new Base(Terminals.CALL));
 		dictionary.put("cand", new Operator.BoolOpr(Operators.CAND));
 		dictionary.put("const", new Mode.ChangeMode(Modes.CONST));
 		dictionary.put("copy", new Mode.MechMode(Modes.COPY));
