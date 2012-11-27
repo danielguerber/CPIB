@@ -9,4 +9,18 @@ public class AuxFlowMode implements IAuxFlowMode {
 	public AuxFlowMode(FlowMode flowMode) {
 		this.flowMode = flowMode;
 	}
+
+	@Override
+	public FlowMode toAbstrSyntax() {
+		return flowMode;
+	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<AuxFlowMode>\n" +
+				flowMode.toString(indent + '\t') +
+				indent +
+				"</AuxFlowMode>\n";
+	}
 }

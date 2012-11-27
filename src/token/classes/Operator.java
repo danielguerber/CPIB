@@ -84,4 +84,13 @@ public abstract class Operator extends Base {
 			return new BoolOpr(this);
 		}
 	}
+
+	public String toString(String indent) {
+		return indent +
+				"<Operator operator=\"" +
+				this.operator.toString() + 
+				"\" line=\"" +
+				super.getLine() +
+				"\"/>\n";
+	}
 }

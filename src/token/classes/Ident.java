@@ -27,5 +27,14 @@ public class Ident extends Base {
 	public Object clone() {
 		return new Ident(this);
 	}
+
+	public String toString(String indent) {
+		return indent +
+				"<Ident ident=\"" +
+				ident +
+				"\" line=\"" +
+				super.getLine() +
+				"\"/>\n";
+	}
 	
 }

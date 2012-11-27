@@ -9,4 +9,18 @@ public class AuxMechMode implements IAuxMechMode {
 	public AuxMechMode(MechMode mechMode) {
 		this.mechMode = mechMode;
 	}
+
+	@Override
+	public MechMode toAbstrSyntax() {
+		return mechMode;
+	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<AuxMechMode>\n" +
+				mechMode.toString(indent + '\t') +
+				indent +
+				"</AuxMechMode>\n";
+	}
 }

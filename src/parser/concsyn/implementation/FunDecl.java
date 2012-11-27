@@ -1,11 +1,6 @@
 package parser.concsyn.implementation;
 
-import parser.concsyn.IConcSyn.IAuxGlobImpList;
-import parser.concsyn.IConcSyn.IAuxLocCpsDecl;
-import parser.concsyn.IConcSyn.IBlockCmd;
 import parser.concsyn.IConcSyn.IFunDecl;
-import parser.concsyn.IConcSyn.IParamList;
-import parser.concsyn.IConcSyn.IStoreDecl;
 import token.classes.Ident;
 
 public class FunDecl implements IFunDecl {
@@ -25,5 +20,31 @@ public class FunDecl implements IFunDecl {
 		this.auxGlobImpList = auxGlobImpList;
 		this.auxLocCpsDecl = auxLocCpsDecl;
 		this.blockCmd = blockCmd;
+	}
+
+
+	@Override
+	public abstsyn.IAbstSyn.IDecl toAbstrSyntax() {
+		return new abstsyn.implementation.FunDecl(
+				ident, 
+				paramList.toAbstrSyntax(), 
+				storeDecl.toAbstrSyntax(),
+				auxGlobImpList.toAbstrSyntax(),
+				auxLocCpsDecl.toAbstrSyntax(), 
+				blockCmd.toAbstrSyntax());
+	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<FunDecl>\n" +
+				ident.toString(indent + '\t') +
+				paramList.toString(indent + '\t') +
+				storeDecl.toString(indent + '\t') +
+				auxGlobImpList.toString(indent + '\t') +
+				auxLocCpsDecl.toString(indent + '\t') +
+				blockCmd.toString(indent + '\t') +
+				indent +
+				"</FunDecl>\n";
 	}
 }

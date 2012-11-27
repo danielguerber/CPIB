@@ -1,7 +1,5 @@
 package parser.concsyn.implementation;
 
-import parser.concsyn.IConcSyn.IFactor;
-import parser.concsyn.IConcSyn.IRepFactor;
 import parser.concsyn.IConcSyn.ITerm3;
 
 public class Term3 implements ITerm3 {
@@ -11,5 +9,20 @@ public class Term3 implements ITerm3 {
 	public Term3(IFactor factor, IRepFactor repFactor) {
 		this.factor = factor;
 		this.repFactor = repFactor;
+	}
+
+	@Override
+	public abstsyn.IAbstSyn.IExpr toAbstrSyntax() {
+		return repFactor.toAbstrSyntax(factor.toAbstrSyntax());
+	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<Term3>\n" +
+				factor.toString(indent + '\t') +
+				repFactor.toString(indent + '\t') +
+				indent +
+				"</Term3>\n";
 	}
 }

@@ -34,4 +34,13 @@ public class Type extends Base{
 	public Object clone() {
 		return new Type(this);
 	}
+
+	public String toString(String indent) {
+		return indent +
+				"<Type type=\"" +
+				type.toString() +
+				"\" line=\"" +
+				super.getLine() + 
+				"\"/>\n";
+	}
 }

@@ -8,4 +8,18 @@ public class AuxChangeMode implements IAuxChangeMode {
 	public AuxChangeMode(ChangeMode changeMode) {
 		this.changeMode = changeMode;
 	}
+	
+	@Override
+	public ChangeMode toAbstrSyntax() {
+		return changeMode;
+	}
+
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<AuxChangeMode>\n" +
+				changeMode.toString(indent + '\t') +
+				indent +
+				"</AuxChangeMode>\n";
+	}
 }

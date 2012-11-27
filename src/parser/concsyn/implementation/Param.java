@@ -1,9 +1,6 @@
 package parser.concsyn.implementation;
 
-import parser.concsyn.IConcSyn.IAuxFlowMode;
-import parser.concsyn.IConcSyn.IAuxMechMode;
 import parser.concsyn.IConcSyn.IParam;
-import parser.concsyn.IConcSyn.IStoreDecl;
 
 public class Param implements IParam {
 	private IAuxFlowMode auxFlowMode;
@@ -14,5 +11,25 @@ public class Param implements IParam {
 		this.auxFlowMode = auxFlowMode;
 		this.auxMechMode = auxMechMode;
 		this.storeDecl = storeDecl;
+	}
+
+	@Override
+	public abstsyn.IAbstSyn.IParam toAbstrSyntax(IRepParam repParam) {
+		return new abstsyn.implementation.Param(
+				auxFlowMode.toAbstrSyntax(),
+				auxMechMode.toAbstrSyntax(),
+				storeDecl.toAbstrSyntax(), 
+				repParam.toAbstrSyntax());
+	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<Param>\n" +
+				auxFlowMode.toString(indent + '\t') +
+				auxMechMode.toString(indent + '\t') +
+				storeDecl.toString(indent + '\t') +
+				indent +
+				"</Param>\n";
 	}
 }

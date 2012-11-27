@@ -42,5 +42,16 @@ public class Literal extends Base {
 	public Object clone() {
 		return new Literal(this);
 	}
+
+	public String toString(String indent) {
+		return indent +
+				"<Literal literal=\"" +
+				this.literal +
+				"\" type=\"" +
+				this.type.toString() +
+				"\" line=\"" +
+				super.getLine() + 
+				"\"/>\n";
+	}
 	
 }

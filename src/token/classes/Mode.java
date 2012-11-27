@@ -38,6 +38,15 @@ public abstract class Mode extends Base {
 		public Object clone() {
 			return new ChangeMode(this);
 		}
+
+		public Object toString(String indent) {
+			return indent + 
+					"<ChangeMode mode=\"" + 
+					super.getMode().toString() +
+					"\" line=\"" +
+					super.getLine() +
+					"\"/>\n";
+		}
 	}
 	
 	public static class MechMode extends Mode {
@@ -53,6 +62,15 @@ public abstract class Mode extends Base {
 		public Object clone() {
 			return new MechMode(this);
 		}
+
+		public String toString(String indent) {
+			return indent +
+					"<MechMode mode=\"" + 
+					super.getMode().toString() +
+					"\" line=\"" +
+					super.getLine() +
+					"\"/>\n";
+		}
 	}
 	
 	public static class FlowMode extends Mode {
@@ -67,6 +85,15 @@ public abstract class Mode extends Base {
 		@Override
 		public Object clone() {
 			return new FlowMode(this);
+		}
+
+		public String toString(String indent) {
+			return indent +
+					"<FlowMode mode=\"" + 
+					super.getMode().toString() +
+					"\" line=\"" +
+					super.getLine() +
+					"\"/>\n";
 		}
 	}
 }

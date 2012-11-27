@@ -70,13 +70,31 @@ Weitere Details k\"onnen dem angeh\"angten File Grammar\_IML.sml entnommen werde
 \section{Kontext- und Typeinschr\"ankungen}
 Bei den Vergleichsoperatoren dürfen weiterhin nur Typen verglichen werden, welche auch Vergleichbar miteinander sind. Der Kontext wird so
 eingeschränkt, dass verkettete Vergleichsoperatoren die Richtung nicht \"andern d\"urfen, das heisst wenn ein < oder <= Operator verwendet wurde, darf also kein > oder >= Operator verwendet werden und umgekehrt.\\
-Das Weglassen des call Schl\"usselwortes führt zu keinen zus\"atzlichen Kontext- oder Typeinschr\"ankungen.
+Das Weglassen des call Schl\"usselwortes führt dazu, dass
+sichergestellt werden muss, dass nur Prozeduraufrufe ohne 
+Zuweisungoperator dastehen k\"onnen und das Prozeduraufrufe nicht in
+Expressions verwendet werden d\"urfen. Zudem darf die globale
+Init-Liste nicht hinter Funktionsaufrufen verwendet werden. 
 \section{Andere Programmiersprachen}
 Vergleichsoperatoren lassen sich in den meisten anderen Programmiersprachen grunds\"atzlich nicht verketten; Grund daf\"ur ist, dass, wenn Expressions und Commands nicht sauber getrennt sind, der Command zwischen zwei Vergleichs-operatoren zweimal ausgef\"uhrt wird.\\
 Prozeduraufrufe ohne call sind in vielen anderen Programmiersprachen
 m\"oglich zum Beispiel in den von C abgeleiteten Sprachen.
 \section{Begr\"undungen Entwurf}
+\subsection{Vergleichsoperaoren}
 Die Einschr\"ankung auf eine Richtung bei den Vergleichsoperatoren
 f\"uhrt zu verbesserter Leserlichkeit, da die Werte von links nach 
 rechts immer gr\"osser beziehungsweise kleiner werden.
+\subsection{Prozeduraufruf}
+F\"ur das Weglassen des call Schl"usselwortes muss man bei der 
+globalen Init-Liste Klammern hinzuf\"ugen, bei anderen Umsetzungen 
+entstehen folgende Probleme:\\
+\begin{itemize}
+\item Werden die Klammern weggelassen, kann der Parser nicht zwischen
+globInitList und exprList unterscheiden, da beides kommagetrennte
+Listen sind.
+\item Wird globInitList als Teil des auxExprCmd aufgefasst entsteht
+ein Konflikt mit factor, da an beiden Orten optional ein INIT
+verwendet wird.
+\end{itemize}
+
 \end{document}
