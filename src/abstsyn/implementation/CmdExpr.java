@@ -10,4 +10,14 @@ public class CmdExpr implements ICmd {
 		this.targetExpr = targetExpr;
 		this.sourceExpr = sourceExpr;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<CmdExpr>\n" +
+				targetExpr.toString(indent + '\t') +
+				sourceExpr.toString(indent + '\t') +
+				indent +
+				"</CmdExpr>\n";
+	}
 }

@@ -17,4 +17,16 @@ public class GlobImp implements IGlobImp {
 		this.ident = ident;
 		this.globImp = globImp;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<GlobImp>\n" +
+				flowMode.toString(indent + '\t') +
+				changeMode.toString(indent + '\t') +
+				ident.toString(indent + '\t') +
+				globImp.toString(indent + '\t') +
+				indent +
+				"</GlobImp>\n";
+	}
 }

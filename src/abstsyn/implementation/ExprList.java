@@ -10,4 +10,14 @@ public class ExprList implements IExprList {
 		this.expr = expr;
 		this.exprList = exprList;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ExprList>\n" +
+				expr.toString(indent + '\t') +
+				exprList.toString(indent + '\t') +
+				indent +
+				"</ExprList>\n";
+	}
 }

@@ -8,4 +8,13 @@ public class CmdIn implements ICmd {
 	public CmdIn(IExpr expr) {
 		this.expr = expr;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<CmdIn>\n" +
+				expr.toString(indent + '\t') +
+				indent +
+				"</CmdIn>\n";
+	}
 }

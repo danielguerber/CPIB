@@ -15,4 +15,15 @@ public class StoreDecl implements IStoreDecl {
 		this.ident = ident;
 		this.type = type;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<StoreDecl>\n" +
+				changeMode.toString(indent + '\t') +
+				ident.toString(indent + '\t') +
+				type.toString(indent + '\t') +
+				indent +
+				"</StoreDecl>\n";
+	}
 }

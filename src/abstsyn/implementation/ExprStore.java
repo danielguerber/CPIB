@@ -11,4 +11,15 @@ public class ExprStore implements IExpr {
 		this.ident = ident;
 		this.isInit = isInit;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ExprStore>\n" +
+				ident.toString(indent + '\t') +
+				indent +
+				"<IsInit>" + isInit + "</IsInit>\n" +
+				indent +
+				"</ExprStore>\n";
+	}
 }

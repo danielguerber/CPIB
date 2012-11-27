@@ -13,4 +13,15 @@ public class Program implements IProgram {
 		this.cpsDecl = cpsDecl;
 		this.cmd = cmd;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<Program>\n" +
+				ident.toString(indent + '\t') +
+				cpsDecl.toString(indent + '\t') +
+				cmd.toString(indent + '\t') +
+				indent +
+				"</Program>\n";
+	}
 }

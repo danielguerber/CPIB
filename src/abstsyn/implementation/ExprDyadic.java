@@ -13,4 +13,15 @@ public class ExprDyadic implements IExpr {
 		this.expr1 = expr1;
 		this.expr2 = expr2;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ExprDyadic>\n" +
+				operator.toString(indent + '\t') +
+				expr1.toString(indent + '\t') +
+				expr2.toString(indent + '\t') +
+				indent +
+				"</ExprDyadic>\n";
+	}
 }

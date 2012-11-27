@@ -11,4 +11,14 @@ public class ExprMonadic implements IExpr {
 		this.operator = operator;
 		this.expr = expr;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ExprMonadic>\n" +
+				operator.toString(indent + '\t') +
+				expr.toString(indent + '\t') +
+				indent +
+				"</ExprMonadic>\n";
+	}
 }

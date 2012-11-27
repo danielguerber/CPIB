@@ -11,4 +11,6 @@ public interface IAbstSyn {
 	public interface IExpr extends IAbstSyn {}
 	public interface IExprList extends IAbstSyn {}
 	public interface IGlobInit extends IAbstSyn{}
+	
+	public String toString(String indent);
 }

@@ -13,4 +13,15 @@ public class ExprCall implements IExpr {
 		this.exprList = exprList;
 		this.globInit = globInit;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ExprCall>\n" +
+				ident.toString(indent + '\t') +
+				exprList.toString(indent + '\t') +
+				globInit.toString(indent + '\t') +
+				indent +
+				"</ExprCall>\n";
+	}
 }

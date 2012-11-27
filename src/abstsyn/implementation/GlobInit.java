@@ -11,4 +11,14 @@ public class GlobInit implements IGlobInit {
 		this.ident = ident;
 		this.globInit = globInit;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<GlobInit>\n" +
+				ident.toString(indent + '\t') +
+				globInit.toString(indent + '\t') +
+				indent +
+				"</GlobInit>\n";
+	}
 }

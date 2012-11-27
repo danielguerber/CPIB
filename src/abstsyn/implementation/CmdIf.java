@@ -12,4 +12,15 @@ public class CmdIf implements ICmd {
 		this.ifCmd = ifCmd;
 		this.elseCmd = elseCmd;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<CmdIf>\n" +
+				expr.toString(indent + '\t') +
+				ifCmd.toString(indent + '\t') +
+				elseCmd.toString(indent + '\t') +
+				indent +
+				"</CmdIf>\n";
+	}
 }

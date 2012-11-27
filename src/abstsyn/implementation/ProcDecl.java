@@ -18,4 +18,17 @@ public class ProcDecl implements IDecl {
 		this.cpsDecl = cpsDecl;
 		this.cmd = cmd;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<ProcDecl>\n" +
+				ident.toString(indent + '\t') +
+				param.toString(indent + '\t') +
+				globImp.toString(indent + '\t') +
+				cpsDecl.toString(indent + '\t') +
+				cmd.toString(indent + '\t') +
+				indent +
+				"</ProcDecl>\n";
+	}
 }

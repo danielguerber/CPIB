@@ -10,4 +10,14 @@ public class CpsDecl implements ICpsDecl {
 		this.decl = decl;
 		this.cpsDecl = cpsDecl;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<CpsDecl>\n" +
+				decl.toString(indent + '\t') +
+				cpsDecl.toString(indent + '\t') +
+				indent +
+				"</CpsDecl>\n";
+	}
 }

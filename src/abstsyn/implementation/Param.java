@@ -17,4 +17,16 @@ public class Param implements IParam {
 		this.storeDecl = storeDecl;
 		this.param = param;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<Param>\n" +
+				flowMode.toString(indent + '\t') +
+				mechMode.toString(indent + '\t') +
+				storeDecl.toString(indent + '\t') +
+				param.toString(indent + '\t') +
+				indent +
+				"</Param>\n";
+	}
 }

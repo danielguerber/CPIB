@@ -10,4 +10,14 @@ public class CmdWhile implements ICmd {
 		this.expr = expr;
 		this.cmd = cmd;
 	}
+	
+	@Override
+	public String toString(String indent) {
+		return indent +
+				"<CmdWhile>\n" +
+				expr.toString(indent + '\t') +
+				cmd.toString(indent + '\t') +
+				indent +
+				"</CmdWhile>\n";
+	}
 }
