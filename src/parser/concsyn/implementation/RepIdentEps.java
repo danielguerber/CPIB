@@ -1,9 +1,9 @@
 package parser.concsyn.implementation;
 
-import abstsyn.IAbstSyn.IGlobInit;
 import parser.concsyn.IConcSyn.IRepIdent;
+import abstsyn.IAbstSyn.IGlobInit;
 
-public class RepIdentEps implements IRepIdent {
+public final class RepIdentEps implements IRepIdent {
 
 	@Override
 	public IGlobInit toAbstrSyntax() {
@@ -11,7 +11,7 @@ public class RepIdentEps implements IRepIdent {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<RepIdentEps/>\n";
 	}
 }

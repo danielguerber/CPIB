@@ -1,9 +1,9 @@
 package parser.concsyn.implementation;
 
-import abstsyn.implementation.CpsDeclEps;
 import parser.concsyn.IConcSyn.IAuxGlobCpsDecl;
+import abstsyn.implementation.CpsDeclEps;
 
-public class AuxGlobCpsDeclEps implements IAuxGlobCpsDecl {
+public final class AuxGlobCpsDeclEps implements IAuxGlobCpsDecl {
 
 	@Override
 	public abstsyn.IAbstSyn.ICpsDecl toAbstrSyntax() {
@@ -11,7 +11,7 @@ public class AuxGlobCpsDeclEps implements IAuxGlobCpsDecl {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxGlobCpsDeclEps/>\n";
 	}
 }

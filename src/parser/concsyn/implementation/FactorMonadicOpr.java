@@ -2,11 +2,13 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IFactor;
 
-public class FactorMonadicOpr implements IFactor {
-	private IMonadicOpr monadicOpr;
-	private IFactor factor;
+public final class FactorMonadicOpr implements IFactor {
+	private final IMonadicOpr monadicOpr;
+	private final IFactor factor;
 	
-	public FactorMonadicOpr(IMonadicOpr monadicOpr, IFactor factor) {
+	public FactorMonadicOpr(
+	        final IMonadicOpr monadicOpr, 
+	        final IFactor factor) {
 		this.monadicOpr = monadicOpr;
 		this.factor = factor;
 	}
@@ -19,12 +21,12 @@ public class FactorMonadicOpr implements IFactor {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<FactorMonadicOpr>\n" +
-				monadicOpr.toString(indent + '\t') +
-				factor.toString(indent + '\t') +
-				indent +
-				"</FactorMonadicOpr>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<FactorMonadicOpr>\n"
+				+ monadicOpr.toString(indent + '\t')
+				+ factor.toString(indent + '\t')
+				+ indent
+				+ "</FactorMonadicOpr>\n";
 	}
 }

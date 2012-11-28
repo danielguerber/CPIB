@@ -2,9 +2,9 @@ package abstsyn.implementation;
 
 import abstsyn.IAbstSyn.ICpsDecl;
 
-public class CpsDeclEps implements ICpsDecl {
+public final class CpsDeclEps implements ICpsDecl {
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<CpsDeclEps/>\n";
 	}
 }

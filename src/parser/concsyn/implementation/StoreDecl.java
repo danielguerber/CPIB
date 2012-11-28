@@ -4,12 +4,15 @@ import parser.concsyn.IConcSyn.IStoreDecl;
 import token.classes.Ident;
 import token.classes.Type;
 
-public class StoreDecl implements IStoreDecl {
-	private IAuxChangeMode auxChangeMode;
-	private Ident ident;
-	private Type type;
+public final class StoreDecl implements IStoreDecl {
+	private final IAuxChangeMode auxChangeMode;
+	private final Ident ident;
+	private final Type type;
 	
-	public StoreDecl(IAuxChangeMode auxChangeMode, Ident ident, Type type) {
+	public StoreDecl(
+	        final IAuxChangeMode auxChangeMode, 
+	        final Ident ident, 
+	        final Type type) {
 		this.auxChangeMode = auxChangeMode;
 		this.ident = ident;
 		this.type = type;
@@ -24,13 +27,13 @@ public class StoreDecl implements IStoreDecl {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<StoreDecl>\n" +
-				auxChangeMode.toString(indent + '\t') +
-				ident.toString(indent + '\t') +
-				type.toString(indent + '\t') +
-				indent +
-				"</StoreDecl>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<StoreDecl>\n"
+				+ auxChangeMode.toString(indent + '\t')
+				+ ident.toString(indent + '\t')
+				+ type.toString(indent + '\t')
+				+ indent
+				+ "</StoreDecl>\n";
 	}
 }

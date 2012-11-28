@@ -2,10 +2,10 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IExprList;
 
-public class ExprList implements IExprList {
-	private IAuxExprList auxExprList;
+public final class ExprList implements IExprList {
+	private final IAuxExprList auxExprList;
 
-	public ExprList(IAuxExprList auxExprList) {
+	public ExprList(final IAuxExprList auxExprList) {
 		this.auxExprList = auxExprList;
 	}
 
@@ -15,11 +15,11 @@ public class ExprList implements IExprList {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<ExprList>\n" +
-				auxExprList.toString(indent + '\t') +
-				indent +
-				"</ExprList>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<ExprList>\n"
+				+ auxExprList.toString(indent + '\t')
+				+ indent
+				+ "</ExprList>\n";
 	}
 }

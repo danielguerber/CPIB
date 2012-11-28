@@ -3,10 +3,10 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxFlowMode;
 import token.classes.Mode.FlowMode;
 
-public class AuxFlowMode implements IAuxFlowMode {
-	private FlowMode flowMode;
+public final class AuxFlowMode implements IAuxFlowMode {
+	private final FlowMode flowMode;
 	
-	public AuxFlowMode(FlowMode flowMode) {
+	public AuxFlowMode(final FlowMode flowMode) {
 		this.flowMode = flowMode;
 	}
 
@@ -16,11 +16,11 @@ public class AuxFlowMode implements IAuxFlowMode {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxFlowMode>\n" +
-				flowMode.toString(indent + '\t') +
-				indent +
-				"</AuxFlowMode>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxFlowMode>\n"
+				+ flowMode.toString(indent + '\t')
+				+ indent
+				+ "</AuxFlowMode>\n";
 	}
 }

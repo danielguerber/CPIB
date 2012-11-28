@@ -2,10 +2,10 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxExprCmd;
 
-public class AuxExprCmdBecomes implements IAuxExprCmd {
-	private IExpr expr;
+public final class AuxExprCmdBecomes implements IAuxExprCmd {
+	private final IExpr expr;
 	
-	public AuxExprCmdBecomes(IExpr expr) {
+	public AuxExprCmdBecomes(final IExpr expr) {
 		this.expr = expr;
 	}
 
@@ -15,11 +15,11 @@ public class AuxExprCmdBecomes implements IAuxExprCmd {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxExprCmdBecomes>\n" +
-				expr.toString(indent + '\t') +
-				indent +
-				"</AuxExprCmdBecomes>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxExprCmdBecomes>\n"
+				+ expr.toString(indent + '\t')
+				+ indent
+				+ "</AuxExprCmdBecomes>\n";
 	}
 }

@@ -4,11 +4,11 @@ import parser.concsyn.IConcSyn.IGlobInitList;
 import token.classes.Ident;
 import abstsyn.IAbstSyn.IGlobInit;
 
-public class GlobInitList implements IGlobInitList {
-	private Ident ident;
-	private IRepIdent repIdent;
+public final class GlobInitList implements IGlobInitList {
+	private final Ident ident;
+	private final IRepIdent repIdent;
 	
-	public GlobInitList(Ident ident, IRepIdent repIdent) {
+	public GlobInitList(final Ident ident, final IRepIdent repIdent) {
 		this.ident = ident;
 		this.repIdent = repIdent;
 	}
@@ -21,12 +21,12 @@ public class GlobInitList implements IGlobInitList {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<GlobInitList>\n" +
-				ident.toString(indent + '\t') +
-				repIdent.toString(indent + '\t') +
-				indent +
-				"</GlobInitList>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<GlobInitList>\n"
+				+ ident.toString(indent + '\t')
+				+ repIdent.toString(indent + '\t')
+				+ indent
+				+ "</GlobInitList>\n";
 	}
 }

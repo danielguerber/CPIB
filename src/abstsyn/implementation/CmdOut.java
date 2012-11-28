@@ -2,19 +2,22 @@ package abstsyn.implementation;
 
 import abstsyn.IAbstSyn.ICmd;
 
-public class CmdOut implements ICmd {
-	private IExpr expr;
+public final class CmdOut implements ICmd {
+	private final IExpr expr;
+	private final ICmd repCmd;
 	
-	public CmdOut(IExpr expr) {
+	public CmdOut(final IExpr expr, final ICmd repCmd) {
 		this.expr = expr;
+		this.repCmd = repCmd;
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<CmdOut>\n" +
-				expr.toString(indent + '\t') +
-				indent +
-				"</CmdOut>\n";
+    public String toString(final String indent) {
+		return indent
+				+ "<CmdOut>\n"
+				+ expr.toString(indent + '\t')
+				+ repCmd.toString(indent + '\t')
+				+ indent
+				+ "</CmdOut>\n";
 	}
 }

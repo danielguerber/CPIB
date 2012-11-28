@@ -2,17 +2,17 @@ package token.classes;
 
 import token.enums.Terminals;
 
-public class Ident extends Base {
+public final class Ident extends Base {
 	private final CharSequence ident;
 	
-	public Ident(CharSequence ident, int line) {
-		super(Terminals.IDENT,line);
-		this.ident=ident;
+	public Ident(final CharSequence ident, final int line) {
+		super(Terminals.IDENT, line);
+		this.ident = ident;
 	}
 	
-	private Ident(Ident ident) {
+	private Ident(final Ident ident) {
 		super(ident);
-		this.ident=ident.ident;
+		this.ident = ident.ident;
 	}
 	
 	public CharSequence getIdent() {
@@ -20,21 +20,22 @@ public class Ident extends Base {
 	}
 	
 	@Override
-	public String toString() {
+    public String toString() {
 		return "(" + super.toString() + ", \"" + ident + "\")";
 	}
 	
-	public Object clone() {
+	@Override
+    public Object clone() {
 		return new Ident(this);
 	}
 
-	public String toString(String indent) {
-		return indent +
-				"<Ident ident=\"" +
-				ident +
-				"\" line=\"" +
-				super.getLine() +
-				"\"/>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<Ident ident=\""
+				+ ident
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
 	}
 	
 }

@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IRepCmd;
 
-public class RepCmdEps implements IRepCmd {
+public final class RepCmdEps implements IRepCmd {
 
 	@Override
 	public abstsyn.IAbstSyn.ICmd toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class RepCmdEps implements IRepCmd {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<RepCmdEps/>\n";
 	}
 }

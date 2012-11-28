@@ -2,11 +2,11 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.ITerm3;
 
-public class Term3 implements ITerm3 {
-	private IFactor factor;
-	private IRepFactor repFactor;
+public final class Term3 implements ITerm3 {
+	private final IFactor factor;
+	private final IRepFactor repFactor;
 	
-	public Term3(IFactor factor, IRepFactor repFactor) {
+	public Term3(final IFactor factor, final IRepFactor repFactor) {
 		this.factor = factor;
 		this.repFactor = repFactor;
 	}
@@ -17,12 +17,12 @@ public class Term3 implements ITerm3 {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<Term3>\n" +
-				factor.toString(indent + '\t') +
-				repFactor.toString(indent + '\t') +
-				indent +
-				"</Term3>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<Term3>\n"
+				+ factor.toString(indent + '\t')
+				+ repFactor.toString(indent + '\t')
+				+ indent
+				+ "</Term3>\n";
 	}
 }

@@ -2,27 +2,27 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IBlockCmd;
 
-public class BlockCmd implements IBlockCmd {
-	private ICmd cmd;
-	private IRepCmd repCmd;
+public final class BlockCmd implements IBlockCmd {
+	private final ICmd cmd;
+	private final IRepCmd repCmd;
 	
-	public BlockCmd(ICmd cmd, IRepCmd repCmd) {
+	public BlockCmd(final ICmd cmd, final IRepCmd repCmd) {
 		this.cmd = cmd;
 		this.repCmd = repCmd;
 	}
 
 	@Override
 	public abstsyn.IAbstSyn.ICmd toAbstrSyntax() {
-		return cmd.toAbstrSyntax(repCmd);
+		return cmd.toAbstrSyntax(repCmd.toAbstrSyntax());
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<BlockCmd>\n" +
-				cmd.toString(indent + '\t') +
-				repCmd.toString(indent + '\t') +
-				indent +
-				"</BlockCmd>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<BlockCmd>\n"
+				+ cmd.toString(indent + '\t')
+				+ repCmd.toString(indent + '\t')
+				+ indent
+				+ "</BlockCmd>\n";
 	}
 }

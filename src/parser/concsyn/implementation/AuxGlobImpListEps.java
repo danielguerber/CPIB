@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxGlobImpList;
 
-public class AuxGlobImpListEps implements IAuxGlobImpList {
+public final class AuxGlobImpListEps implements IAuxGlobImpList {
 
 	@Override
 	public abstsyn.IAbstSyn.IGlobImp toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class AuxGlobImpListEps implements IAuxGlobImpList {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxGlobImpListEps/>\n";
 	}
 }

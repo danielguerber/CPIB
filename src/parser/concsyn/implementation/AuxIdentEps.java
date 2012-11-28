@@ -3,15 +3,15 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxIdent;
 import token.classes.Ident;
 
-public class AuxIdentEps implements IAuxIdent {
+public final class AuxIdentEps implements IAuxIdent {
 	
 	@Override
-	public abstsyn.IAbstSyn.IExpr toAbstrSyntax(Ident ident) {
+	public abstsyn.IAbstSyn.IExpr toAbstrSyntax(final Ident ident) {
 		return new abstsyn.implementation.ExprStore(ident, false);
 	}
 
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxIdentEps/>\n";
 	}
 }

@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxExprCmd;
 
-public class AuxExprCmdEps implements IAuxExprCmd {
+public final class AuxExprCmdEps implements IAuxExprCmd {
 
 	@Override
 	public abstsyn.IAbstSyn.IExpr toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class AuxExprCmdEps implements IAuxExprCmd {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxExprCmdEps />\n";
 	}
 }

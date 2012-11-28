@@ -3,10 +3,10 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IMonadicOpr;
 import token.classes.Operator;
 
-public class MonadicOpr implements IMonadicOpr {
-	private Operator operator;
+public final class MonadicOpr implements IMonadicOpr {
+	private final Operator operator;
 	
-	public MonadicOpr(Operator operator) {
+	public MonadicOpr(final Operator operator) {
 		this.operator = operator;
 	}
 
@@ -16,11 +16,11 @@ public class MonadicOpr implements IMonadicOpr {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<MonadicOpr>\n" +
-				operator.toString(indent + '\t') +
-				indent +
-				"</MonadicOpr>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<MonadicOpr>\n"
+				+ operator.toString(indent + '\t')
+				+ indent
+				+ "</MonadicOpr>\n";
 	}
 }

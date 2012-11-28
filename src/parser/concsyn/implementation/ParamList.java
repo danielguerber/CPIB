@@ -2,11 +2,11 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IParamList;
 
-public class ParamList implements IParamList {
-	private IAuxParamList auxParamList;
+public final class ParamList implements IParamList {
+	private final IAuxParamList auxParamList;
 	
-	public ParamList(IAuxParamList auxParamList) {
-		this.auxParamList=auxParamList;
+	public ParamList(final IAuxParamList auxParamList) {
+		this.auxParamList = auxParamList;
 	}
 
 	@Override
@@ -15,11 +15,11 @@ public class ParamList implements IParamList {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<ParamList>\n" +
-				auxParamList.toString(indent + '\t') +
-				indent +
-				"</ParamList>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<ParamList>\n"
+				+ auxParamList.toString(indent + '\t')
+				+ indent
+				+ "</ParamList>\n";
 	}
 }

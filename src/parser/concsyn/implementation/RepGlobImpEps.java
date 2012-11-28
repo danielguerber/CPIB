@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IRepGlobImp;
 
-public class RepGlobImpEps implements IRepGlobImp {
+public final class RepGlobImpEps implements IRepGlobImp {
 
 	@Override
 	public abstsyn.IAbstSyn.IGlobImp toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class RepGlobImpEps implements IRepGlobImp {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<RepGlobImpEps />\n";
 	}
 }

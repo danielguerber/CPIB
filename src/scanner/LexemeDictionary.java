@@ -13,7 +13,11 @@ import token.enums.Types;
 
 
 public final class LexemeDictionary {
-	
+
+    private LexemeDictionary() {
+        throw new AssertionError("Instantiating utility class...");
+    }
+    
 	private static TreeMap<String, Base> dictionary;
 	
 	public static TreeMap<String, Base> getDictionary() {
@@ -53,7 +57,7 @@ public final class LexemeDictionary {
 		dictionary.put("cor", new Operator.BoolOpr(Operators.COR));
 		dictionary.put("div", new Operator.MultOpr(Operators.DIV));
 		dictionary.put("else", new Base(Terminals.ELSE));
-		dictionary.put("false", new Literal(0,Types.BOOL));
+		dictionary.put("false", new Literal(0, Types.BOOL));
 		dictionary.put("fun", new Base(Terminals.FUN));
 		dictionary.put("global", new Base(Terminals.GLOBAL));
 		dictionary.put("if", new Base(Terminals.IF));
@@ -70,7 +74,7 @@ public final class LexemeDictionary {
 		dictionary.put("ref", new Mode.MechMode(Modes.REF));
 		dictionary.put("returns", new Base(Terminals.RETURNS));
 		dictionary.put("skip", new Base(Terminals.SKIP));
-		dictionary.put("true", new Literal(1,Types.BOOL));
+		dictionary.put("true", new Literal(1, Types.BOOL));
 		dictionary.put("var", new Mode.ChangeMode(Modes.VAR));
 		dictionary.put("while", new Base(Terminals.WHILE));
 	}

@@ -1,29 +1,31 @@
 package parser.concsyn.implementation;
 
-import abstsyn.IAbstSyn;
 import parser.concsyn.IConcSyn.ICpsDecl;
+import abstsyn.IAbstSyn;
 
-public class CpsDecl implements ICpsDecl {
-	private IDecl decl;
-	private IRepDecl repDecl;
+public final class CpsDecl implements ICpsDecl {
+	private final IDecl decl;
+	private final IRepDecl repDecl;
 	
-	public CpsDecl(IDecl decl, IRepDecl repDecl) {
-		this.decl=decl;
-		this.repDecl=repDecl;
+	public CpsDecl(final IDecl decl, final IRepDecl repDecl) {
+		this.decl = decl;
+		this.repDecl = repDecl;
 	}
 
 	@Override
 	public IAbstSyn.ICpsDecl toAbstrSyntax() {
-		return new abstsyn.implementation.CpsDecl(decl.toAbstrSyntax(), repDecl.toAbstrSyntax());
+		return new abstsyn.implementation.CpsDecl(
+		        decl.toAbstrSyntax(), 
+		        repDecl.toAbstrSyntax());
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<CpsDecl>\n" +
-				decl.toString(indent + '\t') +
-				repDecl.toString(indent + '\t') +
-				indent +
-				"</CpsDecl>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<CpsDecl>\n"
+				+ decl.toString(indent + '\t')
+				+ repDecl.toString(indent + '\t')
+				+ indent
+				+ "</CpsDecl>\n";
 	}
 }

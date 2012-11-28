@@ -5,13 +5,16 @@ import token.classes.Mode.ChangeMode;
 import token.classes.Mode.FlowMode;
 import abstsyn.IAbstSyn.IGlobImp;
 
-public class GlobImp implements IGlobImp {
-	private FlowMode flowMode;
-	private ChangeMode changeMode;
-	private Ident ident;
-	private IGlobImp globImp;
+public final class GlobImp implements IGlobImp {
+	private final FlowMode flowMode;
+	private final ChangeMode changeMode;
+	private final Ident ident;
+	private final IGlobImp globImp;
 	
-	public GlobImp(FlowMode flowMode, ChangeMode changeMode, Ident ident, IGlobImp globImp) {
+	public GlobImp(final FlowMode flowMode, 
+	        final ChangeMode changeMode, 
+	        final Ident ident, 
+	        final IGlobImp globImp) {
 		this.flowMode = flowMode;
 		this.changeMode = changeMode;
 		this.ident = ident;
@@ -19,14 +22,14 @@ public class GlobImp implements IGlobImp {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<GlobImp>\n" +
-				flowMode.toString(indent + '\t') +
-				changeMode.toString(indent + '\t') +
-				ident.toString(indent + '\t') +
-				globImp.toString(indent + '\t') +
-				indent +
-				"</GlobImp>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<GlobImp>\n"
+				+ flowMode.toString(indent + '\t')
+				+ changeMode.toString(indent + '\t')
+				+ ident.toString(indent + '\t')
+				+ globImp.toString(indent + '\t')
+				+ indent
+				+ "</GlobImp>\n";
 	}
 }

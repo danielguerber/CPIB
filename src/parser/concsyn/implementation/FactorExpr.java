@@ -2,10 +2,10 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IFactor;
 
-public class FactorExpr implements IFactor {
-	private IExpr expr;
+public final class FactorExpr implements IFactor {
+	private final IExpr expr;
 	
-	public FactorExpr(IExpr expr) {
+	public FactorExpr(final IExpr expr) {
 		this.expr = expr;
 	}
 
@@ -15,11 +15,11 @@ public class FactorExpr implements IFactor {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<FactorExpr>\n" +
-				expr.toString(indent + '\t') +
-				indent +
-				"</FactorExpr>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<FactorExpr>\n"
+				+ expr.toString(indent + '\t')
+				+ indent
+				+ "</FactorExpr>\n";
 	}
 }

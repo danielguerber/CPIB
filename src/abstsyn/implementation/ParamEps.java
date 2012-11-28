@@ -2,9 +2,9 @@ package abstsyn.implementation;
 
 import abstsyn.IAbstSyn.IParam;
 
-public class ParamEps implements IParam {
+public final class ParamEps implements IParam {
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<ParamEps/>\n";
 	}
 }

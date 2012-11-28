@@ -2,10 +2,10 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxLocCpsDecl;
 
-public class AuxLocCpsDecl implements IAuxLocCpsDecl {
-	private ICpsDecl cpsDecl;
-	public AuxLocCpsDecl(ICpsDecl cpsDecl) {
-		this.cpsDecl=cpsDecl;
+public final class AuxLocCpsDecl implements IAuxLocCpsDecl {
+	private final ICpsDecl cpsDecl;
+	public AuxLocCpsDecl(final ICpsDecl cpsDecl) {
+		this.cpsDecl = cpsDecl;
 	}
 	
 	@Override
@@ -14,11 +14,11 @@ public class AuxLocCpsDecl implements IAuxLocCpsDecl {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxLocCpsDecl>\n" +
-				cpsDecl.toString(indent + '\t') +
-				indent +
-				"</AuxLocCpsDecl>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxLocCpsDecl>\n"
+				+ cpsDecl.toString(indent + '\t')
+				+ indent
+				+ "</AuxLocCpsDecl>\n";
 	}
 }

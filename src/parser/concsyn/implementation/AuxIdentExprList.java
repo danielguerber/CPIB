@@ -3,17 +3,19 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxIdent;
 import token.classes.Ident;
 
-public class AuxIdentExprList implements IAuxIdent {
-	private IExprList exprList;
-	private IAuxGlobInitList auxGlobInitList;
+public final class AuxIdentExprList implements IAuxIdent {
+	private final IExprList exprList;
+	private final IAuxGlobInitList auxGlobInitList;
 	
-	public AuxIdentExprList(IExprList exprList, IAuxGlobInitList auxGlobInitList) {
+	public AuxIdentExprList(
+	        final IExprList exprList, 
+	        final IAuxGlobInitList auxGlobInitList) {
 		this.exprList = exprList;
 		this.auxGlobInitList = auxGlobInitList;
 	}
 
 	@Override
-	public abstsyn.IAbstSyn.IExpr toAbstrSyntax(Ident ident) {
+	public abstsyn.IAbstSyn.IExpr toAbstrSyntax(final Ident ident) {
 		return new abstsyn.implementation.ExprCall(
 				ident, 
 				exprList.toAbstrSyntax(),
@@ -21,12 +23,12 @@ public class AuxIdentExprList implements IAuxIdent {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxIdentExprList>\n" +
-				exprList.toString(indent + '\t') +
-				auxGlobInitList.toString(indent + '\t') +
-				indent +
-				"</AuxIdentExprList>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxIdentExprList>\n"
+				+ exprList.toString(indent + '\t')
+				+ auxGlobInitList.toString(indent + '\t')
+				+ indent
+				+ "</AuxIdentExprList>\n";
 	}
 }

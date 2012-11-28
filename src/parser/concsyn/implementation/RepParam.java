@@ -2,11 +2,11 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IRepParam;
 
-public class RepParam implements IRepParam {
-	private IParam param;
-	private IRepParam repParam;
+public final class RepParam implements IRepParam {
+	private final IParam param;
+	private final IRepParam repParam;
 	
-	public RepParam(IParam param, IRepParam repParam) {
+	public RepParam(final IParam param, final IRepParam repParam) {
 		this.param = param;
 		this.repParam = repParam;
 	}
@@ -17,12 +17,12 @@ public class RepParam implements IRepParam {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<RepParam>\n" +
-				param.toString(indent + '\t') +
-				repParam.toString(indent + '\t') +
-				indent +
-				"</RepParam>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<RepParam>\n"
+				+ param.toString(indent + '\t')
+				+ repParam.toString(indent + '\t')
+				+ indent
+				+ "</RepParam>\n";
 	}
 }

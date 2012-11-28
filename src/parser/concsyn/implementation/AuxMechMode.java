@@ -3,10 +3,10 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxMechMode;
 import token.classes.Mode.MechMode;
 
-public class AuxMechMode implements IAuxMechMode {
-	private MechMode mechMode;
+public final class AuxMechMode implements IAuxMechMode {
+	private final MechMode mechMode;
 	
-	public AuxMechMode(MechMode mechMode) {
+	public AuxMechMode(final MechMode mechMode) {
 		this.mechMode = mechMode;
 	}
 
@@ -16,11 +16,11 @@ public class AuxMechMode implements IAuxMechMode {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxMechMode>\n" +
-				mechMode.toString(indent + '\t') +
-				indent +
-				"</AuxMechMode>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxMechMode>\n"
+				+ mechMode.toString(indent + '\t')
+				+ indent
+				+ "</AuxMechMode>\n";
 	}
 }

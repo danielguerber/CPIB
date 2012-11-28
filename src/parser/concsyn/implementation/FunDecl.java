@@ -3,17 +3,22 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IFunDecl;
 import token.classes.Ident;
 
-public class FunDecl implements IFunDecl {
-	private Ident ident;
-	private IParamList paramList;
-	private IStoreDecl storeDecl;
-	private IAuxGlobImpList auxGlobImpList;
-	private IAuxLocCpsDecl auxLocCpsDecl;
-	private IBlockCmd blockCmd;
+public final class FunDecl implements IFunDecl {
+	private final Ident ident;
+	private final IParamList paramList;
+	private final IStoreDecl storeDecl;
+	private final IAuxGlobImpList auxGlobImpList;
+	private final IAuxLocCpsDecl auxLocCpsDecl;
+	private final IBlockCmd blockCmd;
 	
 	
-	public FunDecl(Ident ident, IParamList paramList, IStoreDecl storeDecl,
-			IAuxGlobImpList auxGlobImpList, IAuxLocCpsDecl auxLocCpsDecl, IBlockCmd blockCmd) {
+	public FunDecl(
+	        final Ident ident, 
+	        final IParamList paramList, 
+	        final IStoreDecl storeDecl,
+			final IAuxGlobImpList auxGlobImpList, 
+			final IAuxLocCpsDecl auxLocCpsDecl, 
+			final IBlockCmd blockCmd) {
 		this.ident = ident;
 		this.paramList = paramList;
 		this.storeDecl = storeDecl;
@@ -35,16 +40,16 @@ public class FunDecl implements IFunDecl {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<FunDecl>\n" +
-				ident.toString(indent + '\t') +
-				paramList.toString(indent + '\t') +
-				storeDecl.toString(indent + '\t') +
-				auxGlobImpList.toString(indent + '\t') +
-				auxLocCpsDecl.toString(indent + '\t') +
-				blockCmd.toString(indent + '\t') +
-				indent +
-				"</FunDecl>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<FunDecl>\n"
+				+ ident.toString(indent + '\t')
+				+ paramList.toString(indent + '\t')
+				+ storeDecl.toString(indent + '\t')
+				+ auxGlobImpList.toString(indent + '\t')
+				+ auxLocCpsDecl.toString(indent + '\t')
+				+ blockCmd.toString(indent + '\t')
+				+ indent
+				+ "</FunDecl>\n";
 	}
 }

@@ -8,5 +8,6 @@ public interface ITokenList {
 	// for reading the token list by the parser (2)
 	token.classes.Base nextToken();
 	// for displaying the token list
-	String toString();
+	@Override
+    String toString();
 }

@@ -4,7 +4,7 @@ import parser.concsyn.IConcSyn.IAuxMechMode;
 import token.classes.Mode.MechMode;
 import token.enums.Modes;
 
-public class AuxMechModeEps implements IAuxMechMode {
+public final class AuxMechModeEps implements IAuxMechMode {
 
 	@Override
 	public MechMode toAbstrSyntax() {
@@ -12,7 +12,7 @@ public class AuxMechModeEps implements IAuxMechMode {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxMechModeEps/>\n";
 	}
 }

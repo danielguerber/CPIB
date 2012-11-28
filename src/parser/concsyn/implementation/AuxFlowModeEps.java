@@ -4,7 +4,7 @@ import parser.concsyn.IConcSyn.IAuxFlowMode;
 import token.classes.Mode.FlowMode;
 import token.enums.Modes;
 
-public class AuxFlowModeEps implements IAuxFlowMode {
+public final class AuxFlowModeEps implements IAuxFlowMode {
 
 	@Override
 	public FlowMode toAbstrSyntax() {
@@ -12,7 +12,7 @@ public class AuxFlowModeEps implements IAuxFlowMode {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxFlowModeEps/>\n";
 	}
 }

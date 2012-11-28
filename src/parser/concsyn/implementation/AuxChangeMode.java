@@ -3,9 +3,9 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IAuxChangeMode;
 import token.classes.Mode.ChangeMode;
 
-public class AuxChangeMode implements IAuxChangeMode {
-	private ChangeMode changeMode;
-	public AuxChangeMode(ChangeMode changeMode) {
+public final class AuxChangeMode implements IAuxChangeMode {
+	private final ChangeMode changeMode;
+	public AuxChangeMode(final ChangeMode changeMode) {
 		this.changeMode = changeMode;
 	}
 	
@@ -15,11 +15,11 @@ public class AuxChangeMode implements IAuxChangeMode {
 	}
 
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxChangeMode>\n" +
-				changeMode.toString(indent + '\t') +
-				indent +
-				"</AuxChangeMode>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxChangeMode>\n"
+				+ changeMode.toString(indent + '\t')
+				+ indent
+				+ "</AuxChangeMode>\n";
 	}
 }

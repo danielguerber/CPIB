@@ -3,22 +3,22 @@ package token.classes;
 import token.enums.Terminals;
 import token.enums.Types;
 
-public class Type extends Base{
+public final class Type extends Base {
 
 	private final Types type;
 	
-	public Type(Types type) {
+	public Type(final Types type) {
 		this(type, -1);
 	}
 	
-	private Type(Types type, int line) {
+	private Type(final Types type, final int line) {
 		super(Terminals.TYPE, line);
 		this.type = type;
 	}
 	
-	private Type(Type type) {
+	private Type(final Type type) {
 		super(type);
-		this.type=type.type;
+		this.type = type.type;
 	}
 	
 	public Types getType() {
@@ -26,21 +26,21 @@ public class Type extends Base{
 	}
 	
 	@Override
-	public String toString() {
+    public String toString() {
 		return "(" + super.toString() + ", " + type.toString() + ")";
 	}
 	
 	@Override
-	public Object clone() {
+    public Object clone() {
 		return new Type(this);
 	}
 
-	public String toString(String indent) {
-		return indent +
-				"<Type type=\"" +
-				type.toString() +
-				"\" line=\"" +
-				super.getLine() + 
-				"\"/>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<Type type=\""
+				+ type.toString()
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
 	}
 }

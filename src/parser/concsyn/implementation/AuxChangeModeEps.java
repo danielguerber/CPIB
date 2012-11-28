@@ -4,7 +4,7 @@ import parser.concsyn.IConcSyn.IAuxChangeMode;
 import token.classes.Mode.ChangeMode;
 import token.enums.Modes;
 
-public class AuxChangeModeEps implements IAuxChangeMode {
+public final class AuxChangeModeEps implements IAuxChangeMode {
 
 	@Override
 	public ChangeMode toAbstrSyntax() {
@@ -12,7 +12,7 @@ public class AuxChangeModeEps implements IAuxChangeMode {
 	}
 	
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxChangeModeEps/>\n";
 	}
 	

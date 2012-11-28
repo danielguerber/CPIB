@@ -2,11 +2,11 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxParamList;
 
-public class AuxParamList implements IAuxParamList {
-	private IParam param;
-	private IRepParam repParam;
+public final class AuxParamList implements IAuxParamList {
+	private final IParam param;
+	private final IRepParam repParam;
 	
-	public AuxParamList(IParam param, IRepParam repParam) {
+	public AuxParamList(final IParam param, final IRepParam repParam) {
 		this.param = param;
 		this.repParam = repParam;
 	}
@@ -17,12 +17,12 @@ public class AuxParamList implements IAuxParamList {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<AuxParamList>\n" +
-				param.toString(indent + '\t') +
-				repParam.toString(indent + '\t') +
-				indent +
-				"</AuxParamList>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<AuxParamList>\n"
+				+ param.toString(indent + '\t')
+				+ repParam.toString(indent + '\t')
+				+ indent
+				+ "</AuxParamList>\n";
 	}
 }

@@ -9,126 +9,127 @@ import abstsyn.IAbstSyn;
 
 public interface IConcSyn {
 	
-	public interface IProgram extends IConcSyn{
-		public IAbstSyn.IProgram toAbstrSyntax();
+	public interface IProgram extends IConcSyn {
+		IAbstSyn.IProgram toAbstrSyntax();
 	};
-	public interface IDecl extends IConcSyn{
-		public IAbstSyn.IDecl toAbstrSyntax();
+	public interface IDecl extends IConcSyn {
+		IAbstSyn.IDecl toAbstrSyntax();
 	};
-	public interface IStoreDecl extends IDecl{
-		public IAbstSyn.IStoreDecl toAbstrSyntax();
+	public interface IStoreDecl extends IDecl {
+		@Override
+		IAbstSyn.IStoreDecl toAbstrSyntax();
 	};
-	public interface IFunDecl extends IDecl{};
-	public interface IProcDecl extends IDecl{};
-	public interface IAuxGlobCpsDecl extends IConcSyn{
-		public IAbstSyn.ICpsDecl toAbstrSyntax();
+	public interface IFunDecl extends IDecl { };
+	public interface IProcDecl extends IDecl { };
+	public interface IAuxGlobCpsDecl extends IConcSyn {
+		IAbstSyn.ICpsDecl toAbstrSyntax();
 	};
-	public interface IAuxLocCpsDecl extends IConcSyn{
-		public IAbstSyn.ICpsDecl toAbstrSyntax();
+	public interface IAuxLocCpsDecl extends IConcSyn {
+		IAbstSyn.ICpsDecl toAbstrSyntax();
 	};
-	public interface ICpsDecl extends IConcSyn{
-		public IAbstSyn.ICpsDecl toAbstrSyntax();
+	public interface ICpsDecl extends IConcSyn {
+		IAbstSyn.ICpsDecl toAbstrSyntax();
 	};
-	public interface IRepDecl extends IConcSyn{
-		public IAbstSyn.ICpsDecl toAbstrSyntax();
+	public interface IRepDecl extends IConcSyn {
+		IAbstSyn.ICpsDecl toAbstrSyntax();
 	};
-	public interface IParamList extends IConcSyn{
-		public IAbstSyn.IParam toAbstrSyntax();
+	public interface IParamList extends IConcSyn {
+		IAbstSyn.IParam toAbstrSyntax();
 	};
-	public interface IAuxParamList extends IConcSyn{
-		public IAbstSyn.IParam toAbstrSyntax();
+	public interface IAuxParamList extends IConcSyn {
+		IAbstSyn.IParam toAbstrSyntax();
 	};
-	public interface IRepParam extends IConcSyn{
-		public IAbstSyn.IParam toAbstrSyntax();
+	public interface IRepParam extends IConcSyn {
+		IAbstSyn.IParam toAbstrSyntax();
 	};
-	public interface IParam extends IConcSyn{
-		public IAbstSyn.IParam toAbstrSyntax(IRepParam repParam);
+	public interface IParam extends IConcSyn {
+		IAbstSyn.IParam toAbstrSyntax(IRepParam repParam);
 	};
-	public interface IAuxGlobImpList extends IConcSyn{
-		public IAbstSyn.IGlobImp toAbstrSyntax();
+	public interface IAuxGlobImpList extends IConcSyn {
+		IAbstSyn.IGlobImp toAbstrSyntax();
 	};
-	public interface IGlobImpList extends IConcSyn{
-		public IAbstSyn.IGlobImp toAbstrSyntax();
+	public interface IGlobImpList extends IConcSyn {
+		IAbstSyn.IGlobImp toAbstrSyntax();
 	};
-	public interface IRepGlobImp extends IConcSyn{
-		public IAbstSyn.IGlobImp toAbstrSyntax();
+	public interface IRepGlobImp extends IConcSyn {
+		IAbstSyn.IGlobImp toAbstrSyntax();
 	};
-	public interface IGlobImp extends IConcSyn{
-		public IAbstSyn.IGlobImp toAbstrSyntax(IRepGlobImp repGlobImp);
+	public interface IGlobImp extends IConcSyn {
+		IAbstSyn.IGlobImp toAbstrSyntax(IRepGlobImp repGlobImp);
 	};
-	public interface ICmd extends IConcSyn{
-		public IAbstSyn.ICmd toAbstrSyntax(IRepCmd repCmd);
+	public interface ICmd extends IConcSyn {
+		IAbstSyn.ICmd toAbstrSyntax(IAbstSyn.ICmd repCmd);
 	};
-	public interface IBlockCmd extends IConcSyn{
-		public IAbstSyn.ICmd toAbstrSyntax();
+	public interface IBlockCmd extends IConcSyn {
+		IAbstSyn.ICmd toAbstrSyntax();
 	};
-	public interface IAuxGlobInitList extends IConcSyn{
-		public IAbstSyn.IGlobInit toAbstrSyntax();
+	public interface IAuxGlobInitList extends IConcSyn {
+		IAbstSyn.IGlobInit toAbstrSyntax();
 	};
-	public interface IGlobInitList extends IConcSyn{
-		public IAbstSyn.IGlobInit toAbstrSyntax();
+	public interface IGlobInitList extends IConcSyn {
+		IAbstSyn.IGlobInit toAbstrSyntax();
 	};
-	public interface IRepCmd extends IConcSyn{
-		public IAbstSyn.ICmd toAbstrSyntax();
+	public interface IRepCmd extends IConcSyn {
+		IAbstSyn.ICmd toAbstrSyntax();
 	};
-	public interface IRepIdent extends IConcSyn{
-		public IAbstSyn.IGlobInit toAbstrSyntax();
+	public interface IRepIdent extends IConcSyn {
+		IAbstSyn.IGlobInit toAbstrSyntax();
 	};
-	public interface IExpr extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface IExpr extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
-	public interface IRepTerm1 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
+	public interface IRepTerm1 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
 	};
-	public interface ITerm1 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface ITerm1 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
-	public interface IRepTerm2 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
+	public interface IRepTerm2 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
 	};
-	public interface ITerm2 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface ITerm2 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
-	public interface IRepTerm3 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
+	public interface IRepTerm3 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
 	};
-	public interface ITerm3 extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface ITerm3 extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
-	public interface IRepFactor extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
+	public interface IRepFactor extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
 	};
-	public interface IFactor extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface IFactor extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
-	public interface IAuxIdent extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax(Ident ident);
+	public interface IAuxIdent extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax(Ident ident);
 	};
-	public interface IExprList extends IConcSyn{
-		public IAbstSyn.IExprList toAbstrSyntax();
+	public interface IExprList extends IConcSyn {
+		IAbstSyn.IExprList toAbstrSyntax();
 	};
-	public interface IAuxExprList extends IConcSyn{
-		public IAbstSyn.IExprList toAbstrSyntax();
+	public interface IAuxExprList extends IConcSyn {
+		IAbstSyn.IExprList toAbstrSyntax();
 	};
-	public interface IRepExpr extends IConcSyn{
-		public IAbstSyn.IExprList toAbstrSyntax();
+	public interface IRepExpr extends IConcSyn {
+		IAbstSyn.IExprList toAbstrSyntax();
 	};
-	public interface IMonadicOpr extends IConcSyn{
-		public Operator toAbstrSyntax();
+	public interface IMonadicOpr extends IConcSyn {
+		Operator toAbstrSyntax();
 	};
-	public interface IAuxMechMode extends IConcSyn{
-		public MechMode toAbstrSyntax();
+	public interface IAuxMechMode extends IConcSyn {
+		MechMode toAbstrSyntax();
 	};
-	public interface IAuxChangeMode extends IConcSyn{
-		public ChangeMode toAbstrSyntax();
+	public interface IAuxChangeMode extends IConcSyn {
+		ChangeMode toAbstrSyntax();
 	};
-	public interface IAuxFlowMode extends IConcSyn{
-		public FlowMode toAbstrSyntax();
+	public interface IAuxFlowMode extends IConcSyn {
+		FlowMode toAbstrSyntax();
 	};
-	public interface IAuxExprCmd extends IConcSyn{
-		public IAbstSyn.IExpr toAbstrSyntax();
+	public interface IAuxExprCmd extends IConcSyn {
+		IAbstSyn.IExpr toAbstrSyntax();
 	};
 	
-	public String toString(String indent);
+	String toString(String indent);
 	//public IAbstSyn toAbstrSyntax();
 }

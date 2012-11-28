@@ -2,9 +2,9 @@ package abstsyn.implementation;
 
 import abstsyn.IAbstSyn.ICmd;
 
-public class CmdEps implements ICmd {
+public final class CmdEps implements ICmd {
 	@Override
-	public String toString(String indent) {
+    public String toString(final String indent) {
 		return indent + "<CmdEps/>\n";
 	}
 }

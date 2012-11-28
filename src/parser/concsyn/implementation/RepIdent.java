@@ -1,14 +1,14 @@
 package parser.concsyn.implementation;
 
-import abstsyn.IAbstSyn.IGlobInit;
 import parser.concsyn.IConcSyn.IRepIdent;
 import token.classes.Ident;
+import abstsyn.IAbstSyn.IGlobInit;
 
-public class RepIdent implements IRepIdent {
-	private Ident ident;
-	private IRepIdent repIdent;
+public final class RepIdent implements IRepIdent {
+	private final Ident ident;
+	private final IRepIdent repIdent;
 	
-	public RepIdent(Ident ident, IRepIdent repIdent) {
+	public RepIdent(final Ident ident, final IRepIdent repIdent) {
 		this.ident = ident;
 		this.repIdent = repIdent;
 	}
@@ -21,12 +21,12 @@ public class RepIdent implements IRepIdent {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<RepIdent>\n" +
-				ident.toString(indent + '\t') +
-				repIdent.toString(indent + '\t') +
-				indent +
-				"</RepIdent>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<RepIdent>\n"
+				+ ident.toString(indent + '\t')
+				+ repIdent.toString(indent + '\t')
+				+ indent
+				+ "</RepIdent>\n";
 	}
 }

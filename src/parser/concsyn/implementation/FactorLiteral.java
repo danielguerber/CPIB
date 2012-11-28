@@ -3,10 +3,10 @@ package parser.concsyn.implementation;
 import parser.concsyn.IConcSyn.IFactor;
 import token.classes.Literal;
 
-public class FactorLiteral implements IFactor {
-	private Literal literal;
+public final class FactorLiteral implements IFactor {
+	private final Literal literal;
 	
-	public FactorLiteral(Literal literal) {
+	public FactorLiteral(final Literal literal) {
 		this.literal = literal;
 	}
 
@@ -16,11 +16,11 @@ public class FactorLiteral implements IFactor {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<FactorLiteral>\n" +
-				literal.toString(indent + '\t') +
-				indent +
-				"</FactorLiteral>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<FactorLiteral>\n"
+				+ literal.toString(indent + '\t')
+				+ indent
+				+ "</FactorLiteral>\n";
 	}
 }

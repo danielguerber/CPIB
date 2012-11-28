@@ -3,15 +3,15 @@ package abstsyn.implementation;
 import token.classes.Ident;
 import abstsyn.IAbstSyn.IDecl;
 
-public class ProcDecl implements IDecl {
-	private Ident ident;
-	private IParam param;
-	private IGlobImp globImp;
-	private ICpsDecl cpsDecl;
-	private ICmd cmd;
+public final class ProcDecl implements IDecl {
+	private final Ident ident;
+	private final IParam param;
+	private final IGlobImp globImp;
+	private final ICpsDecl cpsDecl;
+	private final ICmd cmd;
 	
-	public ProcDecl(Ident ident, IParam param,
-			IGlobImp globImp, ICpsDecl cpsDecl, ICmd cmd) {
+	public ProcDecl(final Ident ident, final IParam param,
+			final IGlobImp globImp, final ICpsDecl cpsDecl, final ICmd cmd) {
 		this.ident = ident;
 		this.param = param;
 		this.globImp = globImp;
@@ -20,15 +20,15 @@ public class ProcDecl implements IDecl {
 	}
 	
 	@Override
-	public String toString(String indent) {
-		return indent +
-				"<ProcDecl>\n" +
-				ident.toString(indent + '\t') +
-				param.toString(indent + '\t') +
-				globImp.toString(indent + '\t') +
-				cpsDecl.toString(indent + '\t') +
-				cmd.toString(indent + '\t') +
-				indent +
-				"</ProcDecl>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<ProcDecl>\n"
+				+ ident.toString(indent + '\t')
+				+ param.toString(indent + '\t')
+				+ globImp.toString(indent + '\t')
+				+ cpsDecl.toString(indent + '\t')
+				+ cmd.toString(indent + '\t')
+				+ indent
+				+ "</ProcDecl>\n";
 	}
 }

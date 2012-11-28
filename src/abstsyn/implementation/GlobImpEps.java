@@ -2,9 +2,9 @@ package abstsyn.implementation;
 
 import abstsyn.IAbstSyn.IGlobImp;
 
-public class GlobImpEps implements IGlobImp {
+public final class GlobImpEps implements IGlobImp {
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<GlobImpEps/>\n";
 	}
 }

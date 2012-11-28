@@ -6,19 +6,19 @@ import token.TokenList;
 import token.classes.Base;
 import token.enums.Terminals;
 
-public class Scanner {
+public final class Scanner {
 	
-	private StringBuffer lexAccu=null;
-	private long numAccu=0L;
+	private StringBuffer lexAccu = null;
+	private long numAccu = 0L;
 	private IState currentState;
-	private ITokenList tokens= new TokenList();
-	private int line=1;
+	private final ITokenList tokens = new TokenList();
+	private int line = 1;
 	
 	public StringBuffer getLexAccu() {
 		return lexAccu;
 	}
 
-	public void setLexAccu(StringBuffer lexAccu) {
+	public void setLexAccu(final StringBuffer lexAccu) {
 		this.lexAccu = lexAccu;
 	}
 
@@ -26,7 +26,7 @@ public class Scanner {
 		return numAccu;
 	}
 
-	public void setNumAccu(long numAccu) {
+	public void setNumAccu(final long numAccu) {
 		this.numAccu = numAccu;
 	}
 	
@@ -34,7 +34,7 @@ public class Scanner {
 		return currentState;
 	}
 	
-	public void setState(IState state) {
+	public void setState(final IState state) {
 		currentState = state;
 	}
 	
@@ -42,7 +42,7 @@ public class Scanner {
 		return tokens;
 	}
 	
-	public void addToken(Base token) {
+	public void addToken(final Base token) {
 		tokens.add(token);
 	}
 	
@@ -54,25 +54,30 @@ public class Scanner {
 		line++;
 	}
 	
-	public static ITokenList scan(CharSequence cs) throws LexicalError {
+	public static ITokenList scan(final CharSequence cs) throws LexicalError {
 		assert cs.length() == 0 || cs.charAt(cs.length() - 1) == '\n';
-		Scanner scanner = new Scanner();
+		final Scanner scanner = new Scanner();
 		scanner.setState(new StartState());
-		int i= 0;
+		int i = 0;
 		while (i < cs.length()) {
-		    char c= cs.charAt(i);
+		    final char c = cs.charAt(i);
 			if (isLetter(c)) {
-				i+=scanner.getState().handeLetter(c, scanner);
+				i += scanner.getState().handeLetter(c, scanner);
 			} else if (Character.isDigit(c)) {
-				i+=scanner.getState().handleDigit(c, scanner);
-			} else if (LexemeDictionary.getDictionary().containsKey(Character.toString(c)) || c == '/') {
-				i+=scanner.getState().handleSymbol(c, scanner);
+				i += scanner.getState().handleDigit(c, scanner);
+			} else if (LexemeDictionary.getDictionary().containsKey(
+			            Character.toString(c)) 
+			        || c == '/') {
+				i += scanner.getState().handleSymbol(c, scanner);
 			} else if (Character.isWhitespace(c)) {
-				if (c=='\n')
+				if (c == '\n') {
 					scanner.nextLine();
-				i+=scanner.getState().handleWhitespace(scanner);
+				}
+				i += scanner.getState().handleWhitespace(scanner);
 			} else {
-				throw new LexicalError("Illegar character: " + c, scanner.getLine());
+				throw new LexicalError(
+				        "Illegar character: " + c,
+				        scanner.getLine());
 			}
 					
 		} 
@@ -81,7 +86,7 @@ public class Scanner {
 		return scanner.getTokens();
 	}
 	
-	private static boolean isLetter(Character c) {
+	private static boolean isLetter(final Character c) {
 		return ('A' <= c &&  c <= 'Z') || ('a' <= c &&  c <= 'z');
 	}
 	

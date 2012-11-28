@@ -6,12 +6,12 @@ import token.enums.Terminals;
 public abstract class Operator extends Base {
 	private final Operators operator;
 	
-	private Operator(Terminals terminal, Operators operator) {
+	private Operator(final Terminals terminal, final Operators operator) {
 		super(terminal);
 		this.operator = operator;
 	}
 	
-	private Operator(Operator operator) {
+	private Operator(final Operator operator) {
 		super(operator);
 		this.operator = operator.operator;
 	}
@@ -25,72 +25,72 @@ public abstract class Operator extends Base {
 		return "(" + super.toString() + ", " + operator.toString() + ")";
 	}
 	
-	public static class RelOpr extends Operator {
-		public RelOpr( Operators operator) {
+	public static final class RelOpr extends Operator {
+		public RelOpr(final Operators operator) {
 			super(Terminals.RELOPR, operator);
 		}
 		
-		private RelOpr(Operator operator) {
+		private RelOpr(final Operator operator) {
 			super(operator);
 		}
 		
 		@Override
-		public Object clone() {
+        public Object clone() {
 			return new RelOpr(this);
 		}
 	}
 	
-	public static class AddOpr extends Operator {
-		public AddOpr( Operators operator) {
+	public static final class AddOpr extends Operator {
+		public AddOpr(final Operators operator) {
 			super(Terminals.ADDOPR, operator);
 		}
 		
-		private AddOpr(Operator operator) {
+		private AddOpr(final Operator operator) {
 			super(operator);
 		}
 		
 		@Override
-		public Object clone() {
+        public Object clone() {
 			return new AddOpr(this);
 		}
 	}
 	
-	public static class MultOpr extends Operator {
-		public MultOpr( Operators operator) {
+	public static final class MultOpr extends Operator {
+		public MultOpr(final Operators operator) {
 			super(Terminals.MULTOPR, operator);
 		}
 		
-		private MultOpr(Operator operator) {
+		private MultOpr(final Operator operator) {
 			super(operator);
 		}
 		
 		@Override
-		public Object clone() {
+        public Object clone() {
 			return new MultOpr(this);
 		}
 	}
 	
-	public static class BoolOpr extends Operator {
-		public BoolOpr( Operators operator) {
+	public static final class BoolOpr extends Operator {
+		public BoolOpr(final Operators operator) {
 			super(Terminals.BOOLOPR, operator);
 		}
 		
-		private BoolOpr(Operator operator) {
+		private BoolOpr(final Operator operator) {
 			super(operator);
 		}
 		
 		@Override
-		public Object clone() {
+        public Object clone() {
 			return new BoolOpr(this);
 		}
 	}
 
-	public String toString(String indent) {
-		return indent +
-				"<Operator operator=\"" +
-				this.operator.toString() + 
-				"\" line=\"" +
-				super.getLine() +
-				"\"/>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<Operator operator=\""
+				+ this.operator.toString()
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
 	}
 }

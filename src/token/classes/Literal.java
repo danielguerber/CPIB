@@ -3,21 +3,21 @@ package token.classes;
 import token.enums.Terminals;
 import token.enums.Types;
 
-public class Literal extends Base {
+public final class Literal extends Base {
 	private final int literal;
 	private final Types type;
 	
-	public Literal(int literal, Types type) {
-		this(literal,type,-1);
+	public Literal(final int literal, final Types type) {
+		this(literal, type, -1);
 	}
 	
-	public Literal(int literal, Types type, int line) {
+	public Literal(final int literal, final Types type, final int line) {
 		super(Terminals.LITERAL, line);
 		this.literal = literal;
 		this.type = type;
 	}
 	
-	private Literal(Literal literal) {
+	private Literal(final Literal literal) {
 		super(literal);
 		this.literal = literal.literal;
 		this.type = literal.type;
@@ -33,25 +33,28 @@ public class Literal extends Base {
 		case INT32:
 			return "(" + super.toString() + ", IntValue " + literal + ")";
 		case BOOL:
-			return "(" + super.toString() + ", BoolValue " + ((literal==0) ? "false" : "true") + ")";
+			return "(" + super.toString() + ", BoolValue "
+			    + (literal != 0) + ")";
 		default:
-			return "(" + super.toString() + ", " + type.toString() + " " + literal + ")";
+			return "(" + super.toString() + ", "
+			    + type.toString() + " " + literal + ")";
 		}
 	}
 	
-	public Object clone() {
+	@Override
+    public Object clone() {
 		return new Literal(this);
 	}
 
-	public String toString(String indent) {
-		return indent +
-				"<Literal literal=\"" +
-				this.literal +
-				"\" type=\"" +
-				this.type.toString() +
-				"\" line=\"" +
-				super.getLine() + 
-				"\"/>\n";
+	public String toString(final String indent) {
+		return indent
+				+ "<Literal literal=\""
+				+ this.literal
+				+ "\" type=\""
+				+ this.type.toString()
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
 	}
 	
 }

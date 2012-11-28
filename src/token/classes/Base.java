@@ -4,26 +4,26 @@ import token.enums.Terminals;
 
 public class Base {
 	private final Terminals terminal;
-	private int line=-1;
+	private int line = -1;
 	
-	public int getLine() {
+	public final int getLine() {
 		return line;
 	}
 
-	public void setLine(int line) {
+	public final void setLine(final int line) {
 		this.line = line;
 	}
 	
-	public Base(Terminals terminal) {
+	public Base(final Terminals terminal) {
 		this.terminal = terminal;
 	}
 	
-	Base(Terminals terminal,int line) {
+	Base(final Terminals terminal, final int line) {
 		this(terminal);
-		this.line=line;
+		this.line = line;
 	}
 	
-	Base(Base base) {
+	Base(final Base base) {
 		this(base.terminal, base.line);
 	}
 
@@ -31,11 +31,15 @@ public class Base {
 		return terminal;
 	}
 	
-	public String toString() {
+	//CHECKSTYLE:OFF Has to be extended!
+	@Override
+    public String toString() {
 		return terminal.toString();
 	}
 	
-	public Object clone() {
+	@Override
+    public Object clone() {
 		return new Base(this);
 	}
+	//CHECKSTYLE.ON
 }

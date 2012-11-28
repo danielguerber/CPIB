@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IRepExpr;
 
-public class RepExprEps implements IRepExpr {
+public final class RepExprEps implements IRepExpr {
 
 	@Override
 	public abstsyn.IAbstSyn.IExprList toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class RepExprEps implements IRepExpr {
 	}
 
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<RepExprEps/>\n";
 	}
 }

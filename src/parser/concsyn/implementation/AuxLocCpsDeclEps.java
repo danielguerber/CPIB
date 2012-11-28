@@ -2,7 +2,7 @@ package parser.concsyn.implementation;
 
 import parser.concsyn.IConcSyn.IAuxLocCpsDecl;
 
-public class AuxLocCpsDeclEps implements IAuxLocCpsDecl {
+public final class AuxLocCpsDeclEps implements IAuxLocCpsDecl {
 
 	@Override
 	public abstsyn.IAbstSyn.ICpsDecl toAbstrSyntax() {
@@ -10,7 +10,7 @@ public class AuxLocCpsDeclEps implements IAuxLocCpsDecl {
 	}
 
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxLocCpsDeclEps/>\n";
 	}
 }

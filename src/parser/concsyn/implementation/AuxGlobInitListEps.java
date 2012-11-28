@@ -1,9 +1,9 @@
 package parser.concsyn.implementation;
 
-import abstsyn.IAbstSyn.IGlobInit;
 import parser.concsyn.IConcSyn.IAuxGlobInitList;
+import abstsyn.IAbstSyn.IGlobInit;
 
-public class AuxGlobInitListEps implements IAuxGlobInitList {
+public final class AuxGlobInitListEps implements IAuxGlobInitList {
 
 	@Override
 	public IGlobInit toAbstrSyntax() {
@@ -11,7 +11,7 @@ public class AuxGlobInitListEps implements IAuxGlobInitList {
 	}
 
 	@Override
-	public String toString(String indent) {
+	public String toString(final String indent) {
 		return indent + "<AuxGlobInitListEps/>\n";
 	}
 }
