@@ -7,7 +7,7 @@ import ch.fhnw.cpib.dgu.scanner.Scanner;
 import ch.fhnw.cpib.dgu.token.classes.Base;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 
-public final class LetterState implements IState {
+final class LetterState implements IState {
 
 	@Override
 	public int handeLetter(final char c, final Scanner context) 

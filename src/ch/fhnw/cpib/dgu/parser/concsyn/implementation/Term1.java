@@ -13,7 +13,7 @@ public final class Term1 implements ITerm1 {
 
 	@Override
 	public ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr toAbstrSyntax() {
-		return repTerm2.toAbstrSyntax(term2.toAbstrSyntax());
+		return repTerm2.toAbstrSyntax(term2.toAbstrSyntax(), null);
 	}
 	
 	@Override

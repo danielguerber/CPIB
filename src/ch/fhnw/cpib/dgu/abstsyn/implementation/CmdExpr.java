@@ -25,4 +25,9 @@ public final class CmdExpr implements ICmd {
 				+ indent
 				+ "</CmdExpr>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return targetExpr.getLine();
+	}
 }

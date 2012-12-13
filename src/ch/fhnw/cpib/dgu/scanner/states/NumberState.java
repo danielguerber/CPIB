@@ -6,7 +6,7 @@ import ch.fhnw.cpib.dgu.scanner.Scanner;
 import ch.fhnw.cpib.dgu.token.classes.Literal;
 import ch.fhnw.cpib.dgu.token.enums.Types;
 
-public final class NumberState implements IState {
+final class NumberState implements IState {
     private static final int NUMBER_BASE = 10;
     
 	@Override

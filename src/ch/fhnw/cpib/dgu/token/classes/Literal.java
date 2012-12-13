@@ -27,6 +27,10 @@ public final class Literal extends Base {
 		return literal;
 	}
 	
+	public Types getType() {
+	    return type;
+	}
+	
 	@Override
 	public String toString() {
 		switch (type) {
@@ -34,7 +38,7 @@ public final class Literal extends Base {
 			return "(" + super.toString() + ", IntValue " + literal + ")";
 		case BOOL:
 			return "(" + super.toString() + ", BoolValue "
-			    + (literal != 0) + ")";
+			    + String.valueOf(literal != 0) + ")";
 		default:
 			return "(" + super.toString() + ", "
 			    + type.toString() + " " + literal + ")";

@@ -1,6 +1,9 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IDecl;
+import ch.fhnw.cpib.dgu.context.Function;
+import ch.fhnw.cpib.dgu.context.Routine;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 
 public final class FunDecl implements IDecl {
@@ -38,4 +41,49 @@ public final class FunDecl implements IDecl {
 				+ indent
 				+ "</FunDecl>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return ident.getLine();
+	}
+
+    @Override
+    public void checkDeclaration() throws ContextError {
+        Function function = new Function(
+                ident.getIdent().toString(),
+                returnDecl.getType());
+        if (!IMLCompiler.getRoutineTable().addRoutine(function)) {
+            throw new ContextError("Routine already declared: "
+                    + ident.getIdent(), ident.getLine());
+        }
+        
+        param.check(function);
+    }
+
+    @Override
+    public void check(final boolean isGlobal) throws ContextError {
+        if (!isGlobal) {
+            throw new ContextError(
+                    "Function declarations are only allowed globally!", 
+                    ident.getLine());
+        }
+        
+        Routine routine = IMLCompiler.getRoutineTable().getRoutine(
+                ident.getIdent().toString());
+        IMLCompiler.setScope(routine.getScope());
+        
+        returnDecl.check();
+        globImp.check();
+        cpsDecl.check(false);
+        cmd.check();
+        
+        if (!routine.getScope().getStoreTable().getStore(
+                returnDecl.getIdent()).isInitialized()) {
+            throw new ContextError(
+                    "Return value never initialized! Function: "
+                    + ident.getIdent(), ident.getLine());
+        }
+        
+        IMLCompiler.setScope(null);
+    }
 }

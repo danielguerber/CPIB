@@ -20,4 +20,9 @@ public final class CmdOut implements ICmd {
 				+ indent
 				+ "</CmdOut>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return expr.getLine();
+	}
 }

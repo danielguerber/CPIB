@@ -1,8 +1,11 @@
 package ch.fhnw.cpib.dgu.parser.concsyn.implementation;
 
+import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn;
 import ch.fhnw.cpib.dgu.abstsyn.implementation.ExprDyadic;
 import ch.fhnw.cpib.dgu.parser.concsyn.IConcSyn.IRepTerm2;
+import ch.fhnw.cpib.dgu.token.classes.Operator.BoolOpr;
 import ch.fhnw.cpib.dgu.token.classes.Operator.RelOpr;
+import ch.fhnw.cpib.dgu.token.enums.Operators;
 
 public final class RepTerm2 implements IRepTerm2 {
 	private final RelOpr relOpr;
@@ -18,13 +21,21 @@ public final class RepTerm2 implements IRepTerm2 {
 		this.repTerm2 = repTerm2;
 	}
 
-	//TODO: Check if CAND should be inserted here
 	@Override
 	public ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr toAbstrSyntax(
-	        final ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr expr) {
-		final ExprDyadic exprDya 
-		= new ExprDyadic(relOpr, expr, term2.toAbstrSyntax());
-		return repTerm2.toAbstrSyntax(exprDya);
+	        final IAbstSyn.IExpr relExpr,
+	        final IAbstSyn.IExpr boolExpr) {
+	    
+	    final IAbstSyn.IExpr term2Abst = term2.toAbstrSyntax();
+		ExprDyadic exprDya 
+		    = new ExprDyadic(relOpr, relExpr, term2Abst);
+		
+		if (boolExpr != null) {
+		    BoolOpr boolOpr = new BoolOpr(Operators.CAND);
+		    exprDya = new ExprDyadic(boolOpr, boolExpr, exprDya);
+		}
+		
+		return repTerm2.toAbstrSyntax(term2Abst, exprDya);
 	}
 	
 	@Override

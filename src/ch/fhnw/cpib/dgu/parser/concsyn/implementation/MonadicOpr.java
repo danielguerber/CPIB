@@ -1,17 +1,17 @@
 package ch.fhnw.cpib.dgu.parser.concsyn.implementation;
 
 import ch.fhnw.cpib.dgu.parser.concsyn.IConcSyn.IMonadicOpr;
-import ch.fhnw.cpib.dgu.token.classes.Operator;
+import ch.fhnw.cpib.dgu.token.classes.Base;
 
 public final class MonadicOpr implements IMonadicOpr {
-	private final Operator operator;
+	private final Base operator;
 	
-	public MonadicOpr(final Operator operator) {
+	public MonadicOpr(final Base operator) {
 		this.operator = operator;
 	}
 
 	@Override
-	public Operator toAbstrSyntax() {
+	public Base toAbstrSyntax() {
 		return operator;
 	}
 	

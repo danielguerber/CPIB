@@ -39,7 +39,7 @@ public abstract class Mode extends Base {
 			return new ChangeMode(this);
 		}
 
-		public Object toString(final String indent) {
+		public String toString(final String indent) {
 			return indent
 				+ 	"<ChangeMode mode=\""
 				+ 	super.getMode().toString()

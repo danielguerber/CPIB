@@ -29,4 +29,9 @@ public final class CmdIf implements ICmd {
 				+ indent
 				+ "</CmdIf>\n";
 	}
+	
+	@Override
+    public int getLine() {
+        return expr.getLine();
+    }
 }

@@ -41,5 +41,12 @@ public class Base {
     public Object clone() {
 		return new Base(this);
 	}
-	//CHECKSTYLE.ON
+	
+    public String toString(String indent) {
+        return indent
+                + "<Base terminal=\""
+                + terminal.toString()
+                + "\"/>";
+    }
+    //CHECKSTYLE.ON
 }

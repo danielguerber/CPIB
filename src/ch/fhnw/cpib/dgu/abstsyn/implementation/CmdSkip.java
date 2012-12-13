@@ -17,4 +17,9 @@ public final class CmdSkip implements ICmd {
 				+ indent
 				+ "</CmdSkip>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return -1;
+	}
 }

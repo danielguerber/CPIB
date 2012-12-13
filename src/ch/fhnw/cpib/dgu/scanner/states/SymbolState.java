@@ -6,7 +6,7 @@ import ch.fhnw.cpib.dgu.scanner.LexicalError;
 import ch.fhnw.cpib.dgu.scanner.Scanner;
 import ch.fhnw.cpib.dgu.token.classes.Base;
 
-public final class SymbolState implements IState {
+final class SymbolState implements IState {
 
 	@Override
 	public int handeLetter(final char c, final Scanner context)

@@ -1,8 +1,8 @@
 package ch.fhnw.cpib.dgu.parser.concsyn;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn;
+import ch.fhnw.cpib.dgu.token.classes.Base;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
-import ch.fhnw.cpib.dgu.token.classes.Operator;
 import ch.fhnw.cpib.dgu.token.classes.Mode.ChangeMode;
 import ch.fhnw.cpib.dgu.token.classes.Mode.FlowMode;
 import ch.fhnw.cpib.dgu.token.classes.Mode.MechMode;
@@ -85,7 +85,9 @@ public interface IConcSyn {
 		IAbstSyn.IExpr toAbstrSyntax();
 	};
 	public interface IRepTerm2 extends IConcSyn {
-		IAbstSyn.IExpr toAbstrSyntax(IAbstSyn.IExpr expr);
+		IAbstSyn.IExpr toAbstrSyntax(
+		        IAbstSyn.IExpr relExpr, 
+		        IAbstSyn.IExpr boolExpr);
 	};
 	public interface ITerm2 extends IConcSyn {
 		IAbstSyn.IExpr toAbstrSyntax();
@@ -115,7 +117,7 @@ public interface IConcSyn {
 		IAbstSyn.IExprList toAbstrSyntax();
 	};
 	public interface IMonadicOpr extends IConcSyn {
-		Operator toAbstrSyntax();
+		Base toAbstrSyntax();
 	};
 	public interface IAuxMechMode extends IConcSyn {
 		MechMode toAbstrSyntax();

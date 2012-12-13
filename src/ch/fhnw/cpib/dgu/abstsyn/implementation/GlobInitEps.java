@@ -7,4 +7,9 @@ public final class GlobInitEps implements IGlobInit {
 	public String toString(final String indent) {
 		return indent + "<GlobInitEps/>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return -1;
+	}
 }

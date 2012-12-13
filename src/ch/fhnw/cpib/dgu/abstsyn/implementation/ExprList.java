@@ -20,4 +20,9 @@ public final class ExprList implements IExprList {
 				+ indent
 				+ "</ExprList>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return expr.getLine();
+	}
 }

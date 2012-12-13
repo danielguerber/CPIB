@@ -7,4 +7,9 @@ public final class CmdEps implements ICmd {
     public String toString(final String indent) {
 		return indent + "<CmdEps/>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return -1;
+	}
 }

@@ -25,4 +25,9 @@ public final class CmdWhile implements ICmd {
 				+ indent
 				+ "</CmdWhile>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return expr.getLine();
+	}
 }

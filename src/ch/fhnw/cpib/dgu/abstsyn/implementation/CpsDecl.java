@@ -20,4 +20,21 @@ public final class CpsDecl implements ICpsDecl {
 				+ indent
 				+ "</CpsDecl>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return decl.getLine();
+	}
+
+    @Override
+    public void check(final boolean isGlobal) throws ContextError {
+        decl.check(isGlobal);
+        cpsDecl.check(isGlobal);
+    }
+
+    @Override
+    public void checkDeclaration() throws ContextError {
+        decl.checkDeclaration();
+        cpsDecl.checkDeclaration();
+    }
 }

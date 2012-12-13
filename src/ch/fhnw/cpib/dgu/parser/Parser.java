@@ -622,10 +622,10 @@ public final class Parser {
 		switch (terminal) {
 		case NOT:
 			System.out.println("monadicOpr ::= NOT");
-			return new MonadicOpr((Operator) consume(Terminals.NOT));
+			return new MonadicOpr(consume(Terminals.NOT));
 		case ADDOPR:
 			System.out.println("monadicOpr ::= ADDOPR");
-			return new MonadicOpr((Operator) consume(Terminals.ADDOPR));
+			return new MonadicOpr(consume(Terminals.ADDOPR));
 		default:
 			throw new GrammarError("terminal expected: NOT | ADDOPR "
 					+ ", terminal found: " + terminal, token.getLine());

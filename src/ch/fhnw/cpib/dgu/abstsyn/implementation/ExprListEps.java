@@ -7,4 +7,9 @@ public final class ExprListEps implements IExprList {
 	public String toString(final String indent) {
 		return indent + "<ExprListEps/>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return -1;
+	}
 }

@@ -21,4 +21,9 @@ public final class GlobInit implements IGlobInit {
 				+ indent
 				+ "</GlobInit>\n";
 	}
+	
+	@Override
+	public int getLine() {
+	    return ident.getLine();
+	}
 }
