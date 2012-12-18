@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.dgu;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn;
+import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ContextError;
 import ch.fhnw.cpib.dgu.context.RoutineTable;
 import ch.fhnw.cpib.dgu.context.Scope;
 import ch.fhnw.cpib.dgu.context.StoreTable;
@@ -39,7 +40,7 @@ public final class IMLCompiler {
     }
     
     public static synchronized void compile(final String imlCode) 
-            throws LexicalError, GrammarError {
+            throws LexicalError, GrammarError, ContextError {
         System.out.println("Scanning:");
         final ITokenList tokenList = Scanner.scan(imlCode);
         System.out.println("Success!");
@@ -56,5 +57,8 @@ public final class IMLCompiler {
         System.out.println("Success!");
         System.out.println("\nAbstract syntax tree:");
         System.out.println(abstSyn.toString(""));
+        System.out.println("\nContext check:\n");
+        abstSyn.check();
+        System.out.println("Success!");
     }
 }

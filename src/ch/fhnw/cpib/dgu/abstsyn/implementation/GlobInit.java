@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import java.util.Set;
+
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IGlobInit;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 
@@ -26,4 +28,17 @@ public final class GlobInit implements IGlobInit {
 	public int getLine() {
 	    return ident.getLine();
 	}
+
+    @Override
+    public Set<String> check(final Set<String> initList) throws ContextError {
+        if (initList.contains(ident.getIdent().toString())) {
+            throw new ContextError(
+                    "Global init already declared!" 
+                        + " Ident: " + ident.getIdent(), 
+                    ident.getLine());
+        } else {
+            initList.add(ident.getIdent().toString());
+        }
+        return globInit.check(initList);
+    }
 }

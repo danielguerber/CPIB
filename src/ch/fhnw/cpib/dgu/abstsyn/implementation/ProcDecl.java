@@ -44,12 +44,15 @@ public final class ProcDecl implements IDecl {
     public void checkDeclaration() throws ContextError {
         Procedure procedure = new Procedure(
                 ident.getIdent().toString());
+        IMLCompiler.setScope(procedure.getScope());
+        
         if (!IMLCompiler.getRoutineTable().addRoutine(procedure)) {
             throw new ContextError("Ident already declared: "
                     + ident.getIdent(), ident.getLine());
         }
         
         param.check(procedure);
+        IMLCompiler.setScope(null);
     }
 
     @Override
@@ -64,9 +67,11 @@ public final class ProcDecl implements IDecl {
                 ident.getIdent().toString());
         IMLCompiler.setScope(symbol.getScope());
         
-        globImp.check();
+        globImp.check(symbol);
         cpsDecl.check(false);
-        cmd.check();
+        cmd.check(false);
+        param.checkInit();
+        globImp.checkInit();
         
         IMLCompiler.setScope(null);
     }

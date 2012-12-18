@@ -31,8 +31,8 @@ public final class ExprMonadic implements IExpr {
 	}
 	
 	@Override
-	public Types check() throws ContextError {
-	    Types type = expr.check();
+	public Types checkR() throws ContextError {
+	    Types type = expr.checkR();
         
 	    if (operator.getTerminal() == Terminals.ADDOPR) {
 	        switch(((AddOpr) operator).getOperator()) {
@@ -65,7 +65,7 @@ public final class ExprMonadic implements IExpr {
 	}
 	
 	@Override
-    public Types checkAssign() throws ContextError {
+    public Types checkL(final boolean canInit) throws ContextError {
         throw new ContextError(
                 "Found operator " 
                 + operator.getTerminal() 

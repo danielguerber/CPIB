@@ -26,12 +26,12 @@ private final Literal literal;
     }
 
     @Override
-    public Types check() throws ContextError {
+    public Types checkR() throws ContextError {
         return literal.getType();
     }
     
     @Override
-    public Types checkAssign() throws ContextError {
+    public Types checkL(final boolean canInit) throws ContextError {
         throw new ContextError(
                 "Found literal " 
                 + literal.getLiteral() 

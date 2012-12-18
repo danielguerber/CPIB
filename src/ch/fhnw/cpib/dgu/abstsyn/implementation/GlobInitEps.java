@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import java.util.Set;
+
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IGlobInit;
 
 public final class GlobInitEps implements IGlobInit {
@@ -12,4 +14,9 @@ public final class GlobInitEps implements IGlobInit {
 	public int getLine() {
 	    return -1;
 	}
+
+    @Override
+    public Set<String> check(final Set<String> initList) throws ContextError {
+        return initList;
+    }
 }

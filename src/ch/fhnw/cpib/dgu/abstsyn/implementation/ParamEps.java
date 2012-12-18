@@ -16,4 +16,7 @@ public final class ParamEps implements IParam {
 
     @Override
     public void check(final Routine routine) throws ContextError { }
+
+    @Override
+    public void checkInit() throws ContextError { }
 }

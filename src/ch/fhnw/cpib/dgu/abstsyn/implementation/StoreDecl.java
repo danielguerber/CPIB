@@ -73,7 +73,7 @@ public final class StoreDecl implements IStoreDecl {
     public Store check() throws ContextError {
         Store store = getStore();
         
-        if (!IMLCompiler.getGlobalStoreTable().addStore((getStore()))) {
+        if (!IMLCompiler.getScope().getStoreTable().addStore(store)) {
             throw new ContextError("Ident already declared: "
                     + ident.getIdent(), ident.getLine());
         }

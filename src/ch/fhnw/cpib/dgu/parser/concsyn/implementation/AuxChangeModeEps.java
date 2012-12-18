@@ -8,6 +8,7 @@ public final class AuxChangeModeEps implements IAuxChangeMode {
 
 	@Override
 	public ChangeMode toAbstrSyntax() {
+	    //TODO: check change mode for params
 		return new ChangeMode(Modes.CONST);
 	}
 	

@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import java.sql.Types;
+
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICmd;
 
 public final class CmdIf implements ICmd {
@@ -33,5 +35,18 @@ public final class CmdIf implements ICmd {
 	@Override
     public int getLine() {
         return expr.getLine();
+    }
+
+    @Override
+    public void check(final boolean canInit) throws ContextError {
+        if (!expr.checkR().equals(Types.BOOLEAN)) {
+            throw new ContextError(
+                    "IF condition must be a boolean! ",
+                     expr.getLine());
+        }
+        
+        ifCmd.check(canInit);
+        elseCmd.check(canInit);
+        repCmd.check(canInit);
     }
 }

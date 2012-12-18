@@ -36,7 +36,8 @@ public final class Program implements IProgram {
     public void check() throws ContextError {
         cpsDecl.checkDeclaration();
         cpsDecl.check(true);
-        IMLCompiler.setScope(new Scope(IMLCompiler.getGlobalStoreTable()));
-        cmd.check();
+        IMLCompiler.setScope(
+                new Scope(IMLCompiler.getGlobalStoreTable().clone()));
+        cmd.check(false);
     }
 }

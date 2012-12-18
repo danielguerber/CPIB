@@ -1,5 +1,9 @@
 package ch.fhnw.cpib.dgu.abstsyn;
 
+import java.util.List;
+import java.util.Set;
+
+import ch.fhnw.cpib.dgu.context.Parameter;
 import ch.fhnw.cpib.dgu.context.Routine;
 import ch.fhnw.cpib.dgu.context.Store;
 import ch.fhnw.cpib.dgu.token.enums.Types;
@@ -24,20 +28,31 @@ public interface IAbstSyn {
     }
 	
 	public interface ICmd extends IAbstSyn {
-	    void check();
+	    void check(boolean canInit) throws ContextError;
 	}
 	public interface IParam extends IAbstSyn {
 	    void check(Routine routine) throws ContextError;
+	    void checkInit() throws ContextError;
 	}
 	public interface IGlobImp extends IAbstSyn {
-	    void check() throws ContextError;
+	    void check(Routine routine) throws ContextError;
+	    void checkInit() throws ContextError;
 	}
 	public interface IExpr extends IAbstSyn {
-	    Types check() throws ContextError;
-	    Types checkAssign() throws ContextError;
+	    Types checkR() throws ContextError;
+	    Types checkL(boolean canInit) throws ContextError;
 	}
-	public interface IExprList extends IAbstSyn { }
-	public interface IGlobInit extends IAbstSyn { }
+	public interface IExprList extends IAbstSyn {
+	    void check(
+	            List<Parameter> paramList, 
+	            Set<String> aliasList, 
+	            boolean canInit)
+	            throws ContextError;
+	}
+	public interface IGlobInit extends IAbstSyn {
+	    Set<String> check(Set<String> initList)
+	            throws ContextError;
+	}
 	
 	String toString(String indent);
 	int getLine();

@@ -2,6 +2,7 @@ package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
 import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr;
+import ch.fhnw.cpib.dgu.context.Store;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 import ch.fhnw.cpib.dgu.token.enums.Types;
 
@@ -29,10 +30,14 @@ public final class ExprStore implements IExpr {
 	public int getLine() {
 	    return ident.getLine();
 	}
+	
+	public Store getStore() {
+	    return IMLCompiler.getScope().getStoreTable().getStore(
+	            ident.getIdent().toString());
+	}
 
     @Override
-    public Types check() throws ContextError {
-        //TODO: check code!
+    public Types checkR() throws ContextError {
         Types type = IMLCompiler.getScope().getType(
                 ident.getIdent().toString());
         
@@ -50,7 +55,7 @@ public final class ExprStore implements IExpr {
                     ident.getLine());
         }
         
-        if (!IMLCompiler.getScope().getSymbolTable().getSymbol(
+        if (!IMLCompiler.getScope().getStoreTable().getStore(
                 ident.getIdent().toString()).isInitialized()) {
             throw new ContextError(
                     "Store "
@@ -63,8 +68,8 @@ public final class ExprStore implements IExpr {
     }
 
     @Override
-    public Types checkAssign() throws ContextError {
-        Types type = IMLCompiler.getSymbolTable().getType(
+    public Types checkL(final boolean canInit) throws ContextError {
+        Types type = IMLCompiler.getScope().getType(
                 ident.getIdent().toString());
         
         if (type == null) {
@@ -72,22 +77,36 @@ public final class ExprStore implements IExpr {
                     "Ident " + ident.getIdent() + " not declared",
                     ident.getLine());
         } 
-
+        
+        Store store = IMLCompiler.getScope().getStoreTable().getStore(
+                ident.getIdent().toString());
+        
         if (isInit) {
-            if (!IMLCompiler.getScope().initStore(
-                    ident.getIdent().toString())) {
+            if (canInit) {
+                throw new ContextError(
+                        "Store can not be initialized here " 
+                                + "(loop or inout parameter)!",
+                        ident.getLine());
+            }
+            if (store.isInitialized()) {
                 throw new ContextError(
                         "Store "
                                 + ident.getIdent() 
                                 + " is already initialized",
                         ident.getLine());
             }
-        } else if (!IMLCompiler.getScope().isInitialized(
-                ident.getIdent().toString())) {
+            store.initialize();
+        } else if (!store.isInitialized()) {
             throw new ContextError(
                     "Store "
                             + ident.getIdent() 
                             + " is not initialized",
+                    ident.getLine());
+        } else if (!store.isWriteable()) {
+            throw new ContextError(
+                    "Store "
+                            + ident.getIdent() 
+                            + " is not writeable",
                     ident.getLine());
         }
         

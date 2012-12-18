@@ -36,4 +36,12 @@ public final class StoreTable {
     public Map<String, Store> getTable() {
         return storeMap;
     }
+    
+    public StoreTable clone() {
+        StoreTable newTable = new StoreTable();
+        for (Store store : storeMap.values()) {
+            newTable.addStore(store.clone());
+        }
+        return newTable;
+    }
 }

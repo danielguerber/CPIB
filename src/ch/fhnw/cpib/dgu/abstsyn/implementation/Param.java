@@ -1,5 +1,6 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IParam;
 import ch.fhnw.cpib.dgu.context.Parameter;
 import ch.fhnw.cpib.dgu.context.Routine;
@@ -91,6 +92,24 @@ public final class Param implements IParam {
         routine.addParam(new Parameter(
                 flowMode.getMode(), 
                 mechMode.getMode(), 
-                changeMode));
+                changeMode,
+                store.getType()));
+        
+        param.check(routine);
+    }
+
+    @Override
+    public void checkInit() throws ContextError {
+        if (flowMode.getMode() == Modes.OUT) {
+            if (!IMLCompiler.getScope().getStoreTable().getStore(
+                    storeDecl.getIdent()).isInitialized()) {
+                throw new ContextError(
+                        "OUT parameter is never initialized! Ident: "
+                                + storeDecl.getIdent(),
+                        storeDecl.getLine());
+            }
+        }
+        
+        param.checkInit();
     }
 }

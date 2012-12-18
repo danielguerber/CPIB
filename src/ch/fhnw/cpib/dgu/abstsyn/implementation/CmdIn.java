@@ -25,4 +25,10 @@ public final class CmdIn implements ICmd {
 	public int getLine() {
 	    return expr.getLine();
 	}
+
+    @Override
+    public void check(final boolean canInit) throws ContextError {
+        expr.checkL(canInit);
+        repCmd.check(canInit);
+    }
 }

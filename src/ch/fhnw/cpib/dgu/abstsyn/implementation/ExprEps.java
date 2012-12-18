@@ -15,12 +15,14 @@ public final class ExprEps implements IExpr {
 	}
 
     @Override
-    public Types check() throws ContextError {
-        return null;
+    public Types checkR() throws ContextError {
+        throw new ContextError(
+                "Right part of an assignement can not be empty!",
+                -1);
     }
     
     @Override
-    public Types checkAssign() throws ContextError {
+    public Types checkL(final boolean canInit) throws ContextError {
         throw new ContextError(
                 "Only stores are allowed in the left part of assignements",
                 -1);

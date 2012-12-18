@@ -12,4 +12,7 @@ public final class CmdEps implements ICmd {
 	public int getLine() {
 	    return -1;
 	}
+
+    @Override
+    public void check(final boolean canInit) { }
 }

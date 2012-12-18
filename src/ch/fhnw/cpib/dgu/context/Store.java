@@ -36,4 +36,10 @@ public final class Store extends Symbol {
         }
     }
 
+    public Store clone() {
+        return new Store(
+                this.getIdent(),
+                this.getType(),
+                this.isConst);
+    }
 }

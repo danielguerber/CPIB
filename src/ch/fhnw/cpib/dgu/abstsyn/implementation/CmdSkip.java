@@ -22,4 +22,9 @@ public final class CmdSkip implements ICmd {
 	public int getLine() {
 	    return -1;
 	}
+
+    @Override
+    public void check(final boolean canInit) throws ContextError {
+        repCmd.check(canInit);
+    }
 }

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICmd;
+import ch.fhnw.cpib.dgu.token.enums.Types;
 
 public final class CmdWhile implements ICmd {
 	private final IExpr expr;
@@ -30,4 +31,16 @@ public final class CmdWhile implements ICmd {
 	public int getLine() {
 	    return expr.getLine();
 	}
+
+    @Override
+    public void check(final boolean canInit) throws ContextError {
+        if (!expr.checkR().equals(Types.BOOL)) {
+            throw new ContextError(
+                    "WHILE condition must be a boolean! ",
+                     expr.getLine());
+        }
+        
+        cmd.check(true);
+        repCmd.check(canInit);
+    }
 }

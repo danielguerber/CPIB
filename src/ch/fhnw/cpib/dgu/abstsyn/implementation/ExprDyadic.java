@@ -34,9 +34,9 @@ public final class ExprDyadic implements IExpr {
 	}
 	
 	@Override
-	public Types check() throws ContextError {
-	    Types type1 = expr1.check();
-	    Types type2 = expr2.check();
+	public Types checkR() throws ContextError {
+	    Types type1 = expr1.checkR();
+	    Types type2 = expr2.checkR();
 	    
 	    switch(operator.getOperator()) {
 	        case PLUS:
@@ -65,7 +65,7 @@ public final class ExprDyadic implements IExpr {
 	        case LE:
 	            if (type1 == Types.INT32 
                     && type2 == Types.INT32) {
-                    return Types.INT32;
+                    return Types.BOOL;
                 } else {
                     throw new ContextError(
                             "Type error in Operator "
@@ -89,7 +89,7 @@ public final class ExprDyadic implements IExpr {
 	}
 
     @Override
-    public Types checkAssign() throws ContextError {
+    public Types checkL(final boolean canInit) throws ContextError {
         throw new ContextError(
                 "Found operator " 
                 + operator.getOperator() 

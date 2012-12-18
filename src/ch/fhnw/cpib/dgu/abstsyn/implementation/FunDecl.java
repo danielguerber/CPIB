@@ -52,12 +52,14 @@ public final class FunDecl implements IDecl {
         Function function = new Function(
                 ident.getIdent().toString(),
                 returnDecl.getType());
+        IMLCompiler.setScope(function.getScope());
         if (!IMLCompiler.getRoutineTable().addRoutine(function)) {
             throw new ContextError("Routine already declared: "
                     + ident.getIdent(), ident.getLine());
         }
         
         param.check(function);
+        IMLCompiler.setScope(null);
     }
 
     @Override
@@ -73,9 +75,9 @@ public final class FunDecl implements IDecl {
         IMLCompiler.setScope(routine.getScope());
         
         returnDecl.check();
-        globImp.check();
+        globImp.check(routine);
         cpsDecl.check(false);
-        cmd.check();
+        cmd.check(false);
         
         if (!routine.getScope().getStoreTable().getStore(
                 returnDecl.getIdent()).isInitialized()) {
