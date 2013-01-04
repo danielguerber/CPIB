@@ -1,0 +1,29 @@
+program typeRelop
+global
+const startRangeA:int32;
+const endRangeA:int32;
+const startRangeB:bool;
+const endRangeB:int32;
+var counter:int32
+{
+	? startRangeA init;
+	? endRangeA init;
+	? startRangeB init;
+	? endRangeB init;
+	counter init := startRangeA;
+	if (startRangeA <= endRangeA <= startRangeB <= endRangeB) {
+		while (counter <= endRangeB) {
+			if (NOT (startRangeB > counter > endRangeA)) {
+				! counter
+			}
+			else
+			{
+				skip
+			}
+		}
+	}
+	else
+	{
+		skip
+	}
+}

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.dgu.parser.concsyn.implementation;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn;
+import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ContextError;
 import ch.fhnw.cpib.dgu.abstsyn.implementation.ExprDyadic;
 import ch.fhnw.cpib.dgu.parser.concsyn.IConcSyn.IRepTerm2;
 import ch.fhnw.cpib.dgu.token.classes.Operator.BoolOpr;
@@ -24,18 +25,40 @@ public final class RepTerm2 implements IRepTerm2 {
 	@Override
 	public ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr toAbstrSyntax(
 	        final IAbstSyn.IExpr relExpr,
-	        final IAbstSyn.IExpr boolExpr) {
+	        final IAbstSyn.IExpr boolExpr,
+	        final int direction) {
+	    
+	    int ownDirection;
+	    switch (relOpr.getOperator()) {
+	        case GE:
+	        case GT:
+	            ownDirection = 1;
+	            break;
+	        case LE:
+	        case LT:
+	            ownDirection = -1;
+	            break;
+            default:
+                ownDirection = direction;
+                break;
+	    }
 	    
 	    final IAbstSyn.IExpr term2Abst = term2.toAbstrSyntax();
 		ExprDyadic exprDya 
 		    = new ExprDyadic(relOpr, relExpr, term2Abst);
+		
+		if (direction != ownDirection && direction != 0) {
+		    exprDya.setError(
+		            new ContextError("Direction change in relative Operator!", 
+		                    relOpr.getLine()));
+        }
 		
 		if (boolExpr != null) {
 		    BoolOpr boolOpr = new BoolOpr(Operators.CAND);
 		    exprDya = new ExprDyadic(boolOpr, boolExpr, exprDya);
 		}
 		
-		return repTerm2.toAbstrSyntax(term2Abst, exprDya);
+		return repTerm2.toAbstrSyntax(term2Abst, exprDya, ownDirection);
 	}
 	
 	@Override

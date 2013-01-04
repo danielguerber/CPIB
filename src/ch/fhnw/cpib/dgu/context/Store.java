@@ -1,11 +1,16 @@
 package ch.fhnw.cpib.dgu.context;
 
+import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class Store extends Symbol {
     private boolean writeable;
     private boolean initialized;
     private boolean isConst;
+    private int address;
+    private boolean relative = false;
+    private boolean reference = false;
     
     public Store(
             final String ident, 
@@ -35,11 +40,54 @@ public final class Store extends Symbol {
             writeable = false;
         }
     }
+    
+    public int getAddress() {
+        return address;
+    }
 
+    public void setAddress(final int address) {
+        this.address = address;
+    }
+
+    public void setRelative(final boolean relative) {
+        this.relative = relative;
+    }
+    
+    public void setReference(final boolean reference) {
+        this.reference = reference;
+    }
+
+    public int codeLoad(final int loc) throws CodeTooSmallError {
+        int loc1 = codeRef(loc);
+        
+        IMLCompiler.getVM().Deref(loc1++);
+        
+        return loc1;
+    }
+    
+    public int codeRef(final int loc) throws CodeTooSmallError {
+        int loc1 = loc;
+        if (relative) {
+            IMLCompiler.getVM().LoadRel(loc1++, address);
+        } else {
+            IMLCompiler.getVM().IntLoad(loc1++, address);
+        }
+        
+        if (reference) {
+            IMLCompiler.getVM().Deref(loc1++);
+        }
+        
+        return loc1;
+    }
+    
     public Store clone() {
-        return new Store(
+        Store store = new Store(
                 this.getIdent(),
                 this.getType(),
                 this.isConst);
+        store.address = this.address;
+        store.initialized = this.initialized;
+        store.writeable = this.writeable;
+        return store;
     }
 }

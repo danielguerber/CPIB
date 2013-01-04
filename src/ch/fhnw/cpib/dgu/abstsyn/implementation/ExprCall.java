@@ -9,8 +9,10 @@ import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr;
 import ch.fhnw.cpib.dgu.context.Parameter;
 import ch.fhnw.cpib.dgu.context.Routine;
+import ch.fhnw.cpib.dgu.context.Routine.RoutineTypes;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class ExprCall implements IExpr {
 	private final Ident ident;
@@ -164,5 +166,25 @@ public final class ExprCall implements IExpr {
         }
         
         return type;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = loc;
+        int size = 0;
+        
+        if (IMLCompiler.getRoutineTable().getRoutine(
+                ident.getIdent().toString()).getRoutineType() 
+                    == RoutineTypes.FUNCTION) {
+            size = 1;
+        }
+        
+        
+        IMLCompiler.getVM().Alloc(loc1++, size);
+        loc1 = exprList.code(loc1);
+        IMLCompiler.getRoutineTable().getRoutine(
+                ident.getIdent().toString()).addCall(loc1++);
+        
+        return loc1;
     }
 }

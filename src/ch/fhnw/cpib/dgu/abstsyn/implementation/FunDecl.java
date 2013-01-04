@@ -4,7 +4,10 @@ import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IDecl;
 import ch.fhnw.cpib.dgu.context.Function;
 import ch.fhnw.cpib.dgu.context.Routine;
+import ch.fhnw.cpib.dgu.context.Store;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.HeapTooSmallError;
 
 public final class FunDecl implements IDecl {
 	private final Ident ident;
@@ -63,8 +66,9 @@ public final class FunDecl implements IDecl {
     }
 
     @Override
-    public void check(final boolean isGlobal) throws ContextError {
-        if (!isGlobal) {
+    public int check(final int locals) 
+            throws ContextError, HeapTooSmallError {
+        if (locals >= 0) {
             throw new ContextError(
                     "Function declarations are only allowed globally!", 
                     ident.getLine());
@@ -74,9 +78,17 @@ public final class FunDecl implements IDecl {
                 ident.getIdent().toString());
         IMLCompiler.setScope(routine.getScope());
         
-        returnDecl.check();
+        Store retStore = returnDecl.check();
+        retStore.setAddress(-routine.getParamList().size() - 1);
+        retStore.setReference(false);
+        retStore.setRelative(true);
+        
         globImp.check(routine);
-        cpsDecl.check(false);
+        
+        int localsCount 
+            = param.calculateAddress(routine.getParamList().size(), 0);
+        
+        cpsDecl.check(localsCount);
         cmd.check(false);
         
         if (!routine.getScope().getStoreTable().getStore(
@@ -87,5 +99,36 @@ public final class FunDecl implements IDecl {
         }
         
         IMLCompiler.setScope(null);
+        return -1;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = loc;
+        Routine routine = IMLCompiler.getRoutineTable().getRoutine(
+                ident.getIdent().toString());
+        IMLCompiler.setScope(routine.getScope());
+        
+        routine.setAddress(loc1);
+        IMLCompiler.getVM().Enter(
+                loc1++, 
+                routine.getInOutCopyCount() + cpsDecl.getCount(), 
+                0);
+        loc1 = param.codeIn(
+                loc1, 
+                routine.getParamList().size(), 
+                0);
+        
+        loc1 = cmd.code(loc1);
+        
+        loc1 = param.codeOut(loc1, 
+               routine.getParamList().size(),
+               0);
+        
+        IMLCompiler.getVM().Return(loc1++, 1);
+                
+        IMLCompiler.setScope(null);
+        
+        return loc1;
     }
 }

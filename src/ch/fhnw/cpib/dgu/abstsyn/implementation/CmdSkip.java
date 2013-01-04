@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICmd;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class CmdSkip implements ICmd {
 	private final ICmd repCmd;
@@ -26,5 +27,10 @@ public final class CmdSkip implements ICmd {
     @Override
     public void check(final boolean canInit) throws ContextError {
         repCmd.check(canInit);
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        return repCmd.code(loc);
     }
 }

@@ -5,6 +5,7 @@ import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr;
 import ch.fhnw.cpib.dgu.context.Store;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class ExprStore implements IExpr {
 	private final Ident ident;
@@ -111,5 +112,22 @@ public final class ExprStore implements IExpr {
         }
         
         return type;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        Store store = IMLCompiler.getScope().getStoreTable().getStore(
+                ident.getIdent().toString());
+        return store.codeLoad(loc);
+    }
+    
+    public int codeRef(final int loc) throws CodeTooSmallError {
+        Store store = IMLCompiler.getScope().getStoreTable().getStore(
+                ident.getIdent().toString());
+        return store.codeRef(loc);
+    }
+
+    public String getIdent() {
+        return ident.getIdent().toString();
     }
 }

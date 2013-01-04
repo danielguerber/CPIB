@@ -9,12 +9,14 @@ import ch.fhnw.cpib.dgu.context.Routine.RoutineTypes;
 import ch.fhnw.cpib.dgu.token.classes.Mode.FlowMode;
 import ch.fhnw.cpib.dgu.token.classes.Mode.MechMode;
 import ch.fhnw.cpib.dgu.token.enums.Modes;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class Param implements IParam {
 	private final FlowMode flowMode;
 	private final MechMode mechMode;
 	private final IStoreDecl storeDecl;
 	private final IParam param;
+	private Store store;
 	
 	public Param(final FlowMode flowMode, 
 	        final MechMode mechMode, 
@@ -45,8 +47,7 @@ public final class Param implements IParam {
 
     @Override
     public void check(final Routine routine) throws ContextError {
-        Store store = storeDecl.check();
-        
+        store = storeDecl.check();
         switch (flowMode.getMode()) {
             case IN:
                 if (mechMode.getMode() == Modes.REF  && !store.isConst()) {
@@ -111,5 +112,53 @@ public final class Param implements IParam {
         }
         
         param.checkInit();
+    }
+
+    @Override
+    public int calculateAddress(final int count, final int locals) {
+        int locals1 = locals;
+        if (flowMode.getMode() == Modes.IN
+                || mechMode.getMode() == Modes.REF) {
+            store.setAddress(-count);
+            store.setRelative(true);
+            if (mechMode.getMode() == Modes.REF) {
+                store.setReference(true);
+            } else {
+                store.setReference(false);
+            }
+            
+        } else {
+            store.setAddress(2 + ++locals1);
+            store.setRelative(true);
+            store.setReference(false);
+        }
+        return param.calculateAddress(count - 1, locals1);
+    }
+
+    @Override
+    public int codeIn(final int loc, final int count, final int locals) 
+            throws CodeTooSmallError {
+        int locals1 = locals;
+        int loc1 = loc;
+        if (flowMode.getMode() != Modes.IN
+                && mechMode.getMode() == Modes.COPY) {
+            if (flowMode.getMode() == Modes.INOUT) {
+                IMLCompiler.getVM().CopyIn(loc1++, -count, 3 + locals1);
+            }
+            locals1++;
+        }
+        return param.codeIn(loc1, count - 1, locals1);
+    }
+    
+    @Override
+    public int codeOut(final int loc, final int count, final int locals) 
+            throws CodeTooSmallError {
+        int locals1 = locals;
+        int loc1 = loc;
+        if (flowMode.getMode() != Modes.IN
+                && mechMode.getMode() == Modes.COPY) {
+            IMLCompiler.getVM().CopyOut(loc1++, 2 + ++locals1, -count);
+        }
+        return param.codeOut(loc1, count - 1, locals1);
     }
 }

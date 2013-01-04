@@ -8,6 +8,8 @@ import ch.fhnw.cpib.dgu.token.classes.Mode.ChangeMode;
 import ch.fhnw.cpib.dgu.token.classes.Type;
 import ch.fhnw.cpib.dgu.token.enums.Modes;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.HeapTooSmallError;
 
 public final class StoreDecl implements IStoreDecl {
 	private final ChangeMode changeMode;
@@ -41,14 +43,6 @@ public final class StoreDecl implements IStoreDecl {
 	public int getLine() {
 	    return ident.getLine();
 	}
-
-    @Override
-    public void checkDeclaration() throws ContextError {
-        if (!IMLCompiler.getGlobalStoreTable().addStore((getStore()))) {
-            throw new ContextError("Store already declared: "
-                    + ident.getIdent(), ident.getLine());
-        }
-    }
     
     private Store getStore() {
         return new Store(
@@ -63,9 +57,33 @@ public final class StoreDecl implements IStoreDecl {
     }
 
     @Override
-    public void check(final boolean isGlobal) throws ContextError {
-        if (!isGlobal) {
-            check();
+    public int check(final int locals) 
+            throws ContextError, HeapTooSmallError {
+        if (locals < 0) {
+            return -1;
+        } else {
+            Store store = check();
+            store.setAddress(2 + locals + 1);
+            store.setRelative(true);
+            store.setReference(false);
+            return locals + 1;
+        }
+            
+    }
+    
+    @Override
+    public void checkDeclaration() throws ContextError, HeapTooSmallError {
+        Store store = getStore();
+        if (!IMLCompiler.getGlobalStoreTable().addStore(store)) {
+            throw new ContextError("Store already declared: "
+                    + ident.getIdent(), ident.getLine());
+        }
+        if (type.getType() == Types.BOOL) {
+            store.setAddress(IMLCompiler.getVM().BoolInitHeapCell());
+            store.setRelative(false);
+        } else {
+            store.setAddress(IMLCompiler.getVM().IntInitHeapCell());
+            store.setRelative(false);
         }
     }
 
@@ -79,5 +97,10 @@ public final class StoreDecl implements IStoreDecl {
         }
         
         return store;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        return loc;
     }
 }

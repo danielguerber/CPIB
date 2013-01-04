@@ -1,11 +1,11 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
-import java.sql.Types;
-
 import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICmd;
 import ch.fhnw.cpib.dgu.context.Scope;
 import ch.fhnw.cpib.dgu.context.Store;
+import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class CmdIf implements ICmd {
 	private final IExpr expr;
@@ -42,7 +42,7 @@ public final class CmdIf implements ICmd {
 
     @Override
     public void check(final boolean canInit) throws ContextError {
-        if (!expr.checkR().equals(Types.BOOLEAN)) {
+        if (!expr.checkR().equals(Types.BOOL)) {
             throw new ContextError(
                     "IF condition must be a boolean! ",
                      expr.getLine());
@@ -82,5 +82,15 @@ public final class CmdIf implements ICmd {
         IMLCompiler.setScope(parentScope);
         
         repCmd.check(canInit);
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = expr.code(loc);
+        int loc2 = ifCmd.code(loc1 + 1);
+        IMLCompiler.getVM().CondJump(loc1, loc2 + 1);
+        int loc3 = elseCmd.code(loc2 + 1);
+        IMLCompiler.getVM().UncondJump(loc2, loc3);
+        return repCmd.code(loc3);
     }
 }

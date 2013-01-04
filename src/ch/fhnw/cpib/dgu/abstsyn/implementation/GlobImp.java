@@ -64,6 +64,10 @@ public final class GlobImp implements IGlobImp {
                globalStore.getIdent(),
                globalStore.getType(),
                changeMode.getMode() == Modes.CONST);
+       
+       localStore.setAddress(globalStore.getAddress());
+       localStore.setReference(false);
+       localStore.setRelative(false);
         
         if (!IMLCompiler.getScope().getStoreTable().addStore(localStore)) {
             throw new ContextError(

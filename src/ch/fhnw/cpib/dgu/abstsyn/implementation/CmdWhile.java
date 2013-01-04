@@ -1,7 +1,9 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
+import ch.fhnw.cpib.dgu.IMLCompiler;
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICmd;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class CmdWhile implements ICmd {
 	private final IExpr expr;
@@ -42,5 +44,14 @@ public final class CmdWhile implements ICmd {
         
         cmd.check(true);
         repCmd.check(canInit);
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = expr.code(loc);
+        int loc2 = cmd.code(loc1 + 1);
+        IMLCompiler.getVM().CondJump(loc1, loc2 + 1);
+        IMLCompiler.getVM().UncondJump(loc2, loc);
+        return repCmd.code(loc2 + 1);
     }
 }

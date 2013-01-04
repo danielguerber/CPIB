@@ -87,7 +87,8 @@ public interface IConcSyn {
 	public interface IRepTerm2 extends IConcSyn {
 		IAbstSyn.IExpr toAbstrSyntax(
 		        IAbstSyn.IExpr relExpr, 
-		        IAbstSyn.IExpr boolExpr);
+		        IAbstSyn.IExpr boolExpr,
+		        int direction);
 	};
 	public interface ITerm2 extends IConcSyn {
 		IAbstSyn.IExpr toAbstrSyntax();

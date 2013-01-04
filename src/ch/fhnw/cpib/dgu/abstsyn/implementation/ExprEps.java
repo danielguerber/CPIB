@@ -2,6 +2,7 @@ package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class ExprEps implements IExpr {
 	@Override
@@ -26,6 +27,11 @@ public final class ExprEps implements IExpr {
         throw new ContextError(
                 "Only stores are allowed in the left part of assignements",
                 -1);
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        return loc;
     }
     
     

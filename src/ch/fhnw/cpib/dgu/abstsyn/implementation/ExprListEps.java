@@ -5,6 +5,7 @@ import java.util.Set;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExprList;
 import ch.fhnw.cpib.dgu.context.Parameter;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class ExprListEps implements IExprList {
 	@Override
@@ -28,5 +29,10 @@ public final class ExprListEps implements IExprList {
                     "Missing parameter!", 
                     -1);
         }
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        return loc;
     }
 }

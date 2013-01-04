@@ -5,6 +5,8 @@ import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IDecl;
 import ch.fhnw.cpib.dgu.context.Procedure;
 import ch.fhnw.cpib.dgu.context.Routine;
 import ch.fhnw.cpib.dgu.token.classes.Ident;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.HeapTooSmallError;
 
 public final class ProcDecl implements IDecl {
 	private final Ident ident;
@@ -56,23 +58,55 @@ public final class ProcDecl implements IDecl {
     }
 
     @Override
-    public void check(final boolean isGlobal) throws ContextError {
-        if (!isGlobal) {
+    public int check(final int locals) 
+            throws ContextError, HeapTooSmallError {
+        if (locals >= 0) {
             throw new ContextError(
-                    "Procedure declarations are only allowed globally!", 
+                    "Function declarations are only allowed globally!", 
                     ident.getLine());
         }
         
-        Routine symbol = IMLCompiler.getRoutineTable().getRoutine(
+        Routine routine = IMLCompiler.getRoutineTable().getRoutine(
                 ident.getIdent().toString());
-        IMLCompiler.setScope(symbol.getScope());
+        IMLCompiler.setScope(routine.getScope());
         
-        globImp.check(symbol);
-        cpsDecl.check(false);
+        globImp.check(routine);
+        
+        int localsCount 
+            = param.calculateAddress(routine.getParamList().size(), 0);
+        
+        cpsDecl.check(localsCount);
         cmd.check(false);
-        param.checkInit();
-        globImp.checkInit();
         
         IMLCompiler.setScope(null);
+        return -1;
+    }
+    
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = loc;
+        Routine routine = IMLCompiler.getRoutineTable().getRoutine(
+                ident.getIdent().toString());
+        IMLCompiler.setScope(routine.getScope());
+        routine.setAddress(loc1);
+        IMLCompiler.getVM().Enter(
+                loc1++, 
+                routine.getInOutCopyCount() + cpsDecl.getCount(), 
+                0);
+        loc1 = param.codeIn(
+                loc1, 
+                routine.getParamList().size(), 
+                0);
+        
+        loc1 = cmd.code(loc1);
+        
+        loc1 = param.codeOut(loc1, 
+               routine.getParamList().size(),
+               0);
+        
+        IMLCompiler.getVM().Return(loc1++, 0);
+                
+        IMLCompiler.setScope(null);
+        return loc1;
     }
 }

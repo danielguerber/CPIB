@@ -8,7 +8,7 @@ public final class AuxMechModeEps implements IAuxMechMode {
 
 	@Override
 	public MechMode toAbstrSyntax() {
-		return new MechMode(Modes.REF); //TODO: Check if this is the default
+		return new MechMode(Modes.COPY);
 	}
 	
 	@Override

@@ -11,14 +11,24 @@ import ch.fhnw.cpib.dgu.parser.concsyn.IConcSyn;
 import ch.fhnw.cpib.dgu.scanner.LexicalError;
 import ch.fhnw.cpib.dgu.scanner.Scanner;
 import ch.fhnw.cpib.dgu.token.ITokenList;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.ExecutionError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.HeapTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.VirtualMachine;
 
 public final class IMLCompiler {
+    private static final int CODE_SIZE = 1000;
+    private static final int STORE_SIZE = 1000;
+    
     private static RoutineTable routineTable 
         = new RoutineTable();
     private static StoreTable globalStoreTable
         = new StoreTable();
     private static Scope scope = null;
-   
+    private static IVirtualMachine vm =
+            new VirtualMachine(CODE_SIZE, STORE_SIZE);
+    
     public static RoutineTable getRoutineTable() {
         return routineTable;
     }
@@ -35,12 +45,17 @@ public final class IMLCompiler {
         IMLCompiler.scope = scope;
     }
     
+    public static IVirtualMachine getVM() {
+        return vm;
+    }
+    
     private IMLCompiler() {
         throw new AssertionError("Instantiating utility class...");
     }
     
     public static synchronized void compile(final String imlCode) 
-            throws LexicalError, GrammarError, ContextError {
+            throws LexicalError, GrammarError, ContextError, 
+            HeapTooSmallError, CodeTooSmallError, ExecutionError {
         System.out.println("Scanning:");
         final ITokenList tokenList = Scanner.scan(imlCode);
         System.out.println("Success!");
@@ -57,8 +72,15 @@ public final class IMLCompiler {
         System.out.println("Success!");
         System.out.println("\nAbstract syntax tree:");
         System.out.println(abstSyn.toString(""));
-        System.out.println("\nContext check:\n");
+        System.out.println("Context check:");
         abstSyn.check();
         System.out.println("Success!");
+        System.out.println("\nCode generation:");
+        abstSyn.code(0);
+        System.out.println("Success!");
+        
+        System.out.println("\nExecuting:");
+        vm.execute();
+        
     }
 }

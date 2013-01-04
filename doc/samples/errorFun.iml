@@ -1,0 +1,19 @@
+program errorFun
+global
+fun ggt(in copy const a:int32, in copy const b:int32)
+returns var r:int32
+{
+	if (b=0) {
+		r init := a
+	} else {
+		ggt(b, a mod b, r) init (r)
+	}
+};
+const a:int32;
+const b:int32
+{
+	? a init;
+	? b init;
+	ggt(a, b);
+	! r
+}

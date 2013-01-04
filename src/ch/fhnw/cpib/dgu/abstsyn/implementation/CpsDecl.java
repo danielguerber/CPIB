@@ -1,6 +1,8 @@
 package ch.fhnw.cpib.dgu.abstsyn.implementation;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.ICpsDecl;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.HeapTooSmallError;
 
 public final class CpsDecl implements ICpsDecl {
 	private final IDecl decl;
@@ -27,14 +29,25 @@ public final class CpsDecl implements ICpsDecl {
 	}
 
     @Override
-    public void check(final boolean isGlobal) throws ContextError {
-        decl.check(isGlobal);
-        cpsDecl.check(isGlobal);
+    public void check(final int locals) 
+            throws ContextError, HeapTooSmallError {
+        cpsDecl.check(decl.check(locals));
     }
 
     @Override
-    public void checkDeclaration() throws ContextError {
+    public void checkDeclaration() throws ContextError, HeapTooSmallError {
         decl.checkDeclaration();
         cpsDecl.checkDeclaration();
+    }
+
+    @Override
+    public int getCount() {
+        return cpsDecl.getCount() + 1;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1 = decl.code(loc);
+        return cpsDecl.code(loc1);
     }
 }

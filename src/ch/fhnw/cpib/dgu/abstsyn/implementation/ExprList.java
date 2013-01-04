@@ -5,11 +5,14 @@ import java.util.Set;
 
 import ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExprList;
 import ch.fhnw.cpib.dgu.context.Parameter;
+import ch.fhnw.cpib.dgu.token.enums.Modes;
 import ch.fhnw.cpib.dgu.token.enums.Types;
+import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.CodeTooSmallError;
 
 public final class ExprList implements IExprList {
 	private final IExpr expr;
 	private final IExprList exprList;
+	private Parameter param;
 	
 	public ExprList(final IExpr expr, final IExprList exprList) {
 		this.expr = expr;
@@ -43,14 +46,33 @@ public final class ExprList implements IExprList {
                     expr.getLine());
         }
         
-        Parameter param = paramList.get(0);
+        param = paramList.get(0);
         paramList.remove(0);
         
         Types type;
         
         switch(param.getFlowMode()) {
             case IN:
-                type = expr.checkR();
+                if (param.getMechMode() == Modes.COPY) {
+                    type = expr.checkR();
+                } else {
+                    type = expr.checkL(false);
+                    
+                    if (!(expr instanceof ExprStore)) {
+                        throw new ContextError(
+                                "Only stores can be used as IN REF parameter!",
+                                expr.getLine());
+                    }
+                    
+                    if (aliasList.contains(
+                            ((ExprStore) expr).getStore().getIdent())) {
+                        throw new ContextError(
+                                "Store is already used a parameter!",
+                                expr.getLine());
+                    }
+                    
+                    aliasList.add(((ExprStore) expr).getStore().getIdent());
+                }
                 break;
             case INOUT:
                 type = checkINOUTstore(false, aliasList);
@@ -99,5 +121,17 @@ public final class ExprList implements IExprList {
         aliasList.add(((ExprStore) expr).getStore().getIdent());
         
         return type;
+    }
+
+    @Override
+    public int code(final int loc) throws CodeTooSmallError {
+        int loc1;
+        if (param.getFlowMode() == Modes.IN
+                && param.getMechMode() == Modes.COPY) {
+            loc1 = expr.code(loc);
+        } else {
+            loc1 = ((ExprStore) expr).codeRef(loc);
+        }
+        return exprList.code(loc1);
     }
 }

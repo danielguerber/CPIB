@@ -1,0 +1,20 @@
+program assignProc
+global
+proc ggt(in copy const a:int32, in copy const b:int32)
+global out const r
+{
+	if (b=0) {
+		r init := a
+	} else {
+		ggt(b, a mod b) init (r)
+	}
+};
+const a:int32;
+const b:int32;
+const r:int32
+{
+	? a init;
+	? b init;
+	ggt(a, b) := a;
+	! r
+}

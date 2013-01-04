@@ -8,7 +8,8 @@ public final class RepTerm2Eps implements IRepTerm2 {
 	@Override
 	public ch.fhnw.cpib.dgu.abstsyn.IAbstSyn.IExpr toAbstrSyntax(
 	        final IAbstSyn.IExpr relExpr,
-	        final IAbstSyn.IExpr boolExpr) {
+	        final IAbstSyn.IExpr boolExpr,
+	        final int direction) {
 	    
 	    if (boolExpr != null) {
 	        return boolExpr;
