@@ -72,7 +72,7 @@ Weitere Details k\"onnen dem angeh\"angten File Grammar\_IML.sml entnommen werde
 \section{Kontext- und Typeinschr\"ankungen}
 Bei den Vergleichsoperatoren d\"urfen weiterhin nur Typen verglichen werden, welche auch vergleichbar miteinander sind. Der Kontext wird so
 eingeschr\"ankt, dass verkettete Vergleichsoperatoren die Richtung nicht \"andern d\"urfen, das heisst wenn ein < oder <= Operator verwendet wurde, darf also kein > oder >= Operator verwendet werden und umgekehrt. Da der Gleichheitsoperator die Richtung nicht \"andert, darf er verwendet werden, die Richtung muss aber auf beiden Seiten die selbe sein, dadurch wird sichergestellt das die Werte von links nach rechts nur kleiner bzw. nur gr\"osser werden.\\
-Das Weglassen des call Schl\"usselwortes führt dazu, dass
+Das Weglassen des call Schl\"usselwortes f\"uhrt dazu, dass
 sichergestellt werden muss, dass nur Prozeduraufrufe ohne 
 Zuweisungoperator dastehen k\"onnen und dass Prozeduraufrufe nicht in
 Expressions verwendet werden d\"urfen. Zudem darf die globale
@@ -99,7 +99,7 @@ ein Konflikt mit factor, da an beiden Orten optional ein INIT
 verwendet wird.
 \end{itemize}
 \section{Codeerzeugung}
-Die Vergleichsoperatoren werden bei der Umwandlung vom konkreten zum abstrakten Syntaxbaum wieder mit einem logischen und verknüpft das diese in der VM nicht verkettet werden können.
+Die Vergleichsoperatoren werden bei der Umwandlung vom konkreten zum abstrakten Syntaxbaum wieder mit einem logischen und verkn\"upft das diese in der VM nicht verkettet werden k\"onnen.
 Die Prozeduraufrufe beeinflussen die Coderzeugung nicht.
 \section{Beispielprogramme}
 Die folgenden IML Beispielprogramme werden im Anhang mitgesendet:\\\\
@@ -116,5 +116,7 @@ nicht lauff\"ahig:
 \item errorFun.iml (alleinstehender Funktionsaufruf)
 \item rvaueProc.iml  (Prozeduraufruf in RValue)
 \end{itemize}
+\section{Ehrlichkeitserkl\"arung}
+Der eingereichte Schlussbericht ist das Resultat meiner pers\"onlichen, selbstst\"andigen Besch\"aftigung mit dem Thema. Der Compiler wurde in Zusammenarbeit mit Team06 (Hediger/Kolmann), Team04(F\"assler/Oesch) und Team07(K\"unzli/Zeman) entwickelt.
 
 \end{document}
